@@ -1,0 +1,2538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Wedding Planner & Savings Manager - Hatami & Naning</title>
+  
+  <!-- Favicon Line-Art Flower Bouquet -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23e11d48' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'><circle cx='50' cy='22' r='3' fill='%23e11d48'/><path d='M50 12 C46 12 43 17 46 20 C41 19 39 25 43 28 C41 32 45 36 50 33 C55 36 59 32 57 28 C61 25 59 19 54 20 C57 17 54 12 50 12 Z'/><circle cx='33' cy='34' r='3' fill='%23e11d48'/><path d='M33 24 C29 24 26 29 29 32 C24 31 22 37 26 40 C24 44 28 48 33 45 C38 48 42 44 40 40 C44 37 42 31 37 32 C40 29 37 24 33 24 Z'/><circle cx='67' cy='34' r='3' fill='%23e11d48'/><path d='M67 24 C63 24 60 29 63 32 C58 31 56 37 60 40 C58 44 62 48 67 45 C72 48 76 44 74 40 C78 37 76 31 71 32 C74 29 71 24 67 24 Z'/><path d='M 22 48 C 28 42 42 54 50 48 C 58 54 72 42 78 48 C 81 53 68 70 56 75 L 44 75 C 32 70 19 53 22 48 Z'/><path d='M 44 75 Q 36 70 32 76 Q 36 82 44 75 Z'/><circle cx='48' cy='75' r='3' fill='%23e11d48'/><path d='M 44 78 L 41 89 C 41 91 55 91 55 89 L 52 78'/></svg>">
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      /* EventPath-Inspired: Sage Green + Warm Cream */
+      --bg-main: #f6f4ef;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f0ede6;
+      --border-color: #e2ddd3;
+      
+      --accent-neon: #5b7a5e;
+      --accent-neon-glow: rgba(91, 122, 94, 0.2);
+      --accent-blue: #5b7a5e;
+      --accent-cream-dark: #4a6b4d;
+      --accent-pink: #c2725a;
+      --accent-cream: #1e293b;
+      --accent-danger: #c0392b;
+      --accent-wa: #25d366;
+      --accent-shopee: #ee4d2d;
+      --accent-tiktok: #000000;
+      
+      --text-main: #2c2c2c;
+      --text-muted: #7a7468;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+
+      --sage: #5b7a5e;
+      --sage-light: #e8efe9;
+      --sage-dark: #3d5a40;
+      --warm: #d4a574;
+      --warm-light: #f5efe7;
+      --warm-dark: #b8845a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding-bottom: 40px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Decorative leaf SVGs */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -30px;
+      right: -30px;
+      width: 300px;
+      height: 300px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%235b7a5e' stroke-width='1' stroke-linecap='round' opacity='0.08'%3E%3Cpath d='M60 100 C45 75 15 60 5 30 Q35 20 60 100Z'/%3E%3Cpath d='M60 100 C75 75 105 60 115 30 Q85 20 60 100Z'/%3E%3Ccircle cx='60' cy='25' r='15'/%3E%3Ccircle cx='35' cy='50' r='10'/%3E%3Ccircle cx='85' cy='50' r='10'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatDecor 8s ease-in-out infinite;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -20px;
+      left: -20px;
+      width: 240px;
+      height: 240px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23c2725a' stroke-width='1' stroke-linecap='round' opacity='0.06'%3E%3Cpath d='M20 90 Q50 70 80 90 M50 10 C30 30 20 60 50 85 C80 60 70 30 50 10Z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatDecor 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatDecor {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-8px, 10px) rotate(3deg); }
+    }
+
+    /* ===================== HEADER ===================== */
+    .app-header {
+      background: rgba(255, 255, 252, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 12px rgba(91, 122, 94, 0.06);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu-toggle-btn {
+      background: var(--sage-light);
+      border: 1px solid rgba(91, 122, 94, 0.2);
+      color: var(--sage);
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle-btn:hover {
+      background: var(--sage);
+      color: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(91, 122, 94, 0.25);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-title .icon-ring {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage-light), rgba(194, 114, 90, 0.1));
+      border: 1.5px solid rgba(91, 122, 94, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sage);
+      flex-shrink: 0;
+      animation: ringPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(91, 122, 94, 0.15); }
+      50% { box-shadow: 0 0 0 6px rgba(91, 122, 94, 0); }
+    }
+
+    .brand-title h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+
+    .brand-title span {
+      font-size: 0.65rem;
+      color: var(--sage);
+      display: block;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .sync-badge {
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: var(--sage-light);
+      color: var(--sage);
+      border: 1px solid rgba(91, 122, 94, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--sage);
+      box-shadow: 0 0 8px var(--sage);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    /* ===================== SIDEBAR ===================== */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(44, 44, 44, 0.35);
+      backdrop-filter: blur(6px);
+      z-index: 250;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.35s ease;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 290px;
+      max-width: 84vw;
+      background: linear-gradient(180deg, #fdfcf9, #f6f4ef);
+      z-index: 260;
+      box-shadow: 8px 0 40px rgba(44, 44, 44, 0.12);
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-drawer.active {
+      transform: translateX(0);
+    }
+
+    .sidebar-header {
+      padding: 22px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 252, 0.6);
+    }
+
+    .sidebar-header h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+    }
+
+    .sidebar-close-btn:hover {
+      color: var(--accent-danger);
+      background: rgba(192, 57, 43, 0.08);
+    }
+
+    .sidebar-menu {
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 16px;
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+    }
+
+    .sidebar-item i {
+      font-size: 1.15rem;
+      width: 26px;
+      text-align: center;
+      transition: transform 0.25s;
+    }
+
+    .sidebar-item:hover {
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      transform: translateX(4px);
+    }
+
+    .sidebar-item:hover i {
+      transform: scale(1.15);
+    }
+
+    .sidebar-item.active {
+      background: linear-gradient(135deg, var(--sage-light), rgba(91, 122, 94, 0.12));
+      color: var(--sage-dark);
+      border: 1px solid rgba(91, 122, 94, 0.2);
+      font-weight: 700;
+    }
+
+    .sidebar-footer {
+      padding: 18px 20px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    /* ===================== MAIN CONTAINER ===================== */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===================== DASHBOARD GRID ===================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .glass-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.03);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: cardEntrance 0.5s ease-out both;
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sage), var(--warm));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .glass-card::after {
+      content: "🌿";
+      position: absolute;
+      top: -4px;
+      right: 10px;
+      font-size: 1.1rem;
+      opacity: 0.12;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .glass-card:hover {
+      border-color: var(--sage);
+      box-shadow: 0 8px 30px rgba(91, 122, 94, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .glass-card:hover::before {
+      opacity: 1;
+    }
+
+    .glass-card:hover::after {
+      opacity: 0.25;
+      transform: rotate(15deg);
+    }
+
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dashboard-grid .glass-card:nth-child(1) { animation-delay: 0.05s; }
+    .dashboard-grid .glass-card:nth-child(2) { animation-delay: 0.1s; }
+    .dashboard-grid .glass-card:nth-child(3) { animation-delay: 0.15s; }
+    .dashboard-grid .glass-card:nth-child(4) { animation-delay: 0.2s; }
+    .dashboard-grid .glass-card:nth-child(5) { animation-delay: 0.25s; }
+
+    .card-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-value {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .card-value.neon { color: var(--sage-dark); }
+    .card-value.blue { color: var(--sage); }
+    .card-value.pink { color: var(--accent-pink); }
+    .card-value.danger { color: var(--accent-danger); }
+
+    /* ===================== ACTION BAR ===================== */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    /* ===================== BUTTONS ===================== */
+    .btn {
+      padding: 11px 20px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+
+    .btn:active::after {
+      width: 200px;
+      height: 200px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(91, 122, 94, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(91, 122, 94, 0.35);
+    }
+
+    .btn-wa {
+      background: linear-gradient(135deg, #25d366, #1da851);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+    }
+
+    .btn-wa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+    }
+
+    .btn-shopee {
+      background: linear-gradient(135deg, #ee4d2d, #d73920);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(238, 77, 45, 0.25);
+    }
+
+    .btn-shopee:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .btn-secondary:hover {
+      background: var(--sage-light);
+      border-color: rgba(91, 122, 94, 0.2);
+      color: var(--sage-dark);
+    }
+
+    /* ===================== FORM ===================== */
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .form-control {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 11px 14px;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      outline: none;
+      width: 100%;
+      transition: all 0.25s ease;
+    }
+
+    .form-control option {
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .form-control:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(91, 122, 94, 0.12);
+    }
+
+    /* ===================== DATA LIST ===================== */
+    .data-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .list-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: listSlideIn 0.35s ease-out both;
+    }
+
+    .list-item:nth-child(1) { animation-delay: 0.02s; }
+    .list-item:nth-child(2) { animation-delay: 0.06s; }
+    .list-item:nth-child(3) { animation-delay: 0.10s; }
+    .list-item:nth-child(4) { animation-delay: 0.14s; }
+    .list-item:nth-child(5) { animation-delay: 0.18s; }
+    .list-item:nth-child(6) { animation-delay: 0.22s; }
+    .list-item:nth-child(7) { animation-delay: 0.26s; }
+    .list-item:nth-child(8) { animation-delay: 0.30s; }
+
+    @keyframes listSlideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .list-item:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(91, 122, 94, 0.2);
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(91, 122, 94, 0.06);
+    }
+
+    .item-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .item-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    .item-sub {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .item-date {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    /* ===================== BADGES ===================== */
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-hatami { background: var(--sage-light); color: var(--sage-dark); border: 1px solid rgba(91, 122, 94, 0.2); }
+    .badge-naning { background: rgba(194, 114, 90, 0.12); color: var(--accent-pink); border: 1px solid rgba(194, 114, 90, 0.2); }
+    .badge-pemasukan { background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .badge-pengeluaran { background: rgba(192, 57, 43, 0.1); color: var(--accent-danger); border: 1px solid rgba(192, 57, 43, 0.2); }
+    .badge-lunas { background: rgba(16, 185, 129, 0.1); color: #059669; }
+    .badge-dp { background: rgba(212, 165, 116, 0.15); color: var(--warm-dark); }
+    .badge-belum { background: rgba(192, 57, 43, 0.1); color: var(--accent-danger); }
+    .badge-wishlist { background: rgba(212, 165, 116, 0.15); color: var(--warm-dark); }
+    .badge-dibeli { background: rgba(16, 185, 129, 0.1); color: #059669; }
+
+    .item-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .item-amount {
+      font-size: 0.95rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .item-amount.neon { color: var(--sage-dark); }
+    .item-amount.danger { color: var(--accent-danger); }
+
+    /* ===================== KUA TABLE ===================== */
+    .kua-table-container {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+    }
+
+    .kua-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .kua-table th {
+      background: linear-gradient(135deg, var(--sage-light), rgba(91, 122, 94, 0.08));
+      color: var(--sage-dark);
+      padding: 14px 12px;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 1.5px solid var(--border-color);
+      white-space: nowrap;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .kua-table td {
+      padding: 13px 12px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .kua-table tr {
+      transition: background 0.2s;
+    }
+
+    .kua-table tr:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .kua-check-btn {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .kua-check-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .kua-check-btn.checked-hatami {
+      background: var(--sage-light);
+      border-color: var(--sage);
+      color: var(--sage-dark);
+      box-shadow: 0 2px 8px rgba(91, 122, 94, 0.15);
+    }
+
+    .kua-check-btn.checked-naning {
+      background: rgba(194, 114, 90, 0.12);
+      border-color: var(--accent-pink);
+      color: var(--accent-pink);
+      box-shadow: 0 2px 8px rgba(194, 114, 90, 0.15);
+    }
+
+    .kua-check-btn.na {
+      background: #f5f3f0;
+      border-color: #d4d0c8;
+      color: #b0a99e;
+      cursor: not-allowed;
+    }
+
+    /* ===================== PROGRESS BAR ===================== */
+    .progress-bar-bg {
+      background: rgba(0,0,0,0.05);
+      border-radius: 12px;
+      height: 8px;
+      width: 100%;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(90deg, var(--sage), var(--sage-dark)) !important;
+    }
+
+    /* ===================== WA PREVIEW ===================== */
+    .wa-preview-box {
+      background: #1a2332;
+      color: #e8edf3;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.84rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid #2d3a4d;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    /* ===================== TAB CONTENT ===================== */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: tabFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===================== MODAL ===================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(44, 44, 44, 0.35);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 480px;
+      padding: 28px;
+      box-shadow: 0 24px 50px rgba(44, 44, 44, 0.15);
+      animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .modal-header h3 {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .close-btn:hover {
+      color: var(--accent-danger);
+      transform: rotate(90deg);
+    }
+
+    /* ===================== TOAST ===================== */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ffffff;
+      border: 1px solid var(--sage);
+      border-left: 4px solid var(--sage);
+      color: var(--text-main);
+      padding: 14px 22px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateX(150%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    /* ===================== SCANNER ===================== */
+    .scanner-box {
+      border: 2px dashed var(--sage);
+      background: var(--sage-light);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scanner-box:hover {
+      background: rgba(91, 122, 94, 0.12);
+      border-color: var(--sage-dark);
+      transform: scale(1.01);
+      box-shadow: 0 4px 20px rgba(91, 122, 94, 0.1);
+    }
+
+    /* ===================== SCROLLBAR ===================== */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(91, 122, 94, 0.2);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(91, 122, 94, 0.35);
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 600px) {
+      .container { padding: 16px 14px; }
+      .dashboard-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .glass-card { padding: 14px; }
+      .card-value { font-size: 1.15rem; }
+      .action-bar { flex-direction: column; align-items: stretch; }
+      .filter-group { flex-wrap: wrap; }
+      .app-header { padding: 10px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-left">
+      <button class="menu-toggle-btn" onclick="openSidebar()" aria-label="Buka Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="brand-title">
+        <div class="icon-ring">
+          <svg viewBox="0 0 100 100" width="22" height="22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="50" cy="22" r="3" fill="currentColor"/>
+            <path d="M50 12 C46 12, 43 17, 46 20 C41 19, 39 25, 43 28 C41 32, 45 36, 50 33 C55 36, 59 32, 57 28 C61 25, 59 19, 54 20 C57 17, 54 12, 50 12 Z"/>
+            <circle cx="33" cy="34" r="3" fill="currentColor"/>
+            <path d="M33 24 C29 24, 26 29, 29 32 C24 31, 22 37, 26 40 C24 44, 28 48, 33 45 C38 48, 42 44, 40 40 C44 37, 42 31, 37 32 C40 29, 37 24, 33 24 Z"/>
+            <circle cx="67" cy="34" r="3" fill="currentColor"/>
+            <path d="M67 24 C63 24, 60 29, 63 32 C58 31, 56 37, 60 40 C58 44, 62 48, 67 45 C72 48, 76 44, 74 40 C78 37, 76 31, 71 32 C74 29, 71 24, 67 24 Z"/>
+            <path d="M 22 48 C 28 42, 42 54, 50 48 C 58 54, 72 42, 78 48 C 81 53, 68 70, 56 75 L 44 75 C 32 70, 19 53, 22 48 Z"/>
+            <path d="M 44 75 Q 36 70, 32 76 Q 36 82, 44 75 Z"/>
+            <circle cx="48" cy="75" r="3" fill="currentColor"/>
+            <path d="M 44 78 L 41 89 C 41 91, 55 91, 55 89 L 52 78"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Hatami & Naning</h1>
+          <span>WEDDING PLANNER & SAVINGS</span>
+        </div>
+      </div>
+    </div>
+    <div class="sync-badge">
+      <div class="pulse-dot"></div>
+      <span id="syncStatusText">Synced</span>
+    </div>
+  </header>
+
+  <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+  
+  <aside id="sidebarDrawer" class="sidebar-drawer">
+    <div class="sidebar-header">
+      <h2><i class="fa-solid fa-bars-staggered" style="color:var(--accent-cream-dark);"></i> Navigasi Menu</h2>
+      <button class="sidebar-close-btn" onclick="closeSidebar()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="sidebar-menu">
+      <a class="sidebar-item active" onclick="switchTab('tab-tabungan', this)">
+        <i class="fa-solid fa-wallet"></i>
+        <span>Tabungan & Pengeluaran</span>
+      </a>
+      <a class="sidebar-item" onclick="switchTab('tab-planner', this)">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>Wedding Planner</span>
+      </a>
+      <a class="sidebar-item" onclick="switchTab('tab-seserahan', this)">
+        <i class="fa-solid fa-gift"></i>
+        <span>List Seserahan & Wishlist</span>
+      </a>
+      <a class="sidebar-item" onclick="switchTab('tab-kua', this)">
+        <i class="fa-solid fa-file-contract"></i>
+        <span>Pemberkasan KUA</span>
+      </a>
+      <a class="sidebar-item" onclick="switchTab('tab-tamu', this)">
+        <i class="fa-solid fa-users"></i>
+        <span>List Tamu & AI Pax</span>
+      </a>
+      <a class="sidebar-item" onclick="switchTab('tab-ai-scanner', this)">
+        <i class="fa-solid fa-camera-retro"></i>
+        <span>AI Struk & Transfer</span>
+      </a>
+    </div>
+    <div class="sidebar-footer">
+      <span>Hatami & Naning Wedding Manager</span>
+    </div>
+  </aside>
+
+  <div class="container">
+    <!-- Tab 1: Tabungan -->
+    <section id="tab-tabungan" class="tab-content active">
+      <div class="dashboard-grid">
+        <div class="glass-card">
+          <div class="card-label">Tabungan Hatami <i class="fa-solid fa-user-tie" style="color:var(--accent-cream-dark);"></i></div>
+          <div class="card-value blue" id="dashHatami">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Tabungan Naning <i class="fa-solid fa-user-nurse" style="color:var(--accent-pink);"></i></div>
+          <div class="card-value pink" id="dashNaning">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Akumulasi Bersama <i class="fa-solid fa-vault"></i></div>
+          <div class="card-value neon" id="dashAkumulasi">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Total Pengeluaran <i class="fa-solid fa-arrow-trend-down"></i></div>
+          <div class="card-value danger" id="dashPengeluaran">Rp 0</div>
+        </div>
+        <div class="glass-card" style="grid-column: 1 / -1;">
+          <div class="card-label">Sisa Saldo Tabungan Bersama <i class="fa-solid fa-wallet"></i></div>
+          <div class="card-value neon" style="font-size: 1.8rem;" id="dashSisaSaldo">Rp 0</div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openTabunganModal()">
+          <i class="fa-solid fa-plus"></i> Catat Tabungan / Pengeluaran
+        </button>
+        <div class="filter-group">
+          <input type="text" id="searchTabungan" class="form-control" placeholder="Cari transaksi..." oninput="triggerTabunganSearch()" style="min-width: 160px;">
+          <select id="filterPihak" class="form-control" onchange="loadTabunganData(1)">
+            <option value="All">Semua Pihak</option>
+            <option value="Hatami">Hatami</option>
+            <option value="Naning">Naning</option>
+          </select>
+          <select id="filterTipe" class="form-control" onchange="loadTabunganData(1)">
+            <option value="All">Semua Tipe</option>
+            <option value="Pemasukan">Pemasukan</option>
+            <option value="Pengeluaran">Pengeluaran</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="tabunganListContainer" class="data-list"></div>
+      <div id="tabunganPagination" style="display:flex; justify-content:center; gap:10px; margin-top:20px;"></div>
+    </section>
+
+    <!-- Tab 2: Planner -->
+    <section id="tab-planner" class="tab-content">
+      <div class="dashboard-grid">
+        <div class="glass-card">
+          <div class="card-label">Estimasi Lamaran</div>
+          <div class="card-value" id="estLamaran">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Estimasi Akad</div>
+          <div class="card-value" id="estAkad">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Estimasi Resepsi</div>
+          <div class="card-value" id="estResepsi">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Total Biaya Pernikahan</div>
+          <div class="card-value neon" id="estTotalPernikahan">Rp 0</div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openPlannerModal()">
+          <i class="fa-solid fa-plus"></i> Tambah Vendor / Tempat
+        </button>
+        <div class="filter-group">
+          <input type="text" id="searchPlanner" class="form-control" placeholder="Cari vendor..." oninput="triggerPlannerSearch()" style="min-width: 160px;">
+          <select id="filterTahapan" class="form-control" onchange="loadPlannerData(1)">
+            <option value="All">Semua Tahapan</option>
+            <option value="Lamaran">Lamaran</option>
+            <option value="Akad">Akad</option>
+            <option value="Resepsi">Resepsi</option>
+          </select>
+          <select id="filterStatus" class="form-control" onchange="loadPlannerData(1)">
+            <option value="All">Semua Status</option>
+            <option value="Lunas">Lunas</option>
+            <option value="DP">DP</option>
+            <option value="Belum Dibayar">Belum Dibayar</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="plannerListContainer" class="data-list"></div>
+      <div id="plannerPagination" style="display:flex; justify-content:center; gap:10px; margin-top:20px;"></div>
+    </section>
+
+    <!-- Tab 3: Seserahan -->
+    <section id="tab-seserahan" class="tab-content">
+      <div class="dashboard-grid">
+        <div class="glass-card">
+          <div class="card-label">Total Biaya Seserahan <i class="fa-solid fa-gift" style="color:var(--accent-cream-dark);"></i></div>
+          <div class="card-value neon" id="dashTotalSeserahan">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Sudah Dibeli <i class="fa-solid fa-check-circle" style="color:#059669;"></i></div>
+          <div class="card-value" style="color:#059669;" id="dashSeserahanDibeli">Rp 0</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Masih Wishlist <i class="fa-solid fa-hourglass-half" style="color:#d97706;"></i></div>
+          <div class="card-value" style="color:#d97706;" id="dashSeserahanWishlist">Rp 0</div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openSeserahanModal()">
+          <i class="fa-solid fa-plus"></i> Tambah Barang Seserahan
+        </button>
+        <div class="filter-group">
+          <input type="text" id="searchSeserahan" class="form-control" placeholder="Cari barang..." oninput="triggerSeserahanSearch()" style="min-width: 160px;">
+          <select id="filterSeserahanStatus" class="form-control" onchange="loadSeserahanData(1)">
+            <option value="All">Semua Status</option>
+            <option value="Wishlist">Wishlist</option>
+            <option value="Sudah Dibeli">Sudah Dibeli</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="seserahanListContainer" class="data-list"></div>
+      <div id="seserahanPagination" style="display:flex; justify-content:center; gap:10px; margin-top:20px;"></div>
+    </section>
+
+    <!-- Tab 4: KUA -->
+    <section id="tab-kua" class="tab-content">
+      <div class="dashboard-grid">
+        <div class="glass-card">
+          <div class="card-label">Calon Pria (Hatami) <i class="fa-solid fa-mars" style="color:var(--accent-cream-dark);"></i></div>
+          <div class="card-value neon" id="dashKuaPria">0 / 0</div>
+          <div class="progress-bar-bg">
+            <div id="barKuaPria" class="progress-bar-fill" style="width: 0%; background: var(--accent-cream-dark);"></div>
+          </div>
+          <span id="pctKuaPria" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 6px; font-weight: 600;">0% Lengkap</span>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Calon Wanita (Naning) <i class="fa-solid fa-venus" style="color:var(--accent-pink);"></i></div>
+          <div class="card-value pink" id="dashKuaWanita">0 / 0</div>
+          <div class="progress-bar-bg">
+            <div id="barKuaWanita" class="progress-bar-fill" style="width: 0%; background: var(--accent-pink);"></div>
+          </div>
+          <span id="pctKuaWanita" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 6px; font-weight: 600;">0% Lengkap</span>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openKuaModal()">
+          <i class="fa-solid fa-plus"></i> Tambah Syarat Dokumen
+        </button>
+        <div class="filter-group">
+          <input type="text" id="searchKua" class="form-control" placeholder="Cari syarat berkas..." oninput="triggerKuaSearch()" style="min-width: 180px;">
+        </div>
+      </div>
+
+      <div class="kua-table-container">
+        <table class="kua-table">
+          <thead>
+            <tr>
+              <th style="width: 50px; text-align: center;">No</th>
+              <th>Item Persyaratan Dokumen</th>
+              <th>Keterangan</th>
+              <th style="width: 90px; text-align: center;">Calon Pria</th>
+              <th style="width: 90px; text-align: center;">Calon Wanita</th>
+              <th style="width: 60px; text-align: center;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="kuaTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab 5: List Tamu & AI Catering Pax Estimator -->
+    <section id="tab-tamu" class="tab-content">
+      <div class="dashboard-grid">
+        <div class="glass-card">
+          <div class="card-label">Undangan Fisik <i class="fa-solid fa-envelope" style="color:var(--accent-cream-dark);"></i></div>
+          <div class="card-value neon" id="dashTotalUndanganFisik">0 Undangan</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Undangan Digital <i class="fa-solid fa-globe" style="color:var(--accent-pink);"></i></div>
+          <div class="card-value pink" id="dashTotalUndanganDigital">0 Undangan</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Est. Tamu Orang/Pax <i class="fa-solid fa-users" style="color:var(--accent-cream-dark);"></i></div>
+          <div class="card-value" id="dashEstPax">0 Orang</div>
+        </div>
+        <div class="glass-card">
+          <div class="card-label">Konfirmasi Hadir <i class="fa-solid fa-user-check" style="color:#059669;"></i></div>
+          <div class="card-value" style="color:#059669;" id="dashHadirConf">0 Orang</div>
+        </div>
+      </div>
+
+      <div class="glass-card" style="margin-bottom: 20px; border-color: var(--accent-blue);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h2 style="font-size: 1.05rem; font-weight:700;"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--accent-cream-dark);"></i> AI Catering Pax Estimator</h2>
+          <button class="btn btn-secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="calculateAIPax()">
+            <i class="fa-solid fa-arrows-rotate"></i> Hitung Ulang AI
+          </button>
+        </div>
+        <div id="aiPaxResultBox" style="font-size:0.85rem; color:var(--text-main); line-height:1.6;">
+          Tekan tombol <strong>"Hitung Ulang AI"</strong> untuk menganalisis estimasi kehadiran & porsi katering prasmanan vs gubuk secara presisi.
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openTamuModal()">
+          <i class="fa-solid fa-user-plus"></i> Tambah Tamu Undangan
+        </button>
+        <div class="filter-group">
+          <input type="text" id="searchTamu" class="form-control" placeholder="Cari nama tamu..." oninput="triggerTamuSearch()" style="min-width: 150px;">
+          <select id="filterTamuPihak" class="form-control" onchange="loadTamuData(1)">
+            <option value="All">Semua Pihak</option>
+            <option value="Hatami">Hatami</option>
+            <option value="Naning">Naning</option>
+            <option value="Orang Tua">Orang Tua</option>
+          </select>
+          <select id="filterTamuJenis" class="form-control" onchange="loadTamuData(1)">
+            <option value="All">Semua Jenis</option>
+            <option value="Fisik">Fisik (Cetak)</option>
+            <option value="Digital">Digital (Web)</option>
+          </select>
+          <select id="filterTamuStatus" class="form-control" onchange="loadTamuData(1)">
+            <option value="All">Semua Status</option>
+            <option value="Belum Dikirim">Belum Dikirim</option>
+            <option value="Terkirim">Terkirim</option>
+            <option value="Hadir">Hadir</option>
+            <option value="Tidak Hadir">Tidak Hadir</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="tamuListContainer" class="data-list"></div>
+      <div id="tamuPagination" style="display:flex; justify-content:center; gap:10px; margin-top:20px;"></div>
+    </section>
+
+    <!-- Tab 6: AI Scanner -->
+    <section id="tab-ai-scanner" class="tab-content">
+      <div class="glass-card" style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.1rem; margin-bottom: 8px;"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--accent-cream-dark);"></i> AI Photo Scanner & Multi-Report Generator</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Foto atau upload <strong>Struk Belanja, Bukti Transfer Bank (BCA, BRI, Mandiri, QRIS, DANA, GoPay, dll)</strong>. AI akan membaca detailnya secara otomatis dan siap membuatkan Laporan WA 1-klik!</p>
+      </div>
+
+      <div class="scanner-box" onclick="document.getElementById('receiptFileInput').click()">
+        <i class="fa-solid fa-camera" style="font-size: 2.5rem; color: var(--accent-cream-dark); margin-bottom: 12px;"></i>
+        <h3 style="font-size: 1rem; color: var(--text-main);">Foto / Upload Struk / Bukti Transfer</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Klik untuk mengambil foto dari Kamera atau Galeri HP</p>
+        <input type="file" id="receiptFileInput" accept="image/*" capture="environment" style="display: none;" onchange="handleReceiptUpload(event)">
+      </div>
+
+      <div id="aiAnalysisLoader" style="display: none; text-align: center; padding: 30px;">
+        <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color:var(--accent-cream-dark);"></i>
+        <p style="margin-top: 10px; font-size: 0.88rem; color:var(--text-main);">Menganalisis foto dengan AI Vision Engine...</p>
+      </div>
+
+      <div id="aiDraftResult" class="glass-card" style="display: none; margin-top: 20px; border-color: var(--accent-blue);">
+        <h3 style="font-size: 1rem; color: var(--accent-cream-dark); margin-bottom: 14px;"><i class="fa-solid fa-check-circle"></i> Hasil Analisis (Review & Edit)</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Penerima / Vendor / Toko</label>
+            <input type="text" id="aiVendorNameInput" class="form-control" placeholder="Nama Penerima / Toko">
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Total Nominal (Rp)</label>
+            <input type="number" id="aiTotalAmountInput" class="form-control" placeholder="Total Nominal">
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Kategori Transaksi</label>
+            <input type="text" id="aiCategoryInput" class="form-control" placeholder="Makan, Transfer Vendor, Belanja, dll">
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Catatan Tambahan</label>
+            <textarea id="aiNotesInput" class="form-control" rows="2" placeholder="Catatan rincian..."></textarea>
+          </div>
+
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span><i class="fa-brands fa-whatsapp" style="color:var(--accent-wa);"></i> Format Laporan WhatsApp</span>
+              <span style="font-size:0.7rem; color:var(--text-muted);">Siap Salin & Paste</span>
+            </label>
+            <div id="aiWaReportBox" class="wa-preview-box"></div>
+            <textarea id="hiddenWaReportText" style="position: absolute; left: -9999px;"></textarea>
+          </div>
+        </div>
+
+        <div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px;">
+          <button class="btn btn-wa" style="flex: 1; min-width: 180px;" onclick="copyWaReportText()">
+            <i class="fa-solid fa-copy"></i> Salin Laporan WA
+          </button>
+          <button class="btn btn-primary" style="flex: 1; min-width: 180px;" onclick="applyAIDraftToTransaction()">
+            <i class="fa-solid fa-file-export"></i> Pindahkan ke Form Pengeluaran
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modals Section -->
+  <div id="modalTabungan" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTabunganTitle">Catat Transaksi Tabungan</h3>
+        <button class="close-btn" onclick="closeModal('modalTabungan')">&times;</button>
+      </div>
+      <form id="formTabungan" onsubmit="submitTabunganForm(event)">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Pihak Kontributor</label>
+            <select id="inPihak" class="form-control" required>
+              <option value="Hatami">Hatami</option>
+              <option value="Naning">Naning</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Tipe Transaksi</label>
+            <select id="inTipe" class="form-control" required>
+              <option value="Pemasukan">Pemasukan (Menabung)</option>
+              <option value="Pengeluaran">Pengeluaran</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nominal (Rp)</label>
+            <input type="number" id="inNominal" class="form-control" placeholder="Contoh: 500000" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Kategori</label>
+            <input type="text" id="inKategori" class="form-control" placeholder="Contoh: Tabungan Bulanan, DP Venue, Makan" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Catatan Tambahan</label>
+            <textarea id="inCatatan" class="form-control" rows="3" placeholder="Rincian catatan transaksi..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Simpan Transaksi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalPlanner" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Tambah Vendor / Tempat</h3>
+        <button class="close-btn" onclick="closeModal('modalPlanner')">&times;</button>
+      </div>
+      <form id="formPlanner" onsubmit="submitPlannerForm(event)">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Tahapan Acara</label>
+            <select id="inTahapan" class="form-control" required>
+              <option value="Lamaran">Lamaran</option>
+              <option value="Akad">Akad</option>
+              <option value="Resepsi">Resepsi</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Kategori Vendor</label>
+            <input type="text" id="inVendorKategori" class="form-control" placeholder="Contoh: Katering, MUA/Baju, Dekorasi, Venue" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nama Vendor / Tempat</label>
+            <input type="text" id="inNamaVendor" class="form-control" placeholder="Nama vendor atau tempat..." required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Estimasi Biaya (Rp)</label>
+            <input type="number" id="inEstimasiBiaya" class="form-control" placeholder="Contoh: 15000000" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Status Pembayaran</label>
+            <select id="inStatusBayar" class="form-control" required>
+              <option value="Belum Dibayar">Belum Dibayar</option>
+              <option value="DP">DP</option>
+              <option value="Lunas">Lunas</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Catatan Kontak / Detail</label>
+            <textarea id="inVendorCatatan" class="form-control" rows="3" placeholder="No HP, paket yang diambil, atau rincian..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Simpan Vendor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalSeserahan" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Tambah Barang Seserahan</h3>
+        <button class="close-btn" onclick="closeModal('modalSeserahan')">&times;</button>
+      </div>
+      <form id="formSeserahan" onsubmit="submitSeserahanForm(event)">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nama Barang / Item</label>
+            <input type="text" id="inNamaBarangSeserahan" class="form-control" placeholder="Contoh: High Heels Nude 38, Set Mukena Sutra" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Kategori Barang</label>
+            <select id="inKategoriSeserahan" class="form-control" required>
+              <option value="Skincare & Kosmetik">Skincare & Kosmetik</option>
+              <option value="Pakaian">Pakaian / Baju</option>
+              <option value="Sepatu & Tas">Sepatu & Tas</option>
+              <option value="Perhiasan">Perhiasan</option>
+              <option value="Alat Sholat">Alat Sholat</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Estimasi Harga (Rp)</label>
+            <input type="number" id="inEstimasiHargaSeserahan" class="form-control" placeholder="Contoh: 750000" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Status Pembelian</label>
+            <select id="inStatusSeserahan" class="form-control" required>
+              <option value="Wishlist">Wishlist (Belum Dibeli)</option>
+              <option value="Sudah Dibeli">Sudah Dibeli</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Link Shopee / TikTok Shop (URL)</label>
+            <input type="url" id="inLinkProdukSeserahan" class="form-control" placeholder="https://shopee.co.id/... atau https://vt.tiktok.com/...">
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Catatan / Detail Ukuran/Warna</label>
+            <textarea id="inCatatanSeserahan" class="form-control" rows="2" placeholder="Warna cream nude, size 38..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Simpan Barang Seserahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalKua" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Tambah Syarat Dokumen KUA</h3>
+        <button class="close-btn" onclick="closeModal('modalKua')">&times;</button>
+      </div>
+      <form id="formKua" onsubmit="submitKuaForm(event)">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nama Dokumen / Berkas</label>
+            <input type="text" id="inNamaBerkasKua" class="form-control" placeholder="Contoh: Surat Rekomendasi Nikah, FC Akte Kelahiran" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Keterangan / Instansi</label>
+            <input type="text" id="inKeteranganKua" class="form-control" placeholder="Contoh: Kasih Pak RT, Puskesmas, KUA Asal" required>
+          </div>
+          <div style="display: flex; gap: 20px; margin-top: 4px;">
+            <label style="font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="inBerlakuPria" checked style="accent-color: var(--accent-cream-dark);"> Wajib untuk Pria (Hatami)
+            </label>
+            <label style="font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="inBerlakuWanita" checked style="accent-color: var(--accent-pink);"> Wajib untuk Wanita (Naning)
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Simpan Syarat Dokumen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalTamu" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Tambah Tamu Undangan</h3>
+        <button class="close-btn" onclick="closeModal('modalTamu')">&times;</button>
+      </div>
+      <form id="formTamu" onsubmit="submitTamuForm(event)">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nama Tamu / Keluarga</label>
+            <input type="text" id="inNamaTamu" class="form-control" placeholder="Contoh: Bpk. Hendra & Istri, Dimas Anggara" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Pihak Undangan</label>
+            <select id="inPihakTamu" class="form-control" required>
+              <option value="Hatami">Hatami</option>
+              <option value="Naning">Naning</option>
+              <option value="Orang Tua">Orang Tua</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Jenis Undangan</label>
+            <select id="inJenisUndangan" class="form-control" required>
+              <option value="Digital">Digital (Web Invitation)</option>
+              <option value="Fisik">Fisik (Kartu Cetak)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Kategori Relasi</label>
+            <select id="inKategoriRelasi" class="form-control" required>
+              <option value="Keluarga">Keluarga</option>
+              <option value="Teman">Teman</option>
+              <option value="VIP/Rekan Kerja">VIP / Rekan Kerja</option>
+              <option value="Tetangga">Tetangga</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Jumlah Pax / Orang</label>
+            <input type="number" id="inJumlahPax" class="form-control" value="2" min="1" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Status Konfirmasi</label>
+            <select id="inStatusKonfirmasi" class="form-control" required>
+              <option value="Belum Dikirim">Belum Dikirim</option>
+              <option value="Terkirim">Terkirim</option>
+              <option value="Hadir">Hadir</option>
+              <option value="Tidak Hadir">Tidak Hadir</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">No WhatsApp / HP (Opsional)</label>
+            <input type="text" id="inNoHpTamu" class="form-control" placeholder="Contoh: 08123456789">
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Catatan Tambahan</label>
+            <textarea id="inCatatanTamu" class="form-control" rows="2" placeholder="Catatan domisili atau grup..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Simpan Tamu Undangan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toastNotification" class="toast">
+    <i class="fa-solid fa-circle-check" style="color:var(--accent-cream-dark);"></i>
+    <span id="toastMessage">Notifikasi sistem</span>
+  </div>
+
+  <script>
+    var currentTabunganPage = 1;
+    var currentPlannerPage = 1;
+    var currentSeserahanPage = 1;
+    var currentTamuPage = 1;
+    var tabunganSearchTimeout = null;
+    var plannerSearchTimeout = null;
+    var seserahanSearchTimeout = null;
+    var kuaSearchTimeout = null;
+    var tamuSearchTimeout = null;
+
+    function isGoogleAvailable() {
+      return typeof google !== 'undefined' && google.script && google.script.run;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      refreshDashboard();
+      loadTabunganData(1);
+      loadPlannerData(1);
+      loadSeserahanData(1);
+      loadKuaData();
+      loadTamuData(1);
+      calculateAIPax();
+    });
+
+    /* Sidebar Navigation Handlers */
+    function openSidebar() {
+      document.getElementById('sidebarOverlay').classList.add('active');
+      document.getElementById('sidebarDrawer').classList.add('active');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebarOverlay').classList.remove('active');
+      document.getElementById('sidebarDrawer').classList.remove('active');
+    }
+
+    function showToast(msg) {
+      var toast = document.getElementById('toastNotification');
+      var toastMsg = document.getElementById('toastMessage');
+      toastMsg.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(function() {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function formatRupiah(num) {
+      return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
+    }
+
+    function switchTab(tabId, el) {
+      var tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      document.getElementById(tabId).classList.add('active');
+
+      var sidebarItems = document.querySelectorAll('.sidebar-item');
+      sidebarItems.forEach(function(n) { n.classList.remove('active'); });
+      if (el) {
+        el.classList.add('active');
+      }
+      closeSidebar();
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function refreshDashboard() {
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            updateDashboardUI(res.data);
+          }
+        }).getDashboardSummary();
+      } else {
+        updateDashboardUI({
+          totalHatami: 5000000,
+          totalNaning: 6500000,
+          totalAkumulasi: 11500000,
+          totalPengeluaran: 2000000,
+          sisaSaldo: 9500000,
+          estimasiLamaran: 8500000,
+          estimasiAkad: 6000000,
+          estimasiResepsi: 33000000,
+          totalEstimasiPernikahan: 47500000,
+          totalSeserahan: 3700000,
+          totalSeserahanDibeli: 1500000,
+          totalSeserahanWishlist: 2200000,
+          totalBerkasPria: 10,
+          selesaiPria: 4,
+          totalBerkasWanita: 11,
+          selesaiWanita: 6,
+          totalUndanganFisik: 2,
+          totalUndanganDigital: 2,
+          totalEstPaxTamu: 7,
+          totalHadirConfirmed: 3
+        });
+      }
+    }
+
+    function updateDashboardUI(data) {
+      document.getElementById('dashHatami').innerText = formatRupiah(data.totalHatami);
+      document.getElementById('dashNaning').innerText = formatRupiah(data.totalNaning);
+      document.getElementById('dashAkumulasi').innerText = formatRupiah(data.totalAkumulasi);
+      document.getElementById('dashPengeluaran').innerText = formatRupiah(data.totalPengeluaran);
+      document.getElementById('dashSisaSaldo').innerText = formatRupiah(data.sisaSaldo);
+
+      document.getElementById('estLamaran').innerText = formatRupiah(data.estimasiLamaran);
+      document.getElementById('estAkad').innerText = formatRupiah(data.estimasiAkad);
+      document.getElementById('estResepsi').innerText = formatRupiah(data.estimasiResepsi);
+      document.getElementById('estTotalPernikahan').innerText = formatRupiah(data.totalEstimasiPernikahan);
+
+      if (document.getElementById('dashTotalSeserahan')) {
+        document.getElementById('dashTotalSeserahan').innerText = formatRupiah(data.totalSeserahan);
+        document.getElementById('dashSeserahanDibeli').innerText = formatRupiah(data.totalSeserahanDibeli);
+        document.getElementById('dashSeserahanWishlist').innerText = formatRupiah(data.totalSeserahanWishlist);
+      }
+
+      if (document.getElementById('dashKuaPria')) {
+        var priaDone = data.selesaiPria || 0;
+        var priaTotal = data.totalBerkasPria || 1;
+        var priaPct = Math.round((priaDone / priaTotal) * 100);
+        document.getElementById('dashKuaPria').innerText = priaDone + ' / ' + priaTotal;
+        document.getElementById('barKuaPria').style.width = priaPct + '%';
+        document.getElementById('pctKuaPria').innerText = priaPct + '% Lengkap';
+
+        var wanitaDone = data.selesaiWanita || 0;
+        var wanitaTotal = data.totalBerkasWanita || 1;
+        var wanitaPct = Math.round((wanitaDone / wanitaTotal) * 100);
+        document.getElementById('dashKuaWanita').innerText = wanitaDone + ' / ' + wanitaTotal;
+        document.getElementById('barKuaWanita').style.width = wanitaPct + '%';
+        document.getElementById('pctKuaWanita').innerText = wanitaPct + '% Lengkap';
+      }
+
+      if (document.getElementById('dashTotalUndanganFisik')) {
+        document.getElementById('dashTotalUndanganFisik').innerText = (data.totalUndanganFisik || 0) + ' Undangan';
+        document.getElementById('dashTotalUndanganDigital').innerText = (data.totalUndanganDigital || 0) + ' Undangan';
+        document.getElementById('dashEstPax').innerText = (data.totalEstPaxTamu || 0) + ' Orang';
+        document.getElementById('dashHadirConf').innerText = (data.totalHadirConfirmed || 0) + ' Orang';
+      }
+    }
+
+    function loadTabunganData(page) {
+      currentTabunganPage = page || 1;
+      var params = {
+        page: currentTabunganPage,
+        limit: 8,
+        search: document.getElementById('searchTabungan').value,
+        filterPihak: document.getElementById('filterPihak').value,
+        filterTipe: document.getElementById('filterTipe').value
+      };
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            renderTabunganList(res.items);
+            renderPagination('tabunganPagination', res.currentPage, res.totalPages, 'loadTabunganData');
+          }
+        }).getTabunganData(params);
+      } else {
+        var mockItems = [
+          { id: "TRX-0004", tanggal: "19/09/2026 14:00:00", pihak: "Naning", tipe: "Pemasukan", kategori: "Bonus Kerja", nominal: 1500000, catatan: "Bonus kuartal" },
+          { id: "TRX-0003", tanggal: "18/09/2026 10:30:00", pihak: "Hatami", tipe: "Pengeluaran", kategori: "DP Venue", nominal: 2000000, catatan: "Gedung Resepsi" },
+          { id: "TRX-0002", tanggal: "01/09/2026 09:00:00", pihak: "Naning", tipe: "Pemasukan", kategori: "Tabungan Bulanan", nominal: 5000000, catatan: "Gaji September" },
+          { id: "TRX-0001", tanggal: "01/09/2026 09:00:00", pihak: "Hatami", tipe: "Pemasukan", kategori: "Tabungan Bulanan", nominal: 5000000, catatan: "Gaji September" }
+        ];
+        renderTabunganList(mockItems);
+      }
+    }
+
+    function renderTabunganList(items) {
+      var container = document.getElementById('tabunganListContainer');
+      if (!items || items.length === 0) {
+        container.innerHTML = '<div class="glass-card" style="text-align:center; color:var(--text-muted);">Belum ada transaksi tabungan.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var pihakBadgeClass = item.pihak === 'Hatami' ? 'badge-hatami' : 'badge-naning';
+        var tipeBadgeClass = item.tipe === 'Pemasukan' ? 'badge-pemasukan' : 'badge-pengeluaran';
+        var nominalSign = item.tipe === 'Pemasukan' ? '+' : '-';
+        var nominalColorClass = item.tipe === 'Pemasukan' ? 'neon' : 'danger';
+
+        html += '<div class="list-item">' +
+                  '<div class="item-meta">' +
+                    '<div class="item-title">' + item.kategori + '</div>' +
+                    '<div class="item-sub">' +
+                      '<span class="badge ' + pihakBadgeClass + '">' + item.pihak + '</span>' +
+                      '<span class="badge ' + tipeBadgeClass + '">' + item.tipe + '</span>' +
+                    '</div>' +
+                    '<div class="item-date"><i class="fa-regular fa-clock"></i> ' + item.tanggal + '</div>' +
+                    '<div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px; word-break:break-word;">' + (item.catatan || '-') + '</div>' +
+                  '</div>' +
+                  '<div class="item-right">' +
+                    '<div class="item-amount ' + nominalColorClass + '">' + nominalSign + ' ' + formatRupiah(item.nominal) + '</div>' +
+                    '<button onclick="deleteTabungan(\'' + item.id + '\')" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-size:0.8rem; margin-top:8px;">' +
+                      '<i class="fa-solid fa-trash"></i> Hapus' +
+                    '</button>' +
+                  '</div>' +
+                '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function triggerTabunganSearch() {
+      clearTimeout(tabunganSearchTimeout);
+      tabunganSearchTimeout = setTimeout(function() {
+        loadTabunganData(1);
+      }, 300);
+    }
+
+    function openTabunganModal() { openModal('modalTabungan'); }
+
+    function submitTabunganForm(e) {
+      e.preventDefault();
+      var formData = {
+        pihak: document.getElementById('inPihak').value,
+        tipe: document.getElementById('inTipe').value,
+        nominal: parseFloat(document.getElementById('inNominal').value) || 0,
+        kategori: document.getElementById('inKategori').value,
+        catatan: document.getElementById('inCatatan').value
+      };
+
+      closeModal('modalTabungan');
+      showToast('Menyimpan transaksi...');
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            document.getElementById('formTabungan').reset();
+            refreshDashboard();
+            loadTabunganData(1);
+          } else {
+            showToast('Gagal: ' + res.error);
+          }
+        }).addTabunganTransaction(formData);
+      } else {
+        showToast('Simulasi simpan berhasil (Canvas Mode)');
+        document.getElementById('formTabungan').reset();
+      }
+    }
+
+    function deleteTabungan(id) {
+      showToast('Menghapus transaksi...');
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadTabunganData(currentTabunganPage);
+          }
+        }).deleteTabunganTransaction(id);
+      } else {
+        showToast('Simulasi hapus berhasil (Canvas Mode)');
+      }
+    }
+
+    function loadPlannerData(page) {
+      currentPlannerPage = page || 1;
+      var params = {
+        page: currentPlannerPage,
+        limit: 8,
+        search: document.getElementById('searchPlanner').value,
+        filterTahapan: document.getElementById('filterTahapan').value,
+        filterStatus: document.getElementById('filterStatus').value
+      };
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            renderPlannerList(res.items);
+            renderPagination('plannerPagination', res.currentPage, res.totalPages, 'loadPlannerData');
+          }
+        }).getPlannerData(params);
+      } else {
+        var mockPlanner = [
+          { id: "VND-0001", tahapan: "Lamaran", kategori: "Dekorasi", namaVendor: "Griya Dekor Aesthetic", estimasiBiaya: 3500000, statusBayar: "DP", catatan: "Kontak: 08123456789" },
+          { id: "VND-0002", tahapan: "Lamaran", kategori: "Katering", namaVendor: "Berkah Catering", estimasiBiaya: 5000000, statusBayar: "Lunas", catatan: "50 Pax" },
+          { id: "VND-0003", tahapan: "Akad", kategori: "MUA/Baju", namaVendor: "Sanggar Busana Anggun", estimasiBiaya: 6000000, statusBayar: "DP", catatan: "Baju akad pasangan" },
+          { id: "VND-0004", tahapan: "Resepsi", kategori: "Venue", namaVendor: "Grand Ballroom Heritage", estimasiBiaya: 25000000, statusBayar: "Belum Dibayar", catatan: "Gedung resepsi" }
+        ];
+        renderPlannerList(mockPlanner);
+      }
+    }
+
+    function renderPlannerList(items) {
+      var container = document.getElementById('plannerListContainer');
+      if (!items || items.length === 0) {
+        container.innerHTML = '<div class="glass-card" style="text-align:center; color:var(--text-muted);">Belum ada vendor/tempat dicatat.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var statusBadgeClass = item.statusBayar === 'Lunas' ? 'badge-lunas' : (item.statusBayar === 'DP' ? 'badge-dp' : 'badge-belum');
+
+        html += '<div class="list-item">' +
+                  '<div class="item-meta">' +
+                    '<div class="item-title">' + item.namaVendor + '</div>' +
+                    '<div class="item-sub">' +
+                      '<span class="badge badge-hatami">' + item.tahapan + '</span>' +
+                      '<span style="color:var(--text-main); font-weight:600; font-size:0.8rem;">' + item.kategori + '</span>' +
+                      '<span class="badge ' + statusBadgeClass + '">' + item.statusBayar + '</span>' +
+                    '</div>' +
+                    '<div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px; word-break:break-word;">' + (item.catatan || '-') + '</div>' +
+                  '</div>' +
+                  '<div class="item-right">' +
+                    '<div class="item-amount neon">' + formatRupiah(item.estimasiBiaya) + '</div>' +
+                    '<div style="margin-top:8px; display:flex; gap:8px; justify-content:flex-end;">' +
+                      '<button onclick="toggleVendorStatus(\'' + item.id + '\', \'' + item.statusBayar + '\')" style="background:none; border:none; color:var(--accent-cream-dark); cursor:pointer; font-size:0.8rem;">' +
+                        '<i class="fa-solid fa-sync"></i> Ubah Status' +
+                      '</button>' +
+                      '<button onclick="deleteVendor(\'' + item.id + '\')" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-size:0.8rem;">' +
+                        '<i class="fa-solid fa-trash"></i> Hapus' +
+                      '</button>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function triggerPlannerSearch() {
+      clearTimeout(plannerSearchTimeout);
+      plannerSearchTimeout = setTimeout(function() {
+        loadPlannerData(1);
+      }, 300);
+    }
+
+    function openPlannerModal() { openModal('modalPlanner'); }
+
+    function submitPlannerForm(e) {
+      e.preventDefault();
+      var formData = {
+        tahapan: document.getElementById('inTahapan').value,
+        kategori: document.getElementById('inVendorKategori').value,
+        namaVendor: document.getElementById('inNamaVendor').value,
+        estimasiBiaya: parseFloat(document.getElementById('inEstimasiBiaya').value) || 0,
+        statusBayar: document.getElementById('inStatusBayar').value,
+        catatan: document.getElementById('inVendorCatatan').value
+      };
+
+      closeModal('modalPlanner');
+      showToast('Menyimpan vendor...');
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            document.getElementById('formPlanner').reset();
+            refreshDashboard();
+            loadPlannerData(1);
+          }
+        }).addPlannerVendor(formData);
+      } else {
+        showToast('Simulasi simpan vendor berhasil (Canvas Mode)');
+        document.getElementById('formPlanner').reset();
+      }
+    }
+
+    function toggleVendorStatus(id, currentStatus) {
+      var nextStatus = currentStatus === 'Belum Dibayar' ? 'DP' : (currentStatus === 'DP' ? 'Lunas' : 'Belum Dibayar');
+      showToast('Mengubah status ke ' + nextStatus + '...');
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            loadPlannerData(currentPlannerPage);
+          }
+        }).updateVendorStatus(id, nextStatus);
+      } else {
+        showToast('Status diperbarui ke ' + nextStatus + ' (Canvas Mode)');
+      }
+    }
+
+    function deleteVendor(id) {
+      showToast('Menghapus vendor...');
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadPlannerData(currentPlannerPage);
+          }
+        }).deletePlannerVendor(id);
+      } else {
+        showToast('Simulasi hapus vendor berhasil (Canvas Mode)');
+      }
+    }
+
+    function loadSeserahanData(page) {
+      currentSeserahanPage = page || 1;
+      var params = {
+        page: currentSeserahanPage,
+        limit: 8,
+        search: document.getElementById('searchSeserahan').value,
+        filterStatus: document.getElementById('filterSeserahanStatus').value
+      };
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            renderSeserahanList(res.items);
+            renderPagination('seserahanPagination', res.currentPage, res.totalPages, 'loadSeserahanData');
+          }
+        }).getSeserahanData(params);
+      } else {
+        var mockSeserahan = [
+          { id: "SSR-0001", namaBarang: "Skincare & BodyCare Set", kategori: "Skincare & Kosmetik", estimasiHarga: 1250000, status: "Wishlist", linkProduk: "https://shopee.co.id/", catatan: "Paket perawatan seserahan" },
+          { id: "SSR-0002", namaBarang: "Sepatu High Heels Premium", kategori: "Sepatu & Tas", estimasiHarga: 850000, status: "Sudah Dibeli", linkProduk: "https://vt.tiktok.com/", catatan: "Ukuran 38 cream nude" },
+          { id: "SSR-0003", namaBarang: "Mukena Sutra & Sajadah", kategori: "Alat Sholat", estimasiHarga: 650000, status: "Sudah Dibeli", linkProduk: "https://shopee.co.id/", catatan: "Warna putih renda gold" }
+        ];
+        renderSeserahanList(mockSeserahan);
+      }
+    }
+
+    function renderSeserahanList(items) {
+      var container = document.getElementById('seserahanListContainer');
+      if (!items || items.length === 0) {
+        container.innerHTML = '<div class="glass-card" style="text-align:center; color:var(--text-muted);">Belum ada barang seserahan dicatat.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var statusClass = item.status === 'Sudah Dibeli' ? 'badge-dibeli' : 'badge-wishlist';
+        
+        var linkButtonHtml = '';
+        if (item.linkProduk && item.linkProduk.length > 5) {
+          var isShopee = item.linkProduk.indexOf('shopee') !== -1;
+          var isTikTok = item.linkProduk.indexOf('tiktok') !== -1;
+          var btnClass = isShopee ? 'btn-shopee' : 'btn-secondary';
+          var iconClass = isShopee ? 'fa-bag-shopping' : (isTikTok ? 'fa-tiktok' : 'fa-arrow-up-right-from-square');
+          var linkLabel = isShopee ? 'Shopee' : (isTikTok ? 'TikTok Shop' : 'Buka Link');
+
+          linkButtonHtml = '<a href="' + item.linkProduk + '" target="_blank" rel="noopener noreferrer" class="btn ' + btnClass + '" style="font-size:0.75rem; padding:4px 10px; margin-top:6px;">' +
+                             '<i class="fa-solid ' + iconClass + '"></i> ' + linkLabel +
+                           '</a>';
+        }
+
+        html += '<div class="list-item">' +
+                  '<div class="item-meta">' +
+                    '<div class="item-title">' + item.namaBarang + '</div>' +
+                    '<div class="item-sub">' +
+                      '<span class="badge badge-hatami">' + item.kategori + '</span>' +
+                      '<span class="badge ' + statusClass + '">' + item.status + '</span>' +
+                    '</div>' +
+                    '<div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px; word-break:break-word;">' + (item.catatan || '-') + '</div>' +
+                    linkButtonHtml +
+                  '</div>' +
+                  '<div class="item-right">' +
+                    '<div class="item-amount neon">' + formatRupiah(item.estimasiHarga) + '</div>' +
+                    '<div style="margin-top:8px; display:flex; gap:8px; justify-content:flex-end;">' +
+                      '<button onclick="toggleSeserahanStatus(\'' + item.id + '\', \'' + item.status + '\')" style="background:none; border:none; color:var(--accent-cream-dark); cursor:pointer; font-size:0.8rem;">' +
+                        '<i class="fa-solid fa-sync"></i> Ubah Status' +
+                      '</button>' +
+                      '<button onclick="deleteSeserahanItem(\'' + item.id + '\')" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-size:0.8rem;">' +
+                        '<i class="fa-solid fa-trash"></i> Hapus' +
+                      '</button>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function triggerSeserahanSearch() {
+      clearTimeout(seserahanSearchTimeout);
+      seserahanSearchTimeout = setTimeout(function() {
+        loadSeserahanData(1);
+      }, 300);
+    }
+
+    function openSeserahanModal() { openModal('modalSeserahan'); }
+
+    function submitSeserahanForm(e) {
+      e.preventDefault();
+      var formData = {
+        namaBarang: document.getElementById('inNamaBarangSeserahan').value,
+        kategori: document.getElementById('inKategoriSeserahan').value,
+        estimasiHarga: parseFloat(document.getElementById('inEstimasiHargaSeserahan').value) || 0,
+        status: document.getElementById('inStatusSeserahan').value,
+        linkProduk: document.getElementById('inLinkProdukSeserahan').value,
+        catatan: document.getElementById('inCatatanSeserahan').value
+      };
+
+      closeModal('modalSeserahan');
+      showToast('Menyimpan barang seserahan...');
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            document.getElementById('formSeserahan').reset();
+            refreshDashboard();
+            loadSeserahanData(1);
+          }
+        }).addSeserahanItem(formData);
+      } else {
+        showToast('Simulasi simpan seserahan berhasil (Canvas Mode)');
+        document.getElementById('formSeserahan').reset();
+      }
+    }
+
+    function toggleSeserahanStatus(id, currentStatus) {
+      var nextStatus = currentStatus === 'Wishlist' ? 'Sudah Dibeli' : 'Wishlist';
+      showToast('Mengubah status ke ' + nextStatus + '...');
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadSeserahanData(currentSeserahanPage);
+          }
+        }).updateSeserahanStatus(id, nextStatus);
+      } else {
+        showToast('Status diperbarui ke ' + nextStatus + ' (Canvas Mode)');
+      }
+    }
+
+    function deleteSeserahanItem(id) {
+      showToast('Menghapus barang seserahan...');
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadSeserahanData(currentSeserahanPage);
+          }
+        }).deleteSeserahanItem(id);
+      } else {
+        showToast('Simulasi hapus seserahan berhasil (Canvas Mode)');
+      }
+    }
+
+    function loadKuaData() {
+      var params = {
+        search: document.getElementById('searchKua').value
+      };
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            renderKuaTable(res.items);
+          }
+        }).getPemberkasanKUAData(params);
+      } else {
+        var mockKua = [
+          { id: "KUA-0001", namaBerkas: "KTP Asli dan FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0002", namaBerkas: "KK Asli dan FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0003", namaBerkas: "Ijazah FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0004", namaBerkas: "Akte FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0005", namaBerkas: "Pas Foto 3x4 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0006", namaBerkas: "FC KTP Ortu", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0007", namaBerkas: "Surat Ket Belum Menikah", keterangan: "Kasih Pak RT", statusPria: "N/A", statusWanita: "Belum", berlakuPria: "Tidak", berlakuWanita: "Ya" },
+          { id: "KUA-0008", namaBerkas: "Surat Pengantar RT/RW", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0009", namaBerkas: "Surat Ket Sehat Puskesmas", keterangan: "Puskesmas", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+          { id: "KUA-0010", namaBerkas: "Vaksin Tetanus (TT)", keterangan: "Puskesmas", statusPria: "N/A", statusWanita: "Belum", berlakuPria: "Tidak", berlakuWanita: "Ya" },
+          { id: "KUA-0011", namaBerkas: "Surat Numpang Nikah", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "N/A", berlakuPria: "Ya", berlakuWanita: "Tidak" },
+          { id: "KUA-0012", namaBerkas: "Map Kuning", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "N/A", berlakuPria: "Ya", berlakuWanita: "Tidak" }
+        ];
+        renderKuaTable(mockKua);
+      }
+    }
+
+    function renderKuaTable(items) {
+      var tbody = document.getElementById('kuaTableBody');
+      if (!items || items.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">Belum ada syarat berkas KUA.</td></tr>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+
+        var btnPriaHtml = '';
+        if (item.berlakuPria === 'Ya') {
+          var isDonePria = item.statusPria === 'Selesai';
+          var activeClassPria = isDonePria ? 'checked-hatami' : '';
+          var iconPria = isDonePria ? '<i class="fa-solid fa-check"></i>' : '';
+          btnPriaHtml = '<button class="kua-check-btn ' + activeClassPria + '" onclick="toggleKuaStatus(\'' + item.id + '\', \'Pria\')">' + iconPria + '</button>';
+        } else {
+          btnPriaHtml = '<span class="kua-check-btn na">-</span>';
+        }
+
+        var btnWanitaHtml = '';
+        if (item.berlakuWanita === 'Ya') {
+          var isDoneWanita = item.statusWanita === 'Selesai';
+          var activeClassWanita = isDoneWanita ? 'checked-naning' : '';
+          var iconWanita = isDoneWanita ? '<i class="fa-solid fa-check"></i>' : '';
+          btnWanitaHtml = '<button class="kua-check-btn ' + activeClassWanita + '" onclick="toggleKuaStatus(\'' + item.id + '\', \'Wanita\')">' + iconWanita + '</button>';
+        } else {
+          btnWanitaHtml = '<span class="kua-check-btn na">-</span>';
+        }
+
+        html += '<tr>' +
+                  '<td style="text-align:center; font-weight:700; color:var(--text-muted);">' + (i + 1) + '</td>' +
+                  '<td style="font-weight:700; color:var(--text-main);">' + item.namaBerkas + '</td>' +
+                  '<td style="color:var(--text-muted); font-size:0.8rem;">' + (item.keterangan || 'Kasih Pak RT') + '</td>' +
+                  '<td style="text-align:center;">' + btnPriaHtml + '</td>' +
+                  '<td style="text-align:center;">' + btnWanitaHtml + '</td>' +
+                  '<td style="text-align:center;">' +
+                    '<button onclick="deleteKuaItem(\'' + item.id + '\')" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-size:0.85rem;">' +
+                      '<i class="fa-solid fa-trash"></i>' +
+                    '</button>' +
+                  '</td>' +
+                '</tr>';
+      }
+      tbody.innerHTML = html;
+    }
+
+    function triggerKuaSearch() {
+      clearTimeout(kuaSearchTimeout);
+      kuaSearchTimeout = setTimeout(function() {
+        loadKuaData();
+      }, 300);
+    }
+
+    function openKuaModal() { openModal('modalKua'); }
+
+    function toggleKuaStatus(id, party) {
+      showToast('Updating status berkas...');
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadKuaData();
+          }
+        }).toggleBerkasKUAStatus(id, party);
+      } else {
+        showToast('Status berkas ' + party + ' diperbarui! (Canvas Mode)');
+        refreshDashboard();
+        loadKuaData();
+      }
+    }
+
+    function submitKuaForm(e) {
+      e.preventDefault();
+      var formData = {
+        namaBerkas: document.getElementById('inNamaBerkasKua').value,
+        keterangan: document.getElementById('inKeteranganKua').value,
+        berlakuPria: document.getElementById('inBerlakuPria').checked,
+        berlakuWanita: document.getElementById('inBerlakuWanita').checked
+      };
+
+      closeModal('modalKua');
+      showToast('Menyimpan syarat berkas...');
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            document.getElementById('formKua').reset();
+            refreshDashboard();
+            loadKuaData();
+          }
+        }).addBerkasKUAItem(formData);
+      } else {
+        showToast('Syarat dokumen berhasil ditambahkan (Canvas Mode)');
+        document.getElementById('formKua').reset();
+      }
+    }
+
+    function deleteKuaItem(id) {
+      showToast('Menghapus syarat berkas...');
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadKuaData();
+          }
+        }).deleteBerkasKUAItem(id);
+      } else {
+        showToast('Syarat berkas berhasil dihapus (Canvas Mode)');
+      }
+    }
+
+    function loadTamuData(page) {
+      currentTamuPage = page || 1;
+      var params = {
+        page: currentTamuPage,
+        limit: 8,
+        search: document.getElementById('searchTamu').value,
+        filterPihak: document.getElementById('filterTamuPihak').value,
+        filterJenis: document.getElementById('filterTamuJenis').value,
+        filterStatus: document.getElementById('filterTamuStatus').value
+      };
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            renderTamuList(res.items);
+            renderPagination('tamuPagination', res.currentPage, res.totalPages, 'loadTamuData');
+          }
+        }).getTamuData(params);
+      } else {
+        var mockTamu = [
+          { id: "TMU-0001", namaTamu: "Bpk. Hendra & Istri", pihak: "Orang Tua", kategoriRelasi: "Keluarga", jenisUndangan: "Fisik", jumlahPax: 2, statusKonfirmasi: "Hadir", noHp: "081298765432", catatan: "Keluarga Banyuasin" },
+          { id: "TMU-0002", namaTamu: "Dimas Anggara", pihak: "Hatami", kategoriRelasi: "Teman", jenisUndangan: "Digital", jumlahPax: 2, statusKonfirmasi: "Terkirim", noHp: "085678901234", catatan: "Teman SMA" },
+          { id: "TMU-0003", namaTamu: "Siti Rahmawati", pihak: "Naning", kategoriRelasi: "Teman", jenisUndangan: "Digital", jumlahPax: 1, statusKonfirmasi: "Hadir", noHp: "087712345678", catatan: "Perawat RS" },
+          { id: "TMU-0004", namaTamu: "Dr. Ahmad Fadhil", pihak: "Orang Tua", kategoriRelasi: "VIP/Rekan Kerja", jenisUndangan: "Fisik", jumlahPax: 2, statusKonfirmasi: "Belum Dikirim", noHp: "081122334455", catatan: "Dokter RS" }
+        ];
+        renderTamuList(mockTamu);
+      }
+    }
+
+    function renderTamuList(items) {
+      var container = document.getElementById('tamuListContainer');
+      if (!items || items.length === 0) {
+        container.innerHTML = '<div class="glass-card" style="text-align:center; color:var(--text-muted);">Belum ada daftar tamu undangan dicatat.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var confBadge = 'badge-dp';
+        if (item.statusKonfirmasi === 'Hadir') confBadge = 'badge-lunas';
+        if (item.statusKonfirmasi === 'Tidak Hadir') confBadge = 'badge-belum';
+        if (item.statusKonfirmasi === 'Terkirim') confBadge = 'badge-hatami';
+
+        var jenisBadgeClass = item.jenisUndangan === 'Fisik' ? 'badge-hatami' : 'badge-pemasukan';
+
+        html += '<div class="list-item">' +
+                  '<div class="item-meta">' +
+                    '<div class="item-title">' + item.namaTamu + ' (' + item.jumlahPax + ' Pax)</div>' +
+                    '<div class="item-sub">' +
+                      '<span class="badge badge-hatami">' + item.pihak + '</span>' +
+                      '<span class="badge ' + jenisBadgeClass + '">' + (item.jenisUndangan || 'Digital') + '</span>' +
+                      '<span class="badge badge-naning">' + item.kategoriRelasi + '</span>' +
+                      '<span class="badge ' + confBadge + '">' + item.statusKonfirmasi + '</span>' +
+                    '</div>' +
+                    '<div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">' +
+                      '<i class="fa-solid fa-phone"></i> ' + (item.noHp || '-') + ' | ' + (item.catatan || '-') +
+                    '</div>' +
+                  '</div>' +
+                  '<div class="item-right">' +
+                    '<button onclick="toggleTamuStatus(\'' + item.id + '\', \'' + item.statusKonfirmasi + '\')" style="background:none; border:none; color:var(--accent-cream-dark); cursor:pointer; font-size:0.8rem; margin-bottom:6px;">' +
+                      '<i class="fa-solid fa-sync"></i> Ubah Status' +
+                    '</button>' +
+                    '<button onclick="deleteTamuItem(\'' + item.id + '\')" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-size:0.8rem;">' +
+                      '<i class="fa-solid fa-trash"></i> Hapus' +
+                    '</button>' +
+                  '</div>' +
+                '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function triggerTamuSearch() {
+      clearTimeout(tamuSearchTimeout);
+      tamuSearchTimeout = setTimeout(function() {
+        loadTamuData(1);
+      }, 300);
+    }
+
+    function openTamuModal() { openModal('modalTamu'); }
+
+    function submitTamuForm(e) {
+      e.preventDefault();
+      var formData = {
+        namaTamu: document.getElementById('inNamaTamu').value,
+        pihak: document.getElementById('inPihakTamu').value,
+        jenisUndangan: document.getElementById('inJenisUndangan').value,
+        kategoriRelasi: document.getElementById('inKategoriRelasi').value,
+        jumlahPax: parseInt(document.getElementById('inJumlahPax').value, 10) || 1,
+        statusKonfirmasi: document.getElementById('inStatusKonfirmasi').value,
+        noHp: document.getElementById('inNoHpTamu').value,
+        catatan: document.getElementById('inCatatanTamu').value
+      };
+
+      closeModal('modalTamu');
+      showToast('Menyimpan tamu undangan...');
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            document.getElementById('formTamu').reset();
+            refreshDashboard();
+            loadTamuData(1);
+            calculateAIPax();
+          }
+        }).addTamuItem(formData);
+      } else {
+        showToast('Data tamu berhasil ditambahkan (Canvas Mode)');
+        document.getElementById('formTamu').reset();
+      }
+    }
+
+    function toggleTamuStatus(id, currentStatus) {
+      var nextStatus = "Belum Dikirim";
+      if (currentStatus === "Belum Dikirim") nextStatus = "Terkirim";
+      else if (currentStatus === "Terkirim") nextStatus = "Hadir";
+      else if (currentStatus === "Hadir") nextStatus = "Tidak Hadir";
+      
+      showToast('Mengubah status konfirmasi...');
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadTamuData(currentTamuPage);
+            calculateAIPax();
+          }
+        }).updateTamuStatus(id, nextStatus);
+      } else {
+        showToast('Status konfirmasi diperbarui ke ' + nextStatus + ' (Canvas Mode)');
+      }
+    }
+
+    function deleteTamuItem(id) {
+      showToast('Menghapus data tamu...');
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            showToast(res.message);
+            refreshDashboard();
+            loadTamuData(currentTamuPage);
+            calculateAIPax();
+          }
+        }).deleteTamuItem(id);
+      } else {
+        showToast('Data tamu berhasil dihapus (Canvas Mode)');
+      }
+    }
+
+    function calculateAIPax() {
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success) {
+            renderAIPaxResult(res.recommendation);
+          }
+        }).calculateAIPaxRecommendation();
+      } else {
+        renderAIPaxResult({
+          totalUndanganFisik: 2,
+          totalUndanganDigital: 2,
+          totalTargetOrang: 7,
+          estHadirOrang: 6,
+          totalPaxFinalRecommended: 7,
+          recommendedPaxPrasmanan: 4,
+          recommendedPaxGubuk: 12,
+          bufferSafetyPax: 1,
+          aiAdviceNote: "Berdasarkan analisis AI pada 4 undangan (2 Fisik, 2 Digital - 7 orang), diproyeksikan 6 orang hadir. Rekomendasi pesanan katering: 4 Pax Prasmanan + 12 Porsi Gubuk/Stall (termasuk buffer keamanan 1 pax)."
+        });
+      }
+    }
+
+    function renderAIPaxResult(rec) {
+      var box = document.getElementById('aiPaxResultBox');
+      box.innerHTML = '<p style="margin-bottom:8px;">' + rec.aiAdviceNote + '</p>' +
+                      '<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px; margin-top:12px; background:rgba(197,154,70,0.08); padding:12px; border-radius:8px;">' +
+                        '<div><strong>Prasmanan (Buffet):</strong><br><span style="color:var(--accent-cream-dark); font-weight:800; font-size:1.1rem;">' + rec.recommendedPaxPrasmanan + ' Pax</span></div>' +
+                        '<div><strong>Gubuk / Stall:</strong><br><span style="color:var(--accent-cream-dark); font-weight:800; font-size:1.1rem;">' + rec.recommendedPaxGubuk + ' Porsi</span></div>' +
+                        '<div><strong>Buffer Safety:</strong><br><span style="color:#059669; font-weight:800; font-size:1.1rem;">+' + rec.bufferSafetyPax + ' Pax</span></div>' +
+                      '</div>';
+    }
+
+    function handleReceiptUpload(e) {
+      var file = e.target.files[0];
+      if (!file) return;
+
+      document.getElementById('aiAnalysisLoader').style.display = 'block';
+      document.getElementById('aiDraftResult').style.display = 'none';
+
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        var base64Data = evt.target.result;
+        
+        if (isGoogleAvailable()) {
+          google.script.run.withSuccessHandler(function(res) {
+            document.getElementById('aiAnalysisLoader').style.display = 'none';
+            if (res.success) {
+              displayAiDraft(res.extracted);
+            } else {
+              showToast('Gagal memproses gambar: ' + res.error);
+            }
+          }).parseReceiptImageAI(base64Data);
+        } else {
+          setTimeout(function() {
+            document.getElementById('aiAnalysisLoader').style.display = 'none';
+            var defaultWaText = "🧾 LAPORAN PENGELUARAN MAKO\n" +
+                                "📅 Tanggal: 19 Sep 2026 (17:38 WIB)\n" +
+                                "📍 Lokasi: Java Supermall Semarang\n" +
+                                "👤 Kasir: Novi Listiyani\n\n" +
+                                "Rincian Pembelian:\n" +
+                                "• 1x Raisin Choco Whole: Rp31.000\n" +
+                                "• 1x New Croissant Chocolate: Rp17.000\n\n" +
+                                "💰 Total Pembayaran: Rp48.000\n" +
+                                "💵 Tunai (Cash): Rp50.000\n" +
+                                "🪙 Kembalian: Rp2.000";
+
+            displayAiDraft({
+              vendorName: "MAKO",
+              totalNominal: 48000,
+              detectedCategory: "Makan & Nongkrong",
+              suggestedCatatan: "2x Roti MAKO - Java Supermall",
+              waReportText: defaultWaText
+            });
+          }, 1200);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function displayAiDraft(data) {
+      document.getElementById('aiVendorNameInput').value = data.vendorName || '';
+      document.getElementById('aiTotalAmountInput').value = data.totalNominal || '';
+      document.getElementById('aiCategoryInput').value = data.detectedCategory || 'Makan & Nongkrong';
+      document.getElementById('aiNotesInput').value = data.suggestedCatatan || '';
+      
+      var waText = data.waReportText || 'Laporan Transaksi';
+      document.getElementById('aiWaReportBox').innerText = waText;
+      document.getElementById('hiddenWaReportText').value = waText;
+
+      document.getElementById('aiDraftResult').style.display = 'block';
+    }
+
+    function copyWaReportText() {
+      var copyTextarea = document.getElementById('hiddenWaReportText');
+      copyTextarea.select();
+      copyTextarea.setSelectionRange(0, 99999);
+      
+      try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+          showToast('Laporan WA berhasil disalin ke Clipboard!');
+        } else {
+          showToast('Gagal menyalin otomatis, silakan salin manual');
+        }
+      } catch (err) {
+        showToast('Gagal menyalin teks');
+      }
+    }
+
+    function applyAIDraftToTransaction() {
+      var vendorName = document.getElementById('aiVendorNameInput').value || 'Transaksi';
+      var nominal = parseFloat(document.getElementById('aiTotalAmountInput').value) || 0;
+      var category = document.getElementById('aiCategoryInput').value || 'Makan & Nongkrong';
+      var notes = document.getElementById('aiNotesInput').value || '';
+
+      if (notes.indexOf(vendorName) === -1) {
+        notes = vendorName + (notes ? ' - ' + notes : '');
+      }
+
+      document.getElementById('inPihak').value = 'Hatami';
+      document.getElementById('inTipe').value = 'Pengeluaran';
+      document.getElementById('inNominal').value = nominal;
+      document.getElementById('inKategori').value = category;
+      document.getElementById('inCatatan').value = notes;
+
+      var firstSidebarItem = document.querySelectorAll('.sidebar-item')[0];
+      switchTab('tab-tabungan', firstSidebarItem);
+      openTabunganModal();
+      showToast('Draf AI berhasil diisikan ke Form Pengeluaran!');
+    }
+
+    function renderPagination(containerId, current, total, callbackName) {
+      var container = document.getElementById(containerId);
+      if (total <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      var html = '';
+      if (current > 1) {
+        html += '<button class="btn btn-secondary" onclick="' + callbackName + '(' + (current - 1) + ')"><i class="fa-solid fa-chevron-left"></i> Prev</button>';
+      }
+      html += '<span style="display:flex; align-items:center; font-size:0.85rem; color:var(--text-muted);">' + current + ' / ' + total + '</span>';
+      if (current < total) {
+        html += '<button class="btn btn-secondary" onclick="' + callbackName + '(' + (current + 1) + ')">Next <i class="fa-solid fa-chevron-right"></i></button>';
+      }
+      container.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
