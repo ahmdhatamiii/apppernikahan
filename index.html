@@ -1066,20 +1066,7 @@
 
     <!-- Tab 2: Planner -->
     <section id="tab-planner" class="tab-content">
-      <div class="dashboard-grid">
-        <div class="glass-card">
-          <div class="card-label">Estimasi Lamaran</div>
-          <div class="card-value" id="estLamaran">Rp 0</div>
-        </div>
-        <div class="glass-card">
-          <div class="card-label">Estimasi Wedding (Akad & Resepsi)</div>
-          <div class="card-value blue" id="estWedding">Rp 0</div>
-        </div>
-        <div class="glass-card" style="grid-column: span 2;">
-          <div class="card-label">Total Biaya Pernikahan</div>
-          <div class="card-value neon" id="estTotalPernikahan">Rp 0</div>
-        </div>
-      </div>
+
 
       <div class="action-bar">
         <button class="btn btn-primary" onclick="openPlannerModal()">
@@ -1398,7 +1385,58 @@
         </div>
       </form>
     </div>
+  <!-- Modal Bayar Vendor (Konek ke Tabungan) -->
+  <div id="modalBayarVendor" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalBayarTitle">Update Pembayaran Vendor</h3>
+        <button class="close-btn" onclick="closeModal('modalBayarVendor')">&times;</button>
+      </div>
+      <form id="formBayarVendor" onsubmit="submitBayarVendorForm(event)">
+        <input type="hidden" id="payVendorId">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nama Vendor</label>
+            <input type="text" id="payVendorNama" class="form-control" readonly style="background: var(--bg-main); font-weight: 700;">
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Estimasi Total Biaya</label>
+            <input type="text" id="payVendorEstimasi" class="form-control" readonly style="background: var(--bg-main);">
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Status Pembayaran Baru</label>
+            <select id="payVendorStatus" class="form-control" required>
+              <option value="DP">DP (Uang Muka)</option>
+              <option value="Lunas">Lunas (Pelunasan)</option>
+              <option value="Belum Dibayar">Belum Dibayar</option>
+            </select>
+          </div>
+          <div id="boxCatatPengeluaran" style="border: 1px dashed var(--border-color); border-radius: var(--radius-md); padding: 12px; background: rgba(255,255,255,0.6);">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px; cursor: pointer; margin-bottom: 10px;">
+              <input type="checkbox" id="checkCatatTabungan" checked style="accent-color: var(--accent-neon);">
+              Catat langsung sebagai Pengeluaran Tabungan
+            </label>
+            <div id="detailCatatTabungan" style="display: flex; flex-direction: column; gap: 10px;">
+              <div>
+                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Pihak Sumber Dana</label>
+                <select id="paySumberDana" class="form-control">
+                  <option value="Bersama">Bersama (Kas Bersama)</option>
+                  <option value="Hatami">Hatami</option>
+                  <option value="Naning">Naning</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nominal yang Dibayarkan Sekarang (Rp)</label>
+                <input type="number" id="payNominalBayar" class="form-control" placeholder="Contoh: 5000000">
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 6px;">Simpan & Update Pembayaran</button>
+        </div>
+      </form>
+    </div>
   </div>
+
 
   <div id="modalSeserahan" class="modal-overlay">
     <div class="modal-card">
@@ -1713,11 +1751,15 @@
       document.getElementById('dashPengeluaran').innerText = formatRupiah(data.totalPengeluaran);
       document.getElementById('dashSisaSaldo').innerText = formatRupiah(data.sisaSaldo);
 
-      document.getElementById('estLamaran').innerText = formatRupiah(data.estimasiLamaran);
+      if (document.getElementById('estLamaran')) {
+        document.getElementById('estLamaran').innerText = formatRupiah(data.estimasiLamaran);
+      }
       if (document.getElementById('estWedding')) {
         document.getElementById('estWedding').innerText = formatRupiah(data.estimasiWedding || ((data.estimasiAkad || 0) + (data.estimasiResepsi || 0)));
       }
-      document.getElementById('estTotalPernikahan').innerText = formatRupiah(data.totalEstimasiPernikahan);
+      if (document.getElementById('estTotalPernikahan')) {
+        document.getElementById('estTotalPernikahan').innerText = formatRupiah(data.totalEstimasiPernikahan);
+      }
 
       if (document.getElementById('dashTotalSeserahan')) {
         document.getElementById('dashTotalSeserahan').innerText = formatRupiah(data.totalSeserahan);
@@ -1919,12 +1961,12 @@
                   '</div>' +
                   '<div class="item-right">' +
                     '<div class="item-amount neon">' + formatRupiah(item.estimasiBiaya) + '</div>' +
-                    '<div style="margin-top:8px; display:flex; gap:8px; justify-content:flex-end;">' +
-                      '<button onclick="toggleVendorStatus(\'' + item.id + '\', \'' + item.statusBayar + '\')" style="background:none; border:none; color:var(--accent-cream-dark); cursor:pointer; font-size:0.8rem;">' +
-                        '<i class="fa-solid fa-sync"></i> Ubah Status' +
+                    '<div style="margin-top:8px; display:flex; gap:8px; justify-content:flex-end; align-items:center;">' +
+                      '<button onclick="openBayarVendorModal(\'' + item.id + '\', \'' + encodeURIComponent(item.namaVendor) + '\', ' + item.estimasiBiaya + ', \'' + item.statusBayar + '\', \'' + item.tahapan + '\')" class="btn" style="padding:4px 10px; font-size:0.75rem; background:linear-gradient(135deg, var(--accent-neon), var(--accent-neon-hover)); color:#fff; border:none; border-radius:6px; cursor:pointer;">' +
+                        '<i class="fa-solid fa-money-bill-wave"></i> Bayar / Update' +
                       '</button>' +
-                      '<button onclick="deleteVendor(\'' + item.id + '\')" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-size:0.8rem;">' +
-                        '<i class="fa-solid fa-trash"></i> Hapus' +
+                      '<button onclick="deleteVendor(\'' + item.id + '\')" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-size:0.8rem; padding:4px 6px;">' +
+                        '<i class="fa-solid fa-trash"></i>' +
                       '</button>' +
                     '</div>' +
                   '</div>' +
@@ -1941,6 +1983,72 @@
     }
 
     function openPlannerModal() { openModal('modalPlanner'); }
+
+    var activeVendorForPay = null;
+
+    function openBayarVendorModal(id, encodedNama, estimasi, currentStatus, tahapan) {
+      var nama = decodeURIComponent(encodedNama);
+      activeVendorForPay = { id: id, nama: nama, estimasi: estimasi, tahapan: tahapan };
+      document.getElementById('payVendorId').value = id;
+      document.getElementById('payVendorNama').value = nama;
+      document.getElementById('payVendorEstimasi').value = formatRupiah(estimasi);
+      document.getElementById('payVendorStatus').value = currentStatus === 'Belum Dibayar' ? 'DP' : (currentStatus === 'DP' ? 'Lunas' : currentStatus);
+      document.getElementById('payNominalBayar').value = estimasi || '';
+      document.getElementById('checkCatatTabungan').checked = true;
+      document.getElementById('detailCatatTabungan').style.display = 'flex';
+      openModal('modalBayarVendor');
+    }
+
+    // Toggle input nominal jika checkbox tabungan dicentang/tidak
+    document.addEventListener('DOMContentLoaded', function() {
+      var chk = document.getElementById('checkCatatTabungan');
+      if (chk) {
+        chk.addEventListener('change', function() {
+          document.getElementById('detailCatatTabungan').style.display = this.checked ? 'flex' : 'none';
+        });
+      }
+    });
+
+    function submitBayarVendorForm(e) {
+      e.preventDefault();
+      var id = document.getElementById('payVendorId').value;
+      var newStatus = document.getElementById('payVendorStatus').value;
+      var catatTabungan = document.getElementById('checkCatatTabungan').checked;
+      var sumberDana = document.getElementById('paySumberDana').value;
+      var nominalBayar = parseFloat(document.getElementById('payNominalBayar').value) || 0;
+      var namaVendor = document.getElementById('payVendorNama').value;
+
+      closeModal('modalBayarVendor');
+      showToast('Memproses update pembayaran...');
+
+      if (isGoogleAvailable()) {
+        // 1. Update status vendor
+        google.script.run.withSuccessHandler(function(res) {
+          // 2. Jika dicentang, catat ke transaksi Tabungan sebagai Pengeluaran
+          if (catatTabungan && nominalBayar > 0) {
+            var tabunganPayload = {
+              pihak: sumberDana,
+              tipe: 'Pengeluaran',
+              kategori: 'Bayar Vendor: ' + namaVendor + ' (' + newStatus + ')',
+              nominal: nominalBayar,
+              catatan: 'Pembayaran ' + newStatus + ' vendor ' + namaVendor + ' (' + (activeVendorForPay ? activeVendorForPay.tahapan : 'Planner') + ')'
+            };
+            google.script.run.withSuccessHandler(function(tRes) {
+              showToast('Status vendor & pengeluaran tabungan berhasil disimpan!');
+              refreshDashboard();
+              loadPlannerData(currentPlannerPage);
+              loadTabunganData(1);
+            }).addTabunganTransaction(tabunganPayload);
+          } else {
+            showToast('Status pembayaran vendor diperbarui!');
+            refreshDashboard();
+            loadPlannerData(currentPlannerPage);
+          }
+        }).updateVendorStatus(id, newStatus);
+      } else {
+        showToast('Simulasi update pembayaran berhasil (Canvas Mode)');
+      }
+    }
 
     function submitPlannerForm(e) {
       e.preventDefault();
@@ -1972,19 +2080,7 @@
     }
 
     function toggleVendorStatus(id, currentStatus) {
-      var nextStatus = currentStatus === 'Belum Dibayar' ? 'DP' : (currentStatus === 'DP' ? 'Lunas' : 'Belum Dibayar');
-      showToast('Mengubah status ke ' + nextStatus + '...');
-
-      if (isGoogleAvailable()) {
-        google.script.run.withSuccessHandler(function(res) {
-          if (res.success) {
-            showToast(res.message);
-            loadPlannerData(currentPlannerPage);
-          }
-        }).updateVendorStatus(id, nextStatus);
-      } else {
-        showToast('Status diperbarui ke ' + nextStatus + ' (Canvas Mode)');
-      }
+      openBayarVendorModal(id, '', 0, currentStatus, '');
     }
 
     function deleteVendor(id) {
