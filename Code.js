@@ -114,8 +114,7 @@ function getDashboardSummary() {
 
     
     var estimasiLamaran = 0;
-    var estimasiAkad = 0;
-    var estimasiResepsi = 0;
+    var estimasiWedding = 0;
     
     if (plannerSheet && plannerSheet.getLastRow() > 1) {
       var pRows = plannerSheet.getRange(2, 1, plannerSheet.getLastRow() - 1, 7).getDisplayValues();
@@ -125,10 +124,10 @@ function getDashboardSummary() {
         var estBiaya = parseFloat(estStr) || 0;
         
         if (tahapan === "Lamaran") estimasiLamaran += estBiaya;
-        if (tahapan === "Akad") estimasiAkad += estBiaya;
-        if (tahapan === "Resepsi") estimasiResepsi += estBiaya;
+        else if (tahapan === "Wedding" || tahapan === "Akad" || tahapan === "Resepsi") estimasiWedding += estBiaya;
       }
     }
+
 
     var totalSeserahan = 0;
     var totalSeserahanDibeli = 0;
@@ -207,9 +206,8 @@ function getDashboardSummary() {
         totalPengeluaran: totalPengeluaran,
         sisaSaldo: sisaSaldo,
         estimasiLamaran: estimasiLamaran,
-        estimasiAkad: estimasiAkad,
-        estimasiResepsi: estimasiResepsi,
-        totalEstimasiPernikahan: estimasiLamaran + estimasiAkad + estimasiResepsi,
+        estimasiWedding: estimasiWedding,
+        totalEstimasiPernikahan: estimasiLamaran + estimasiWedding,
         totalSeserahan: totalSeserahan,
         totalSeserahanDibeli: totalSeserahanDibeli,
         totalSeserahanWishlist: totalSeserahanWishlist,

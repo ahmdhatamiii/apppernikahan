@@ -1072,14 +1072,10 @@
           <div class="card-value" id="estLamaran">Rp 0</div>
         </div>
         <div class="glass-card">
-          <div class="card-label">Estimasi Akad</div>
-          <div class="card-value" id="estAkad">Rp 0</div>
+          <div class="card-label">Estimasi Wedding (Akad & Resepsi)</div>
+          <div class="card-value blue" id="estWedding">Rp 0</div>
         </div>
-        <div class="glass-card">
-          <div class="card-label">Estimasi Resepsi</div>
-          <div class="card-value" id="estResepsi">Rp 0</div>
-        </div>
-        <div class="glass-card">
+        <div class="glass-card" style="grid-column: span 2;">
           <div class="card-label">Total Biaya Pernikahan</div>
           <div class="card-value neon" id="estTotalPernikahan">Rp 0</div>
         </div>
@@ -1094,8 +1090,7 @@
           <select id="filterTahapan" class="form-control" onchange="loadPlannerData(1)">
             <option value="All">Semua Tahapan</option>
             <option value="Lamaran">Lamaran</option>
-            <option value="Akad">Akad</option>
-            <option value="Resepsi">Resepsi</option>
+            <option value="Wedding">Wedding</option>
           </select>
           <select id="filterStatus" class="form-control" onchange="loadPlannerData(1)">
             <option value="All">Semua Status</option>
@@ -1372,8 +1367,7 @@
             <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Tahapan Acara</label>
             <select id="inTahapan" class="form-control" required>
               <option value="Lamaran">Lamaran</option>
-              <option value="Akad">Akad</option>
-              <option value="Resepsi">Resepsi</option>
+              <option value="Wedding">Wedding (Akad & Resepsi)</option>
             </select>
           </div>
           <div>
@@ -1720,8 +1714,9 @@
       document.getElementById('dashSisaSaldo').innerText = formatRupiah(data.sisaSaldo);
 
       document.getElementById('estLamaran').innerText = formatRupiah(data.estimasiLamaran);
-      document.getElementById('estAkad').innerText = formatRupiah(data.estimasiAkad);
-      document.getElementById('estResepsi').innerText = formatRupiah(data.estimasiResepsi);
+      if (document.getElementById('estWedding')) {
+        document.getElementById('estWedding').innerText = formatRupiah(data.estimasiWedding || ((data.estimasiAkad || 0) + (data.estimasiResepsi || 0)));
+      }
       document.getElementById('estTotalPernikahan').innerText = formatRupiah(data.totalEstimasiPernikahan);
 
       if (document.getElementById('dashTotalSeserahan')) {
