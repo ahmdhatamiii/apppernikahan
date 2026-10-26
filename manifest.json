@@ -1,0 +1,22 @@
+{
+  "name": "Wedding Planner & Savings - Hatami & Naning",
+  "short_name": "WeddingApp",
+  "description": "Aplikasi Wedding Planner, Tabungan Bersama, Seserahan, Pemberkasan KUA & Tamu Undangan Hatami & Naning",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "window-controls-overlay"],
+  "orientation": "portrait-primary",
+  "background_color": "#f6f4ef",
+  "theme_color": "#5b7a5e",
+  "categories": ["lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%235b7a5e'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23f6f4ef'/%3E%3Cpath d='M256 160 C230 110, 160 110, 160 180 C160 250, 256 340, 256 340 C256 340, 352 250, 352 180 C352 110, 282 110, 256 160 Z' fill='%23c2725a'/%3E%3C/svg%3E",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
