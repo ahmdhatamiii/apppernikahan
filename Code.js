@@ -5,12 +5,41 @@
  */
 
 function doGet(e) {
+  if (e && e.parameter && e.parameter.action) {
+    return handleApiRequest(e.parameter.action, e.parameter.params);
+  }
   var template = HtmlService.createTemplateFromFile('index');
   return template.evaluate()
     .setTitle('Wedding Planner & Savings Manager - Hatami & Naning')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
+
+function doPost(e) {
+  var raw = (e && e.postData && e.postData.contents) ? e.postData.contents : "{}";
+  var payload = JSON.parse(raw);
+  return handleApiRequest(payload.action, JSON.stringify(payload.params || []));
+}
+
+function handleApiRequest(action, rawParams) {
+  try {
+    var params = [];
+    if (rawParams) {
+      try { params = JSON.parse(rawParams); } catch(err) { params = [rawParams]; }
+    }
+    var globalScope = this;
+    if (typeof globalScope[action] === "function") {
+      var result = globalScope[action].apply(globalScope, params);
+      return ContentService.createTextOutput(JSON.stringify(result !== undefined ? result : { success: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    throw new Error("Action '" + action + "' tidak ditemukan.");
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
 
 function include(filename) {
   return HtmlService.createTemplateFromFile(filename).getRawContent();

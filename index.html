@@ -1560,9 +1560,70 @@
     var kuaSearchTimeout = null;
     var tamuSearchTimeout = null;
 
-    function isGoogleAvailable() {
-      return typeof google !== 'undefined' && google.script && google.script.run;
+    var GAS_PROXY_URL = "/api/gas";
+
+    // Vercel / External Host Compatibility: Proxy Shim untuk google.script.run
+    if (typeof google === 'undefined' || !google.script || !google.script.run) {
+      window.google = window.google || {};
+      window.google.script = window.google.script || {};
+
+      function createGasRunner(successHandler, failureHandler, userObj) {
+        var runner = {
+          withSuccessHandler: function(fn) {
+            return createGasRunner(fn, failureHandler, userObj);
+          },
+          withFailureHandler: function(fn) {
+            return createGasRunner(successHandler, fn, userObj);
+          },
+          withUserObject: function(obj) {
+            return createGasRunner(successHandler, failureHandler, obj);
+          }
+        };
+
+        return new Proxy(runner, {
+          get: function(target, propKey) {
+            if (propKey in target) return target[propKey];
+            if (propKey === 'then' || propKey === 'toJSON' || typeof propKey === 'symbol') return undefined;
+
+            return function() {
+              var args = Array.prototype.slice.call(arguments);
+              var url = GAS_PROXY_URL
+                + "?action=" + encodeURIComponent(propKey)
+                + "&params=" + encodeURIComponent(JSON.stringify(args));
+
+              fetch(url, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+              })
+              .then(function(res) {
+                if (!res.ok) throw new Error("HTTP " + res.status);
+                return res.json();
+              })
+              .then(function(data) {
+                if (data && (data.status === 'error' || data.success === false)) {
+                  var err = new Error(data.message || data.error || 'Unknown GAS error');
+                  if (failureHandler) failureHandler(err, userObj);
+                  else console.error("[GAS Shim] Error:", err);
+                } else {
+                  if (successHandler) successHandler(data, userObj);
+                }
+              })
+              .catch(function(err) {
+                console.error("[GAS Shim] RPC failure for " + propKey + ":", err);
+                if (failureHandler) failureHandler(err, userObj);
+              });
+            };
+          }
+        });
+      }
+
+      window.google.script.run = createGasRunner();
     }
+
+    function isGoogleAvailable() {
+      return true;
+    }
+
 
     document.addEventListener('DOMContentLoaded', function() {
       refreshDashboard();
