@@ -649,6 +649,7 @@
 
     .badge-hatami { background: var(--sage-light); color: var(--sage-dark); border: 1px solid rgba(91, 122, 94, 0.2); }
     .badge-naning { background: rgba(194, 114, 90, 0.12); color: var(--accent-pink); border: 1px solid rgba(194, 114, 90, 0.2); }
+    .badge-bersama { background: rgba(59, 130, 246, 0.12); color: #2563eb; border: 1px solid rgba(59, 130, 246, 0.2); }
     .badge-pemasukan { background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.2); }
     .badge-pengeluaran { background: rgba(192, 57, 43, 0.1); color: var(--accent-danger); border: 1px solid rgba(192, 57, 43, 0.2); }
     .badge-lunas { background: rgba(16, 185, 129, 0.1); color: #059669; }
@@ -1049,6 +1050,7 @@
             <option value="All">Semua Pihak</option>
             <option value="Hatami">Hatami</option>
             <option value="Naning">Naning</option>
+            <option value="Bersama">Bersama</option>
           </select>
           <select id="filterTipe" class="form-control" onchange="loadTabunganData(1)">
             <option value="All">Semua Tipe</option>
@@ -1330,6 +1332,7 @@
             <select id="inPihak" class="form-control" required>
               <option value="Hatami">Hatami</option>
               <option value="Naning">Naning</option>
+              <option value="Bersama">Bersama</option>
             </select>
           </div>
           <div>
@@ -1789,7 +1792,7 @@
       var html = '';
       for (var i = 0; i < items.length; i++) {
         var item = items[i];
-        var pihakBadgeClass = item.pihak === 'Hatami' ? 'badge-hatami' : 'badge-naning';
+        var pihakBadgeClass = item.pihak === 'Hatami' ? 'badge-hatami' : (item.pihak === 'Bersama' ? 'badge-bersama' : 'badge-naning');
         var tipeBadgeClass = item.tipe === 'Pemasukan' ? 'badge-pemasukan' : 'badge-pengeluaran';
         var nominalSign = item.tipe === 'Pemasukan' ? '+' : '-';
         var nominalColorClass = item.tipe === 'Pemasukan' ? 'neon' : 'danger';

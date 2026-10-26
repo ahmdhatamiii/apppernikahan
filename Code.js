@@ -88,6 +88,7 @@ function getDashboardSummary() {
     
     var totalHatami = 0;
     var totalNaning = 0;
+    var totalBersama = 0;
     var totalPengeluaran = 0;
     
     if (tabunganSheet && tabunganSheet.getLastRow() > 1) {
@@ -100,15 +101,17 @@ function getDashboardSummary() {
         
         if (tipe === "Pemasukan") {
           if (pihak === "Hatami") totalHatami += nominal;
-          if (pihak === "Naning") totalNaning += nominal;
+          else if (pihak === "Naning") totalNaning += nominal;
+          else if (pihak === "Bersama") totalBersama += nominal;
         } else if (tipe === "Pengeluaran") {
           totalPengeluaran += nominal;
         }
       }
     }
     
-    var totalAkumulasi = totalHatami + totalNaning;
+    var totalAkumulasi = totalHatami + totalNaning + totalBersama;
     var sisaSaldo = totalAkumulasi - totalPengeluaran;
+
     
     var estimasiLamaran = 0;
     var estimasiAkad = 0;
@@ -199,6 +202,7 @@ function getDashboardSummary() {
       data: {
         totalHatami: totalHatami,
         totalNaning: totalNaning,
+        totalBersama: totalBersama,
         totalAkumulasi: totalAkumulasi,
         totalPengeluaran: totalPengeluaran,
         sisaSaldo: sisaSaldo,
