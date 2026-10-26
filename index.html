@@ -1328,6 +1328,15 @@
             <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nominal (Rp)</label>
             <input type="number" id="inNominal" class="form-control" placeholder="Contoh: 500000" required>
           </div>
+          <div id="rowVendorSelector" style="display: none; background: rgba(91, 122, 94, 0.08); border: 1px dashed var(--accent-neon); border-radius: var(--radius-md); padding: 10px;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--accent-neon); display: block; margin-bottom: 4px;">
+              <i class="fa-solid fa-store"></i> Pilih Vendor yang Dibayar / Dilunasi
+            </label>
+            <select id="inVendorSelect" class="form-control" onchange="onVendorSelectChange(this)">
+              <option value="">-- Bukan Pembayaran Vendor (Manual) --</option>
+            </select>
+            <div id="vendorHint" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; display: none;"></div>
+          </div>
           <div>
             <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Kategori</label>
             <input type="text" id="inKategori" class="form-control" placeholder="Contoh: Tabungan Bulanan, DP Venue, Makan" required>
@@ -1862,14 +1871,86 @@
       }, 300);
     }
 
-    function openTabunganModal() { openModal('modalTabungan'); }
+    var cachedVendorOptions = [];
+
+    function openTabunganModal() {
+      // Reset inputan vendor
+      var sel = document.getElementById('inVendorSelect');
+      if (sel) sel.value = '';
+      document.getElementById('vendorHint').style.display = 'none';
+
+      // Pasang listener tipe transaksi untuk menampilkan/menyembunyikan selector vendor
+      var tipeSelect = document.getElementById('inTipe');
+      var rowVendor = document.getElementById('rowVendorSelector');
+      tipeSelect.onchange = function() {
+        if (this.value === 'Pengeluaran') {
+          rowVendor.style.display = 'block';
+          populateVendorDropdown();
+        } else {
+          rowVendor.style.display = 'none';
+        }
+      };
+
+      if (tipeSelect.value === 'Pengeluaran') {
+        rowVendor.style.display = 'block';
+        populateVendorDropdown();
+      } else {
+        rowVendor.style.display = 'none';
+      }
+
+      openModal('modalTabungan');
+    }
+
+    function populateVendorDropdown() {
+      var sel = document.getElementById('inVendorSelect');
+      sel.innerHTML = '<option value="">-- Sedang memuat vendor... --</option>';
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.success && res.vendors) {
+            cachedVendorOptions = res.vendors;
+            var opts = '<option value="">-- Bukan Pembayaran Vendor (Manual) --</option>';
+            res.vendors.forEach(function(v) {
+              opts += '<option value="' + v.id + '" data-price="' + v.estimasiBiaya + '" data-name="' + encodeURIComponent(v.namaVendor) + '" data-status="' + v.statusBayar + '" data-tahapan="' + v.tahapan + '">' +
+                        v.namaVendor + ' (' + v.tahapan + ' - ' + formatRupiah(v.estimasiBiaya) + ' [' + v.statusBayar + '])' +
+                      '</option>';
+            });
+            sel.innerHTML = opts;
+          }
+        }).getActiveVendorList();
+      } else {
+        sel.innerHTML = '<option value="">-- Bukan Pembayaran Vendor (Manual) --</option>';
+      }
+    }
+
+    function onVendorSelectChange(el) {
+      var opt = el.options[el.selectedIndex];
+      var hint = document.getElementById('vendorHint');
+      if (el.value && opt) {
+        var price = opt.getAttribute('data-price');
+        var name = decodeURIComponent(opt.getAttribute('data-name') || '');
+        var status = opt.getAttribute('data-status');
+        var tahapan = opt.getAttribute('data-tahapan');
+
+        document.getElementById('inNominal').value = price || '';
+        document.getElementById('inKategori').value = 'Pelunasan Vendor: ' + name;
+        document.getElementById('inCatatan').value = 'Pembayaran vendor ' + name + ' (' + tahapan + '), estimasi ' + formatRupiah(price) + '. Status sebelum: ' + status;
+
+        hint.style.display = 'block';
+        hint.innerHTML = '<i class="fa-solid fa-circle-info"></i> Otomatis mengisi nominal estimasi ' + formatRupiah(price) + '. Status vendor akan otomatis diperbarui menjadi <strong>Lunas</strong> setelah disimpan.';
+      } else {
+        hint.style.display = 'none';
+      }
+    }
 
     function submitTabunganForm(e) {
       e.preventDefault();
+      var selectedVendorId = document.getElementById('inVendorSelect').value;
+      var nominal = parseFloat(document.getElementById('inNominal').value) || 0;
       var formData = {
         pihak: document.getElementById('inPihak').value,
         tipe: document.getElementById('inTipe').value,
-        nominal: parseFloat(document.getElementById('inNominal').value) || 0,
+        nominal: nominal,
         kategori: document.getElementById('inKategori').value,
         catatan: document.getElementById('inCatatan').value
       };
@@ -1884,6 +1965,13 @@
             document.getElementById('formTabungan').reset();
             refreshDashboard();
             loadTabunganData(1);
+
+            // Jika transaksi untuk vendor, update status vendor menjadi Lunas otomatis!
+            if (selectedVendorId) {
+              google.script.run.withSuccessHandler(function() {
+                loadPlannerData(currentPlannerPage);
+              }).updateVendorStatus(selectedVendorId, 'Lunas');
+            }
           } else {
             showToast('Gagal: ' + res.error);
           }

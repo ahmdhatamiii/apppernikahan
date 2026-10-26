@@ -454,6 +454,34 @@ function updateVendorStatus(id, newStatus) {
   }
 }
 
+function getActiveVendorList() {
+  try {
+    var ss = SpreadsheetApp.openById('1ClFtKsRoFBGoJWZWlHnOYH02_msdueHbjVMZSLZaA5E');
+    var sheet = ss.getSheetByName("Planner");
+    if (!sheet || sheet.getLastRow() <= 1) {
+      return { success: true, vendors: [] };
+    }
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 7).getDisplayValues();
+    var list = [];
+    for (var i = 0; i < rows.length; i++) {
+      var price = parseFloat(rows[i][4].toString().replace(/[^0-9.-]+/g, "")) || 0;
+      list.push({
+        id: rows[i][0],
+        tahapan: rows[i][1],
+        kategori: rows[i][2],
+        namaVendor: rows[i][3],
+        estimasiBiaya: price,
+        estimasiFormatted: rows[i][4],
+        statusBayar: rows[i][5]
+      });
+    }
+    return { success: true, vendors: list };
+  } catch (err) {
+    return { success: false, error: err.toString(), vendors: [] };
+  }
+}
+
+
 function deletePlannerVendor(id) {
   try {
     var ss = SpreadsheetApp.openById('1ClFtKsRoFBGoJWZWlHnOYH02_msdueHbjVMZSLZaA5E');
