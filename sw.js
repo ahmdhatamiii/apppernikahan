@@ -1,37 +1,17 @@
-const CACHE_NAME = 'wedding-app-v1';
-const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json'
-];
-
+// Force unregister and clear cache for seamless instant update
 self.addEventListener('install', (e) => {
   self.skipWaiting();
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE)).catch(() => {})
-  );
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) return caches.delete(key);
-        })
-      );
+      return Promise.all(keys.map((k) => caches.delete(k)));
     }).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (e) => {
-  // Biarkan request API ke /api/gas tetap live network
-  if (e.request.url.includes('/api/gas')) {
-    return;
-  }
-  e.respondWith(
-    caches.match(e.request).then((res) => {
-      return res || fetch(e.request);
-    }).catch(() => caches.match('/index.html'))
-  );
+  // Always fetch live from network
+  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
 });
