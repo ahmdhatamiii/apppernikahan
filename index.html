@@ -481,7 +481,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-xs text-stone-400 font-medium">Target Total Anggaran</span>
-                                <h3 class="text-2xl font-bold font-serif text-amber-300">Rp 150.000.000</h3>
+                                <h3 class="text-2xl font-bold font-serif text-amber-300">Rp 50.000.000</h3>
                             </div>
                             <button onclick="openModal('editTargetBudgetModal')"
                                 class="text-stone-300 hover:text-white p-1">
@@ -492,7 +492,7 @@
                         <div class="grid grid-cols-2 gap-3 pt-2 border-t border-stone-700/80">
                             <div>
                                 <span class="text-[11px] text-stone-400 block">Total Pengeluaran</span>
-                                <span class="text-sm font-bold text-rose-300" id="totalSpentText">Rp 65.500.000</span>
+                                <span class="text-sm font-bold text-rose-300" id="totalSpentText">Rp 3.583.000</span>
                             </div>
                             <div>
                                 <span class="text-[11px] text-stone-400 block">Sisa Saldo Aman</span>
@@ -1187,7 +1187,9 @@
             currentTab: 'home',
             plannerSubTab: 'checklist',
             undanganSubTab: 'tamu',
-            totalBudget: 150000000,
+            totalBudget: 50000000,
+            saldoTerkumpul: 22227311,
+            sisaSaldoTabungan: 18644311,
 
             // Data Checklist Timeline
             checklist: [
@@ -1213,6 +1215,22 @@
 
             // Direktori Vendor Lengkap
             vendors: [
+                {
+                    id: 'VND-0001',
+                    name: 'Rinto Sujarwo Photography & Film',
+                    category: 'photo',
+                    categoryLabel: '📸 FG & Videografi',
+                    city: 'Palembang / Banyuasin',
+                    rating: 5.0,
+                    reviewsCount: 38,
+                    priceRange: 'Rp 10.250.000',
+                    image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=700&q=80',
+                    gallery: ['https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=700&q=80'],
+                    description: 'Dokumentasi foto & sinematik video pernikahan Hatami & Naning. Tahapan: Wedding. DP 1jt, pelunasan 3x termin sesuai catatan planner.',
+                    packages: [
+                        { id: 'v-rinto-1', title: 'Paket Wedding FG & Cinematic Video', price: 10250000, dp: 1000000, perks: ['Dokumentasi Akad & Resepsi', 'Video Teaser Cinematic Reels', 'Album Kolase Hardcover'] }
+                    ]
+                },
                 {
                     id: 1,
                     name: 'Plataran Cilandak Garden Venue',
