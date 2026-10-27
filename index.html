@@ -354,7 +354,13 @@
             <section id="tab-vendor" class="hidden space-y-4 p-4 pt-2">
                 <div class="pt-2">
                     <h1 class="text-xl font-serif font-bold text-stone-900">Direktori Vendor</h1>
-                    <p class="text-xs text-stone-500">Temukan mitra terbaik untuk hari istimewa Anda</p>
+                    <div class="flex justify-between items-center">
+                        <p class="text-xs text-stone-500">Daftar mitra pernikahan Anda</p>
+                        <button onclick="openModal('addVendorModal')" class="bg-stone-900 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow active:scale-95 transition flex items-center space-x-1">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            <span>+ Tambah Vendor</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Search Bar -->
@@ -1202,6 +1208,74 @@
             </div>
         </div>
 
+        <!-- ================= MODAL: TAMBAH VENDOR KE SPREADSHEET ================= -->
+        <div id="addVendorModal"
+            class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
+            <div class="bg-white rounded-t-3xl p-5 space-y-4">
+                <div class="flex justify-between items-center pb-2 border-b border-stone-100">
+                    <h3 class="font-bold text-sm text-stone-900">Tambah Vendor Baru ke Spreadsheet</h3>
+                    <button onclick="closeModal('addVendorModal')" class="text-stone-400 hover:text-stone-600">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-stone-700 mb-1">Nama Vendor:</label>
+                        <input type="text" id="newVendorName" placeholder="Contoh: Rinto Sujarwo Photography"
+                            class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs focus:ring-2 focus:ring-rose-400 focus:outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Kategori:</label>
+                            <select id="newVendorKategori" class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                                <option value="Venue">Venue & Gedung</option>
+                                <option value="Catering">Catering</option>
+                                <option value="MUA & Busana">MUA & Busana</option>
+                                <option value="FG & Video">FG / Dokumentasi</option>
+                                <option value="Dekorasi">Dekorasi</option>
+                                <option value="WO">Wedding Organizer</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Tahapan Acara:</label>
+                            <select id="newVendorTahapan" class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                                <option value="Wedding">Wedding</option>
+                                <option value="Lamaran">Lamaran</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Estimasi Biaya (Rp):</label>
+                            <input type="number" id="newVendorBiaya" placeholder="Contoh: 10000000"
+                                class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs focus:ring-2 focus:ring-rose-400 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Status Bayar:</label>
+                            <select id="newVendorStatusBayar" class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                                <option value="Belum Bayar">Belum Bayar</option>
+                                <option value="DP">DP</option>
+                                <option value="Lunas">Lunas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-stone-700 mb-1">Catatan Tambahan:</label>
+                        <input type="text" id="newVendorCatatan" placeholder="Contoh: Dp 1jt, pelunasan 3x"
+                            class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                    </div>
+                </div>
+
+                <button onclick="submitNewVendorToPlanner()"
+                    class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-3 rounded-2xl active:scale-98 transition">
+                    Simpan ke Spreadsheet Planner
+                </button>
+            </div>
+        </div>
         <!-- ================= MODAL: CATAT PENGELUARAN BARU ================= -->
         <div id="addExpenseModal"
             class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
@@ -1914,7 +1988,10 @@
           <div class="text-center py-10 bg-white rounded-3xl border border-stone-200 p-4">
             <i data-lucide="search-x" class="w-8 h-8 mx-auto text-stone-400 mb-2"></i>
             <p class="text-xs font-semibold text-stone-700">Vendor tidak ditemukan</p>
-            <p class="text-[11px] text-stone-400 mt-1">Coba gunakan kata kunci pencarian atau kategori lain.</p>
+            <p class="text-[11px] text-stone-400 mt-1">Belum ada vendor terdaftar di Spreadsheet.</p>
+            <button onclick="openModal('addVendorModal')" class="mt-3 bg-rose-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow active:scale-95 transition">
+                + Tambah Vendor Sekarang
+            </button>
           </div>
         `;
                 return;
@@ -2648,6 +2725,38 @@
         }
 
         /* ================= SETUP PERSONA LOGIC ================= */
+
+        function submitNewVendorToPlanner() {
+            const nama = document.getElementById('newVendorName').value.trim();
+            const kategori = document.getElementById('newVendorKategori').value;
+            const tahapan = document.getElementById('newVendorTahapan').value;
+            const biaya = parseFloat(document.getElementById('newVendorBiaya').value) || 0;
+            const status = document.getElementById('newVendorStatusBayar').value;
+            const catatan = document.getElementById('newVendorCatatan').value.trim();
+
+            if (!nama || biaya <= 0) {
+                showToast('Mohon isi nama vendor dan estimasi biaya.');
+                return;
+            }
+
+            closeModal('addVendorModal');
+            showToast('Menyimpan vendor ke Spreadsheet Planner...');
+
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run.withSuccessHandler(function(res) {
+                    showToast('✅ Vendor berhasil masuk ke Spreadsheet!');
+                    syncDataFromSpreadsheet();
+                }).addPlannerVendor({
+                    tahapan: tahapan,
+                    kategori: kategori,
+                    namaVendor: nama,
+                    estimasiBiaya: biaya,
+                    statusBayar: status,
+                    catatan: catatan
+                });
+            }
+        }
+
         function savePersonaSettings() {
             const pria = document.getElementById('setupNamaPria').value.trim() || 'Hatami';
             const wanita = document.getElementById('setupNamaWanita').value.trim() || 'Naning';
@@ -2671,11 +2780,12 @@
         function syncDataFromSpreadsheet() {
             if (typeof google === 'undefined' || !google.script || !google.script.run) return;
             
+            // 1. Dashboard summary
             google.script.run.withSuccessHandler(function(res) {
                 if (res && res.success && res.data) {
                     var d = res.data;
-                    appState.sisaSaldoTabungan = d.sisaSaldo || 18644311;
-                    appState.saldoTerkumpul = d.totalAkumulasi || 22227311;
+                    appState.sisaSaldoTabungan = d.sisaSaldo || 0;
+                    appState.saldoTerkumpul = d.totalAkumulasi || 0;
                     
                     var remEl = document.getElementById('remainingBudgetText');
                     if (remEl) remEl.innerText = formatRupiah(d.sisaSaldo);
@@ -2684,34 +2794,117 @@
                     if (tabSisa) tabSisa.innerText = formatRupiah(d.sisaSaldo);
 
                     var tabH = document.getElementById('tabunganHatamiVal');
-                    if (tabH) tabH.innerText = formatRupiah(d.totalHatami);
+                    if (tabH) tabH.innerText = formatRupiah(d.totalHatami || 0);
 
                     var tabN = document.getElementById('tabunganNaningVal');
-                    if (tabN) tabN.innerText = formatRupiah(d.totalNaning);
+                    if (tabN) tabN.innerText = formatRupiah(d.totalNaning || 0);
 
                     var tabP = document.getElementById('tabunganPengeluaranVal');
-                    if (tabP) tabP.innerText = formatRupiah(d.totalPengeluaran);
+                    if (tabP) tabP.innerText = formatRupiah(d.totalPengeluaran || 0);
 
                     var budgetSumEl = document.getElementById('homeBudgetSummary');
                     if (budgetSumEl) {
-                        budgetSumEl.innerText = formatRupiah(d.totalPengeluaran) + ' Terpakai • Saldo: ' + formatRupiah(d.sisaSaldo);
+                        budgetSumEl.innerText = formatRupiah(d.totalPengeluaran || 0) + ' Terpakai • Saldo: ' + formatRupiah(d.sisaSaldo || 0);
                     }
                 }
             }).getDashboardSummary();
 
+            // 2. Tabungan mutasi & Pengeluaran budget tracker
             google.script.run.withSuccessHandler(function(res) {
-                if (res && res.success && res.items && res.items.length) {
+                if (res && res.success && res.items) {
                     appState.tabunganTransactions = res.items;
                     renderTabunganMutasi();
+
+                    // Filter hanya pengeluaran untuk ditampilkan di budget tracker
+                    var exp = [];
+                    res.items.forEach(function(it) {
+                        if (it.tipe === 'Pengeluaran') {
+                            var cat = 'Lain-lain';
+                            var kl = it.kategori.toLowerCase();
+                            if (kl.includes('vendor') || kl.includes('fg') || kl.includes('foto')) cat = 'Dokumentasi';
+                            else if (kl.includes('venue') || kl.includes('gedung')) cat = 'Venue & Tempat';
+                            else if (kl.includes('catering') || kl.includes('makan')) cat = 'Catering & Makanan';
+                            else if (kl.includes('mua') || kl.includes('rias') || kl.includes('gaun')) cat = 'MUA & Busana';
+                            else if (kl.includes('dekor')) cat = 'Dekorasi';
+
+                            exp.push({
+                                id: it.id,
+                                name: it.kategori,
+                                category: cat,
+                                amount: it.nominal,
+                                date: it.tanggal ? it.tanggal.split(' ')[0] : 'Hari ini',
+                                status: kl.includes('dp') ? 'Escrow Aktif' : 'Selesai'
+                            });
+                        }
+                    });
+                    appState.expenses = exp;
+                    renderBudgetTracker();
+                    renderEscrowList();
+                    renderHomeProgress();
                 }
             }).getTabunganData({ page: 1, limit: 100 });
 
+            // 3. Tamu Undangan
             google.script.run.withSuccessHandler(function(res) {
-                if (res && res.success && res.items && res.items.length) {
+                if (res && res.success && res.items) {
+                    var tmu = [];
+                    res.items.forEach(function(it) {
+                        tmu.push({
+                            id: it.id,
+                            name: it.namaTamu,
+                            category: (it.kategoriRelasi || '').includes('VIP') ? 'VIP' : ((it.kategoriRelasi || '').includes('Keluarga') ? 'Keluarga' : 'Teman'),
+                            pax: parseInt(it.jumlahPax, 10) || 1,
+                            status: it.statusKonfirmasi && (it.statusKonfirmasi === 'Hadir' || it.statusKonfirmasi === 'Tidak Hadir') ? it.statusKonfirmasi : 'Pending',
+                            phone: it.noHp || ''
+                        });
+                    });
+                    appState.guests = tmu;
+                    renderGuestList();
+                }
+            }).getTamuData({ page: 1, limit: 100 });
+
+            // 4. KUA Documents
+            google.script.run.withSuccessHandler(function(res) {
+                if (res && res.success && res.items) {
                     appState.kuaDocuments = res.items;
                     renderKuaList();
                 }
             }).getPemberkasanKUAData();
+
+            // 5. Vendor Planner
+            google.script.run.withSuccessHandler(function(res) {
+                if (res && res.success && res.items) {
+                    var vList = [];
+                    res.items.forEach(function(v, idx) {
+                        var catType = 'venue';
+                        var kl = (v.kategori || '').toLowerCase();
+                        if (kl.includes('fg') || kl.includes('foto') || kl.includes('video')) catType = 'photo';
+                        else if (kl.includes('catering') || kl.includes('makan')) catType = 'catering';
+                        else if (kl.includes('mua') || kl.includes('busana') || kl.includes('rias')) catType = 'mua';
+                        else if (kl.includes('dekor')) catType = 'decor';
+                        else if (kl.includes('wo')) catType = 'wo';
+
+                        vList.push({
+                            id: v.id || ('VND-' + (idx + 1)),
+                            name: v.namaVendor,
+                            category: catType,
+                            categoryLabel: v.kategori || 'Vendor Acara',
+                            city: 'Kota Acara',
+                            rating: 5.0,
+                            reviewsCount: 1,
+                            priceRange: formatRupiah(v.estimasiBiaya),
+                            image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=700&q=80',
+                            gallery: ['https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=700&q=80'],
+                            description: (v.tahapan ? 'Tahapan: ' + v.tahapan + '. ' : '') + (v.catatan || 'Vendor terdaftar dari Planner.'),
+                            packages: [
+                                { id: 'p-' + v.id, title: 'Paket ' + (v.kategori || 'Utama'), price: v.estimasiBiaya, dp: Math.round(v.estimasiBiaya * 0.3), perks: ['Sesuai kontrak Wedding Planner'] }
+                            ]
+                        });
+                    });
+                    appState.vendors = vList;
+                    renderVendorList();
+                }
+            }).getPlannerData({ page: 1, limit: 100 });
         }
 
                 function togglePhoneFrame() {
