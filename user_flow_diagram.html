@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>User Flow Diagram - Wedding App Hatami & Naning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 12mm 15mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f6f4ef;
+      color: #2c2c2c;
+      padding: 10px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 2px solid #e2ddd3;
+      margin-bottom: 18px;
+    }
+    .header h1 {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #3b533e;
+      letter-spacing: -0.5px;
+    }
+    .header p {
+      font-size: 10pt;
+      color: #7a7468;
+      margin-top: 3px;
+    }
+    .badge-pwa {
+      background: #5b7a5e;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .architecture-banner {
+      background: #ffffff;
+      border: 1px solid #e2ddd3;
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 8.5pt;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .arch-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: #2c2c2c;
+    }
+    .arch-step i {
+      color: #5b7a5e;
+      font-size: 11pt;
+    }
+    .arch-arrow {
+      color: #c2725a;
+      font-size: 12pt;
+      font-weight: 900;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .module-card {
+      background: #ffffff;
+      border: 1px solid #e2ddd3;
+      border-radius: 12px;
+      padding: 14px 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .module-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: 12px 12px 0 0;
+    }
+    .card-1::before { background: #5b7a5e; }
+    .card-2::before { background: #c2725a; }
+    .card-3::before { background: #2563eb; }
+    .card-4::before { background: #d97706; }
+    .card-5::before { background: #059669; }
+
+    .module-title {
+      font-size: 10pt;
+      font-weight: 800;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0ede6;
+    }
+    .module-title i {
+      font-size: 11pt;
+    }
+    .card-1 .module-title i { color: #5b7a5e; }
+    .card-2 .module-title i { color: #c2725a; }
+    .card-3 .module-title i { color: #2563eb; }
+    .card-4 .module-title i { color: #d97706; }
+    .card-5 .module-title i { color: #059669; }
+
+    .step-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 7.8pt;
+      line-height: 1.35;
+    }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      background: #faf8f5;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border-left: 2.5px solid #dcd7cc;
+    }
+    .step-num {
+      background: #5b7a5e;
+      color: #fff;
+      font-size: 6.5pt;
+      font-weight: 800;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .highlight-box {
+      margin-top: 10px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 7.2pt;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .hl-green {
+      background: rgba(91, 122, 94, 0.1);
+      color: #3b533e;
+      border: 1px dashed #5b7a5e;
+    }
+    .hl-red {
+      background: rgba(194, 114, 90, 0.1);
+      color: #9c452e;
+      border: 1px dashed #c2725a;
+    }
+
+    .flow-connector {
+      background: #ffffff;
+      border: 1px solid #e2ddd3;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 8pt;
+      line-height: 1.45;
+    }
+    .flow-connector h4 {
+      font-size: 9pt;
+      font-weight: 800;
+      color: #3b533e;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-flow {
+      display: inline-block;
+      background: #f0ede6;
+      color: #2c2c2c;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 7.5pt;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1>User Flow Diagram & Sistem Arsitektur</h1>
+      <p>Aplikasi Wedding Planner & Savings Manager — Hatami & Naning (PWA Standalone)</p>
+    </div>
+    <div class="badge-pwa">
+      <i class="fa-solid fa-cloud-arrow-up"></i> Vercel + Google Sheets Live
+    </div>
+  </div>
+
+  <!-- Architecture Pipeline -->
+  <div class="architecture-banner">
+    <div class="arch-step"><i class="fa-solid fa-mobile-screen"></i> 1. Frontend PWA Standalone (Vercel)</div>
+    <div class="arch-arrow">➔</div>
+    <div class="arch-step"><i class="fa-solid fa-shield-halved"></i> 2. Serverless Proxy (/api/gas)</div>
+    <div class="arch-arrow">➔</div>
+    <div class="arch-step"><i class="fa-solid fa-gears"></i> 3. Apps Script Router (doGet/doPost)</div>
+    <div class="arch-arrow">➔</div>
+    <div class="arch-step"><i class="fa-solid fa-table"></i> 4. Database (Google Spreadsheet)</div>
+  </div>
+
+  <!-- 5 Modules Flow -->
+  <div class="grid-container">
+
+    <!-- Modul 1: Tabungan -->
+    <div class="module-card card-1">
+      <div class="module-title"><i class="fa-solid fa-wallet"></i> 1. Tabungan Bersama</div>
+      <ul class="step-list">
+        <li class="step-item">
+          <span class="step-num">1</span>
+          <span>Lihat ringkasan saldo: <strong>Hatami</strong>, <strong>Naning</strong>, <strong>Bersama</strong>, Pengeluaran & Sisa Saldo.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">2</span>
+          <span>Buka modal <strong>+ Catat Transaksi</strong>.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">3</span>
+          <span>Pilih Kontributor (Hatami / Naning / Bersama) & Tipe (Pemasukan / Pengeluaran).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">4</span>
+          <span>Jika Pengeluaran: Muncul dropdown <strong>Pilih Vendor</strong> untuk auto-lunas.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">5</span>
+          <span>Simpan ➔ Real-time update Spreadsheet.</span>
+        </li>
+      </ul>
+      <div class="highlight-box hl-green">
+        <i class="fa-solid fa-bolt"></i> Auto-Sync: Bayar vendor langsung potong saldo kas.
+      </div>
+    </div>
+
+    <!-- Modul 2: Wedding Planner -->
+    <div class="module-card card-2">
+      <div class="module-title"><i class="fa-solid fa-calendar-check"></i> 2. Wedding Planner</div>
+      <ul class="step-list">
+        <li class="step-item">
+          <span class="step-num">1</span>
+          <span>Daftar vendor acara: <strong>Lamaran</strong> & <strong>Wedding</strong> (Akad & Resepsi).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">2</span>
+          <span>Catat vendor baru + estimasi biaya (tanpa potong saldo kas).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">3</span>
+          <span>Filter cepat berdasarkan tahapan & status pembayaran (Belum / DP / Lunas).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">4</span>
+          <span>Klik <strong>"Bayar / Update"</strong> per item vendor untuk pelunasan via kas tabungan.</span>
+        </li>
+      </ul>
+      <div class="highlight-box hl-red">
+        <i class="fa-solid fa-tag"></i> Estimasi murni: Tidak mempengaruhi kas s/d dibayarkan.
+      </div>
+    </div>
+
+    <!-- Modul 3: Seserahan -->
+    <div class="module-card card-3">
+      <div class="module-title"><i class="fa-solid fa-gift"></i> 3. Seserahan & Hantaran</div>
+      <ul class="step-list">
+        <li class="step-item">
+          <span class="step-num">1</span>
+          <span>Pantau total nilai seserahan, barang terbeli & wishlist belanja.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">2</span>
+          <span>Tambah item seserahan + kategori + estimasi harga belanja.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">3</span>
+          <span>Simpan link marketplace (Shopee / TikTok Shop).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">4</span>
+          <span>1-Klik toggle status: <em>Wishlist ➔ Sudah Dibeli</em>.</span>
+        </li>
+      </ul>
+      <div class="highlight-box hl-green">
+        <i class="fa-solid fa-bag-shopping"></i> Tracking belanja terstruktur anti barang dobel.
+      </div>
+    </div>
+
+    <!-- Modul 4: KUA -->
+    <div class="module-card card-4">
+      <div class="module-title"><i class="fa-solid fa-file-circle-check"></i> 4. Dokumen KUA</div>
+      <ul class="step-list">
+        <li class="step-item">
+          <span class="step-num">1</span>
+          <span>Monitor progress bar kelengkapan berkas: <strong>Pria</strong> vs <strong>Wanita</strong>.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">2</span>
+          <span>Daftar ceklis: KTP, KK, Ijazah, Surat Sehat, Imunisasi TT, Numpang Nikah.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">3</span>
+          <span>1-Klik centang selesai untuk Calon Pria (Hatami) atau Calon Wanita (Naning).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">4</span>
+          <span>Tambah syarat dokumen kustom jika ada permintaan khusus KUA.</span>
+        </li>
+      </ul>
+      <div class="highlight-box hl-red">
+        <i class="fa-solid fa-tasks"></i> Progress bar visual % kesiapan administrasi KUA.
+      </div>
+    </div>
+
+    <!-- Modul 5: Tamu & AI Pax -->
+    <div class="module-card card-5">
+      <div class="module-title"><i class="fa-solid fa-users"></i> 5. Tamu & AI Pax</div>
+      <ul class="step-list">
+        <li class="step-item">
+          <span class="step-num">1</span>
+          <span>Input data tamu, no HP, kategori relasi & jenis undangan (Fisik / Digital).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">2</span>
+          <span>Update konfirmasi kehadiran (Belum / Terkirim / Hadir / Batal).</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">3</span>
+          <span><strong>AI Pax Recommendation Engine</strong> otomatis menghitung estimasi kehadiran & porsi katering aman (+ safety margin 15%).</span>
+        </li>
+      </ul>
+      <div class="highlight-box hl-green">
+        <i class="fa-solid fa-brain"></i> Algoritma katering cerdas menghindari kekurangan porsi.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End-to-End Connector Notes -->
+  <div class="flow-connector">
+    <h4><i class="fa-solid fa-diagram-project"></i> Alur Integrasi Antar-Modul (Key Interactive Logic)</h4>
+    <p>
+      <span class="tag-flow">User Action</span> Pengguna memasang aplikasi ke Homescreen HP (PWA Standalone) ➔ 
+      <span class="tag-flow">Perencanaan</span> Buat estimasi vendor di <strong>Wedding Planner</strong> ➔ 
+      <span class="tag-flow">Realisasi Kas</span> Saat bayar vendor, buka <strong>Tabungan</strong> ➔ Pilih nama vendor ➔ Saldo terpotong & status vendor otomatis menjadi <strong>Lunas</strong> ➔ 
+      <span class="tag-flow">Persiapan Administrasi & Tamu</span> Kelola berkas KUA & kalkulasi katering otomatis dengan AI Pax ➔ 
+      <span class="tag-flow">Cloud Persistence</span> Seluruh data tersimpan aman di <strong>Google Spreadsheet</strong> (ID: <code>1ClFtKsRoFBGoJWZWlHnOYH02_msdueHbjVMZSLZaA5E</code>).
+    </p>
+  </div>
+
+</body>
+</html>

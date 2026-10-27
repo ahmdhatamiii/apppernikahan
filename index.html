@@ -17,11 +17,12 @@
   <meta name="apple-mobile-web-app-title" content="WeddingApp">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%235b7a5e'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23f6f4ef'/%3E%3Cpath d='M256 160 C230 110, 160 110, 160 180 C160 250, 256 340, 256 340 C256 340, 352 250, 352 180 C352 110, 282 110, 256 160 Z' fill='%23c2725a'/%3E%3C/svg%3E">
 
-  <!-- Google Fonts & Font Awesome Icons -->
+  <!-- Google Fonts, Font Awesome Icons & Chart.js -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   
   <style>
     :root {
@@ -939,6 +940,216 @@
       background: rgba(91, 122, 94, 0.35);
     }
 
+    /* ===================== ONBOARDING & PERSONA MODAL ===================== */
+    .onboarding-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .onboarding-overlay.active { display: flex; }
+    .onboarding-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 480px;
+      width: 100%;
+      padding: 28px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      position: relative;
+      animation: modalSlideUp 0.35s ease;
+    }
+    .persona-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* ===================== VENDOR MARKETPLACE & CAROUSEL ===================== */
+    .vendor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .vendor-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+    .vendor-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(91, 122, 94, 0.12);
+      border-color: var(--sage);
+    }
+    .vendor-img-wrap {
+      width: 100%;
+      height: 160px;
+      background: #f0ede6;
+      position: relative;
+      overflow: hidden;
+    }
+    .vendor-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .vendor-card:hover .vendor-img-wrap img {
+      transform: scale(1.05);
+    }
+    .vendor-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(4px);
+      color: var(--sage-dark);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .vendor-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .vendor-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .vendor-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 4px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .vendor-rating {
+      color: #eab308;
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+    .vendor-price {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--sage-dark);
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Carousel in Vendor Detail */
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      background: #000;
+      margin-bottom: 14px;
+    }
+    .carousel-slide {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .carousel-slide.active { display: block; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .carousel-btn.prev { left: 8px; }
+    .carousel-btn.next { right: 8px; }
+
+    /* ===================== CHECKLIST TIMELINE ===================== */
+    .timeline-group {
+      margin-bottom: 20px;
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      padding: 16px;
+    }
+    .timeline-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--sage-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #faf8f5;
+      margin-bottom: 6px;
+      transition: all 0.2s;
+    }
+    .task-item:hover { background: #f2eee6; }
+    .task-item.done span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* ===================== DIGITAL INVITATION STUDIO ===================== */
+    .invitation-preview-card {
+      background: linear-gradient(135deg, #fdfbf7 0%, #f4eee3 100%);
+      border: 2px solid var(--sage);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(91, 122, 94, 0.15);
+      position: relative;
+    }
+    .invitation-names {
+      font-family: 'Plus Jakarta Sans', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #3d5a40;
+      margin: 10px 0;
+    }
+
     /* ===================== RESPONSIVE ===================== */
     @media (max-width: 600px) {
       .container { padding: 16px 14px; }
@@ -948,6 +1159,7 @@
       .action-bar { flex-direction: column; align-items: stretch; }
       .filter-group { flex-wrap: wrap; }
       .app-header { padding: 10px 14px; }
+      .vendor-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -975,13 +1187,18 @@
         </div>
         <div>
           <h1>Hatami & Naning</h1>
-          <span>WEDDING PLANNER & SAVINGS</span>
+          <span id="headerSubBrand">WEDDING PLANNER & SAVINGS</span>
         </div>
       </div>
     </div>
-    <div class="sync-badge">
-      <div class="pulse-dot"></div>
-      <span id="syncStatusText">Synced</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button onclick="openOnboardingModal()" class="persona-badge" style="border:none; cursor:pointer;" title="Ubah Info Persona & Target Budget">
+        <i class="fa-solid fa-heart" style="color:var(--accent-pink);"></i> <span id="headerPersonaText">Setup Persona</span>
+      </button>
+      <div class="sync-badge">
+        <div class="pulse-dot"></div>
+        <span id="syncStatusText">Synced</span>
+      </div>
     </div>
   </header>
 
@@ -993,25 +1210,42 @@
       <button class="sidebar-close-btn" onclick="closeSidebar()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="sidebar-menu">
+      <div style="padding: 6px 16px 2px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);">Alat Perencanaan</div>
       <a class="sidebar-item active" onclick="switchTab('tab-tabungan', this)">
         <i class="fa-solid fa-wallet"></i>
-        <span>Tabungan & Pengeluaran</span>
+        <span>Budget & Tabungan</span>
+      </a>
+      <a class="sidebar-item" onclick="switchTab('tab-checklist', this)">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Wedding Checklist</span>
       </a>
       <a class="sidebar-item" onclick="switchTab('tab-planner', this)">
         <i class="fa-solid fa-calendar-check"></i>
-        <span>Wedding Planner</span>
+        <span>Vendor Terpilih (Planner)</span>
+      </a>
+      
+      <div style="padding: 12px 16px 2px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);">Eksplorasi & Marketplace</div>
+      <a class="sidebar-item" onclick="switchTab('tab-katalog-vendor', this)">
+        <i class="fa-solid fa-store"></i>
+        <span>Katalog Vendor</span>
       </a>
       <a class="sidebar-item" onclick="switchTab('tab-seserahan', this)">
         <i class="fa-solid fa-gift"></i>
-        <span>List Seserahan & Wishlist</span>
+        <span>Seserahan & Wishlist</span>
+      </a>
+
+      <div style="padding: 12px 16px 2px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);">Tamu & Administrasi</div>
+      <a class="sidebar-item" onclick="switchTab('tab-undangan-digital', this)">
+        <i class="fa-solid fa-envelope-open-text"></i>
+        <span>Undangan Digital</span>
+      </a>
+      <a class="sidebar-item" onclick="switchTab('tab-tamu', this)">
+        <i class="fa-solid fa-users"></i>
+        <span>Guest List & RSVP</span>
       </a>
       <a class="sidebar-item" onclick="switchTab('tab-kua', this)">
         <i class="fa-solid fa-file-contract"></i>
         <span>Pemberkasan KUA</span>
-      </a>
-      <a class="sidebar-item" onclick="switchTab('tab-tamu', this)">
-        <i class="fa-solid fa-users"></i>
-        <span>List Tamu & AI Pax</span>
       </a>
       <a class="sidebar-item" onclick="switchTab('tab-ai-scanner', this)">
         <i class="fa-solid fa-camera-retro"></i>
@@ -1019,7 +1253,7 @@
       </a>
     </div>
     <div class="sidebar-footer">
-      <span>Hatami & Naning Wedding Manager</span>
+      <span id="sidebarFooterName">Hatami & Naning Wedding</span>
     </div>
   </aside>
 
@@ -1043,9 +1277,35 @@
           <div class="card-label">Total Pengeluaran <i class="fa-solid fa-arrow-trend-down"></i></div>
           <div class="card-value danger" id="dashPengeluaran">Rp 0</div>
         </div>
-        <div class="glass-card" style="grid-column: 1 / -1;">
-          <div class="card-label">Sisa Saldo Tabungan Bersama <i class="fa-solid fa-wallet"></i></div>
-          <div class="card-value neon" style="font-size: 1.8rem;" id="dashSisaSaldo">Rp 0</div>
+        <div class="glass-card" style="grid-column: 1 / -1; display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <div class="card-label">Sisa Saldo Tabungan Bersama <i class="fa-solid fa-wallet"></i></div>
+              <div class="card-value neon" style="font-size: 1.8rem;" id="dashSisaSaldo">Rp 0</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="card-label">Target Total Budget Pernikahan</div>
+              <div style="font-size:1.2rem; font-weight:800; color:var(--accent-cream-dark);" id="dashTargetBudgetDisplay">Rp 50.000.000</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);" id="dashBudgetProgressText">0% dari target terpenuhi</div>
+            </div>
+          </div>
+
+          <!-- Budget Tracker: Visualisasi Grafik Lingkaran (Pie Chart) -->
+          <div style="display:flex; flex-direction:column; md:flex-row; gap:20px; align-items:center; background:#faf8f5; border-radius:var(--radius-md); padding:16px;">
+            <div style="width: 180px; height: 180px; position:relative; flex-shrink:0;">
+              <canvas id="budgetPieChart"></canvas>
+            </div>
+            <div style="flex:1; width:100%;">
+              <h4 style="font-size:0.88rem; font-weight:800; color:var(--text-main); margin-bottom:8px;"><i class="fa-solid fa-chart-pie" style="color:var(--sage);"></i> Alokasi Budget Ideal (Sistem Persona)</h4>
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:8px; font-size:0.75rem;">
+                <div style="background:#fff; padding:6px 10px; border-radius:6px; border-left:3px solid #5b7a5e;">Venue & Catering (45%)<br><strong id="alcVenue">Rp 0</strong></div>
+                <div style="background:#fff; padding:6px 10px; border-radius:6px; border-left:3px solid #c2725a;">Dekor & MUA (20%)<br><strong id="alcDekor">Rp 0</strong></div>
+                <div style="background:#fff; padding:6px 10px; border-radius:6px; border-left:3px solid #2563eb;">Foto & Video (15%)<br><strong id="alcFoto">Rp 0</strong></div>
+                <div style="background:#fff; padding:6px 10px; border-radius:6px; border-left:3px solid #d97706;">Baju & Seragam (10%)<br><strong id="alcBaju">Rp 0</strong></div>
+                <div style="background:#fff; padding:6px 10px; border-radius:6px; border-left:3px solid #8b5cf6;">Dana Tak Terduga (10%)<br><strong id="alcDarurat">Rp 0</strong></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1073,7 +1333,30 @@
       <div id="tabunganPagination" style="display:flex; justify-content:center; gap:10px; margin-top:20px;"></div>
     </section>
 
-    <!-- Tab 2: Planner -->
+    <!-- Tab: Wedding Checklist (Timeline-based Planning) -->
+    <section id="tab-checklist" class="tab-content">
+      <div class="glass-card" style="margin-bottom: 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h2 style="font-size: 1.1rem; font-weight:800; color:var(--text-main);"><i class="fa-solid fa-list-check" style="color:var(--sage);"></i> Wedding Checklist Berdasarkan Waktu</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:2px;">Tugas persiapan pernikahan yang dikelompokkan bertahap menuju hari H.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openCustomTaskModal()">
+            <i class="fa-solid fa-plus"></i> Tambah Tugas Kustom
+          </button>
+        </div>
+        <div style="margin-top:14px; background:#faf8f5; border-radius:var(--radius-md); padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.8rem; font-weight:700; color:var(--text-main);">Progres Persiapan:</span>
+          <span id="checklistProgressBadge" style="font-size:0.8rem; font-weight:800; color:var(--sage-dark);">0 / 0 Selesai (0%)</span>
+        </div>
+      </div>
+
+      <div id="checklistTimelineContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Tab 2: Planner (Vendor Terpilih) -->
     <section id="tab-planner" class="tab-content">
 
 
@@ -1099,6 +1382,48 @@
 
       <div id="plannerListContainer" class="data-list"></div>
       <div id="plannerPagination" style="display:flex; justify-content:center; gap:10px; margin-top:20px;"></div>
+    </section>
+
+    <!-- Tab: Katalog Vendor (Eksplorasi & Booking Marketplace) -->
+    <section id="tab-katalog-vendor" class="tab-content">
+      <div class="glass-card" style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.1rem; font-weight:800; color:var(--text-main);"><i class="fa-solid fa-store" style="color:var(--sage);"></i> Katalog Vendor & Marketplace Pernikahan</h2>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:2px;">Eksplorasi vendor profesional terverifikasi, lihat portofolio carousel, ulasan, paket harga, dan booking langsung.</p>
+      </div>
+
+      <!-- Filter Mobile-Friendly: Lokasi, Kategori, Rentang Harga -->
+      <div class="action-bar" style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:12px;">
+        <div class="filter-group" style="width:100%; display:flex; flex-wrap:wrap; gap:8px;">
+          <input type="text" id="searchKatalog" class="form-control" placeholder="Cari nama vendor / kata kunci..." oninput="filterVendorCatalog()" style="flex:1; min-width: 150px;">
+          <select id="filterKatalogKategori" class="form-control" onchange="filterVendorCatalog()">
+            <option value="All">Semua Kategori</option>
+            <option value="Venue">Venue & Gedung</option>
+            <option value="Catering">Catering</option>
+            <option value="MUA">MUA & Busana</option>
+            <option value="Dekorasi">Dekorasi</option>
+            <option value="Dokumentasi">Foto & Video</option>
+            <option value="Musik">Musik & MC</option>
+          </select>
+          <select id="filterKatalogLokasi" class="form-control" onchange="filterVendorCatalog()">
+            <option value="All">Semua Lokasi</option>
+            <option value="Jakarta">Jabodetabek</option>
+            <option value="Semarang">Semarang & Jateng</option>
+            <option value="Surabaya">Surabaya & Jatim</option>
+            <option value="Bandung">Bandung</option>
+            <option value="Yogyakarta">Yogyakarta</option>
+          </select>
+          <select id="filterKatalogHarga" class="form-control" onchange="filterVendorCatalog()">
+            <option value="All">Semua Rentang Harga</option>
+            <option value="low">< Rp 10 Juta</option>
+            <option value="mid">Rp 10 - 25 Juta</option>
+            <option value="high">> Rp 25 Juta</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="vendorCatalogGrid" class="vendor-grid">
+        <!-- Rendered by JS -->
+      </div>
     </section>
 
     <!-- Tab 3: Seserahan -->
@@ -1180,6 +1505,91 @@
           </thead>
           <tbody id="kuaTableBody"></tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- Tab: Undangan Digital Studio (Template, Musik, Link Unik, RSVP Tracker) -->
+    <section id="tab-undangan-digital" class="tab-content">
+      <div class="glass-card" style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.1rem; font-weight:800; color:var(--text-main);"><i class="fa-solid fa-envelope-open-text" style="color:var(--sage);"></i> Studio Undangan Digital & Real-time RSVP Tracker</h2>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top:2px;">Pilih template estetika, sesuaikan teks & musik background, serta generate link unik personal untuk setiap tamu undangan.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:20px; margin-bottom:24px;">
+        <!-- Left: Studio Generator -->
+        <div class="glass-card">
+          <h3 style="font-size: 0.95rem; font-weight:700; margin-bottom: 14px;"><i class="fa-solid fa-sliders"></i> Kustomisasi Undangan</h3>
+          
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div>
+              <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Pilih Template Desain</label>
+              <select id="invTemplateSelect" class="form-control" onchange="updateInvitationPreview()">
+                <option value="sage-botanical">Sage Green Botanical (Aesthetic Rustic)</option>
+                <option value="warm-terracotta">Warm Terracotta & Cream Luxury</option>
+                <option value="classic-gold">Classic Champagne Minimalist</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Musik Latar (Background Music)</label>
+              <select id="invMusicSelect" class="form-control" onchange="updateInvitationPreview()">
+                <option value="canon">Canon in D - Acoustic Guitar</option>
+                <option value="marry-you">A Thousand Years - Piano Instrumental</option>
+                <option value="islamic">Bismillah Cinta - Syahdu Instrumental</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Ayat / Kutipan Cinta (Quote)</label>
+              <input type="text" id="invQuoteText" class="form-control" value="Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu (QS. Ar-Rum: 21)" oninput="updateInvitationPreview()">
+            </div>
+            <div>
+              <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Nama Tamu Spesial (Untuk Link Unik)</label>
+              <input type="text" id="invGuestNameTarget" class="form-control" placeholder="Contoh: Dimas Anggara, Bpk. Hendra & Keluarga" oninput="updateInvitationPreview()">
+            </div>
+            <div style="background:#faf8f5; border-radius:var(--radius-md); padding:10px; border:1px dashed var(--sage);">
+              <label style="font-size:0.75rem; font-weight:700; color:var(--sage-dark); display:block; margin-bottom:4px;">Link Undangan Personal Tamu:</label>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="invGeneratedUrl" class="form-control" readonly style="font-size:0.75rem; background:#fff;">
+                <button class="btn btn-secondary" onclick="copyInvitationLink()" style="padding:6px 12px; font-size:0.75rem;"><i class="fa-solid fa-copy"></i> Salin</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Live Preview & RSVP Dasbor -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="invitation-preview-card" id="invitationPreviewCard">
+            <span style="font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--sage-dark);">THE WEDDING OF</span>
+            <div class="invitation-names" id="invPreviewCouple">Hatami & Naning</div>
+            <p id="invPreviewQuote" style="font-size:0.75rem; font-style:italic; color:var(--text-muted); max-width:380px; margin:0 auto 12px; line-height:1.4;">"Dan di antara tanda-tanda-Nya ialah Dia menciptakan pasangan untukmu..."</p>
+            <div style="display:inline-block; background:rgba(91,122,94,0.12); padding:4px 14px; border-radius:20px; font-size:0.78rem; font-weight:700; color:var(--sage-dark); margin-bottom:12px;">
+              Kepada Yth: <span id="invPreviewGuest">Tamu Undangan</span>
+            </div>
+            <div style="display:flex; justify-content:center; gap:8px; font-size:0.75rem; color:var(--text-muted);">
+              <span><i class="fa-solid fa-music"></i> <span id="invPreviewMusic">Canon in D</span></span>
+              <span>•</span>
+              <span><i class="fa-solid fa-palette"></i> <span id="invPreviewTheme">Sage Botanical</span></span>
+            </div>
+          </div>
+
+          <!-- Realtime RSVP Tracker Stats -->
+          <div class="glass-card">
+            <h4 style="font-size:0.85rem; font-weight:800; color:var(--text-main); margin-bottom:10px;"><i class="fa-solid fa-chart-simple" style="color:var(--sage);"></i> RSVP Tracker Real-time</h4>
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; text-align:center;">
+              <div style="background:#e8efe9; padding:8px; border-radius:8px;">
+                <div style="font-size:1.1rem; font-weight:800; color:#059669;" id="rsvpCountHadir">0</div>
+                <div style="font-size:0.7rem; color:var(--text-muted);">Hadir</div>
+              </div>
+              <div style="background:#fef2f2; padding:8px; border-radius:8px;">
+                <div style="font-size:1.1rem; font-weight:800; color:var(--accent-danger);" id="rsvpCountTidakHadir">0</div>
+                <div style="font-size:0.7rem; color:var(--text-muted);">Batal / Tidak</div>
+              </div>
+              <div style="background:#faf8f5; padding:8px; border-radius:8px;">
+                <div style="font-size:1.1rem; font-weight:800; color:#d97706;" id="rsvpCountPending">0</div>
+                <div style="font-size:0.7rem; color:var(--text-muted);">Belum Respon</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1597,6 +2007,172 @@
     </div>
   </div>
 
+  <!-- 1. MODAL ONBOARDING & SETUP PERSONA -->
+  <div id="modalOnboarding" class="onboarding-overlay">
+    <div class="onboarding-card">
+      <div style="text-align:center; margin-bottom: 18px;">
+        <div style="width:50px; height:50px; border-radius:50%; background:var(--sage-light); color:var(--sage-dark); display:inline-flex; align-items:center; justify-content:center; font-size:1.4rem; margin-bottom:8px;">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+        <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-main);">Selamat Datang di Wedding Manager</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Setup personalisasi pernikahan & alokasi target budget otomatis.</p>
+      </div>
+
+      <form id="formPersona" onsubmit="savePersonaSettings(event)">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div>
+              <label style="font-size:0.75rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Nama Anda (Pria)</label>
+              <input type="text" id="personaPria" class="form-control" value="Hatami" required>
+            </div>
+            <div>
+              <label style="font-size:0.75rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Nama Pasangan (Wanita)</label>
+              <input type="text" id="personaWanita" class="form-control" value="Naning" required>
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:0.75rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Estimasi Tanggal Pernikahan</label>
+            <input type="date" id="personaTanggal" class="form-control">
+            <span style="font-size:0.7rem; color:var(--text-muted); margin-top:2px; display:block;">Bisa dikosongkan jika belum menentukan tanggal pasti.</span>
+          </div>
+
+          <div>
+            <label style="font-size:0.75rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Target Total Budget Pernikahan (Rp)</label>
+            <input type="number" id="personaTargetBudget" class="form-control" value="50000000" placeholder="Contoh: 50000000" required>
+            <span style="font-size:0.7rem; color:var(--sage-dark); margin-top:3px; display:block;"><i class="fa-solid fa-wand-magic-sparkles"></i> Aplikasi otomatis membagi alokasi ideal 45% Catering, 20% Dekor/MUA, dll.</span>
+          </div>
+
+          <div style="margin-top:10px; display:flex; gap:10px;">
+            <button type="button" class="btn btn-secondary" onclick="closeOnboardingModal()" style="flex:1;">Tutup</button>
+            <button type="submit" class="btn btn-primary" style="flex:2;">Simpan Persona</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. MODAL DETAIL VENDOR & CAROUSEL -->
+  <div id="modalDetailVendor" class="modal-overlay">
+    <div class="modal-card" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 id="detVendorTitle">Detail Profil Vendor</h3>
+        <button class="close-btn" onclick="closeModal('modalDetailVendor')">&times;</button>
+      </div>
+      <div style="padding:10px 0;">
+        <div class="carousel-container" id="vendorCarouselContainer">
+          <img src="" id="carouselImg1" class="carousel-slide active" alt="Slide 1">
+          <img src="" id="carouselImg2" class="carousel-slide" alt="Slide 2">
+          <button class="carousel-btn prev" onclick="moveCarousel(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="carousel-btn next" onclick="moveCarousel(1)"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+          <div>
+            <h4 id="detVendorName" style="font-size:1.15rem; font-weight:800; color:var(--text-main);">Nama Vendor</h4>
+            <div style="font-size:0.8rem; color:var(--text-muted); display:flex; gap:10px; margin-top:2px;">
+              <span><i class="fa-solid fa-location-dot" style="color:var(--accent-pink);"></i> <span id="detVendorLocation">Semarang</span></span>
+              <span><i class="fa-solid fa-tag" style="color:var(--sage);"></i> <span id="detVendorCategory">Venue</span></span>
+              <span class="vendor-rating"><i class="fa-solid fa-star"></i> <span id="detVendorRating">4.9</span> (48 ulasan)</span>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.7rem; color:var(--text-muted);">Mulai dari</span>
+            <div id="detVendorPrice" style="font-size:1.1rem; font-weight:800; color:var(--sage-dark);">Rp 25.000.000</div>
+          </div>
+        </div>
+
+        <div style="background:#faf8f5; border-radius:var(--radius-md); padding:12px; margin:12px 0; font-size:0.82rem; line-height:1.5;">
+          <strong>Paket Termasuk:</strong>
+          <p id="detVendorDescription" style="color:var(--text-muted); margin-top:4px;">Kapasitas s/d 500 orang, AC Ballroom, Sound System 5000 watt, Listrik 10.000 watt, Ruang Rias Pengantin & Keluarga.</p>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:16px;">
+          <a id="btnChatVendor" href="#" target="_blank" class="btn btn-secondary" style="flex:1; text-align:center; text-decoration:none;">
+            <i class="fa-brands fa-whatsapp" style="color:var(--accent-wa);"></i> Chat Vendor
+          </a>
+          <button class="btn btn-primary" onclick="openCheckoutModal()" style="flex:1.4;">
+            <i class="fa-solid fa-file-invoice-dollar"></i> Pesan Sekarang
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL CHECKOUT & PAYMENT VENDOR -->
+  <div id="modalCheckoutVendor" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Konfirmasi Pemesanan & Pembayaran</h3>
+        <button class="close-btn" onclick="closeModal('modalCheckoutVendor')">&times;</button>
+      </div>
+      <form id="formCheckoutVendor" onsubmit="submitCheckoutPayment(event)">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Vendor Terpilih</label>
+            <input type="text" id="chkNamaVendor" class="form-control" readonly style="background:#faf8f5; font-weight:700;">
+          </div>
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Pilih Tanggal Acara</label>
+            <input type="date" id="chkTanggalAcara" class="form-control" required>
+          </div>
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Opsi Pembayaran</label>
+            <select id="chkOpsiBayar" class="form-control" onchange="updateCheckoutNominal()" required>
+              <option value="DP">Uang Muka (DP 30%)</option>
+              <option value="Lunas">Pelunasan Penuh (100%)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Nominal Pembayaran (Rp)</label>
+            <input type="number" id="chkNominalBayar" class="form-control" required>
+          </div>
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Metode Pembayaran</label>
+            <select id="chkMetode" class="form-control" required>
+              <option value="BCA Virtual Account">BCA Virtual Account</option>
+              <option value="QRIS / E-Wallet (GoPay, OVO, DANA)">QRIS / E-Wallet Instant</option>
+              <option value="Mandiri Virtual Account">Mandiri Virtual Account</option>
+              <option value="PayLater 0%">Wedding PayLater (Cicilan 0%)</option>
+            </select>
+          </div>
+          <div style="background:rgba(91,122,94,0.08); padding:10px; border-radius:8px; font-size:0.75rem; color:var(--sage-dark);">
+            <i class="fa-solid fa-check"></i> Otomatis membuat Invoice Digital, memasukkan ke kalender Wedding Planner & mencatat di Tabungan Bersama!
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:6px;">Bayar Sekarang & Konfirmasi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. MODAL TAMBAH TUGAS CHECKLIST KUSTOM -->
+  <div id="modalCustomTask" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Tambah Tugas Wedding Checklist</h3>
+        <button class="close-btn" onclick="closeModal('modalCustomTask')">&times;</button>
+      </div>
+      <form id="formCustomTask" onsubmit="submitCustomTask(event)">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Target Waktu Pelaksanaan</label>
+            <select id="inTaskTimeline" class="form-control" required>
+              <option value="6-bulan">6 Bulan Sebelum (Fase Awal)</option>
+              <option value="3-bulan">3 Bulan Sebelum (Fase Vendor & Dokumen)</option>
+              <option value="1-bulan">1 Bulan Sebelum (Fase Finalisasi & Undangan)</option>
+              <option value="1-minggu">1 Minggu Sebelum (Fase Gladi Bersih & Hari H)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.78rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Nama Tugas / Aktivitas</label>
+            <input type="text" id="inTaskName" class="form-control" placeholder="Contoh: Pesan souvenir tamu, Fitting baju perdana" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:8px;">Simpan Tugas</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div id="toastNotification" class="toast">
     <i class="fa-solid fa-circle-check" style="color:var(--accent-cream-dark);"></i>
     <span id="toastMessage">Notifikasi sistem</span>
@@ -1685,6 +2261,12 @@
           console.log('[PWA] Service Worker registration skipped:', e);
         });
       }
+
+      initPersonaSettings();
+      initChecklistData();
+      renderVendorCatalog();
+      updateInvitationPreview();
+      updateRsvpStats();
 
       refreshDashboard();
       loadTabunganData(1);
@@ -2791,6 +3373,679 @@
         html += '<button class="btn btn-secondary" onclick="' + callbackName + '(' + (current + 1) + ')">Next <i class="fa-solid fa-chevron-right"></i></button>';
       }
       container.innerHTML = html;
+    }
+
+    /* ========================================================
+       1. ONBOARDING & SETUP PERSONA FLOW
+       ======================================================== */
+    var defaultPersona = {
+      namaPria: "Hatami",
+      namaWanita: "Naning",
+      weddingDate: "2027-02-14",
+      belumMenentukanTanggal: false,
+      targetBudget: 50000000
+    };
+
+    function getPersona() {
+      try {
+        var raw = localStorage.getItem('wedding_persona');
+        return raw ? JSON.parse(raw) : defaultPersona;
+      } catch(e) {
+        return defaultPersona;
+      }
+    }
+
+    function initPersonaSettings() {
+      var p = getPersona();
+      document.getElementById('inPersonaPria').value = p.namaPria || "Hatami";
+      document.getElementById('inPersonaWanita').value = p.namaWanita || "Naning";
+      document.getElementById('inPersonaBudget').value = p.targetBudget || 50000000;
+      
+      if (p.belumMenentukanTanggal) {
+        document.getElementById('chkBelumTanggal').checked = true;
+        document.getElementById('inPersonaDate').value = "";
+        document.getElementById('inPersonaDate').disabled = true;
+      } else {
+        document.getElementById('chkBelumTanggal').checked = false;
+        document.getElementById('inPersonaDate').value = p.weddingDate || "2027-02-14";
+        document.getElementById('inPersonaDate').disabled = false;
+      }
+
+      updatePersonaBadgeUI(p);
+      initBudgetPieChart(p.targetBudget);
+    }
+
+    function openOnboardingModal() {
+      initPersonaSettings();
+      openModal('modalOnboarding');
+    }
+
+    function closeOnboardingModal() {
+      closeModal('modalOnboarding');
+    }
+
+    function toggleDateUndecided(chk) {
+      var dateInput = document.getElementById('inPersonaDate');
+      if (chk.checked) {
+        dateInput.value = '';
+        dateInput.disabled = true;
+      } else {
+        dateInput.disabled = false;
+        dateInput.value = '2027-02-14';
+      }
+    }
+
+    function savePersonaSettings(e) {
+      if (e) e.preventDefault();
+      var pria = document.getElementById('inPersonaPria').value.trim() || "Hatami";
+      var wanita = document.getElementById('inPersonaWanita').value.trim() || "Naning";
+      var undecided = document.getElementById('chkBelumTanggal').checked;
+      var date = undecided ? "" : (document.getElementById('inPersonaDate').value || "");
+      var budget = parseFloat(document.getElementById('inPersonaBudget').value) || 50000000;
+
+      var p = {
+        namaPria: pria,
+        namaWanita: wanita,
+        weddingDate: date,
+        belumMenentukanTanggal: undecided,
+        targetBudget: budget
+      };
+
+      localStorage.setItem('wedding_persona', JSON.stringify(p));
+      closeOnboardingModal();
+      updatePersonaBadgeUI(p);
+      initBudgetPieChart(budget);
+      showToast('Persona & Target Budget berhasil diperbarui!');
+    }
+
+    function updatePersonaBadgeUI(p) {
+      var badge = document.getElementById('personaDisplayBadge');
+      if (!badge) return;
+      var dateStr = p.belumMenentukanTanggal || !p.weddingDate ? "Tanggal Belum Menentukan" : new Date(p.weddingDate).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' });
+      badge.innerHTML = '<i class="fa-solid fa-heart" style="color:var(--accent-pink);"></i> ' + p.namaPria + ' & ' + p.namaWanita + ' &bull; <span style="font-weight:400; opacity:0.85;">' + dateStr + '</span>';
+      
+      // Update Invitation Couple text
+      var invNames = document.getElementById('invCoupleNames');
+      if (invNames) {
+        invNames.innerText = p.namaPria + ' & ' + p.namaWanita;
+      }
+    }
+
+    /* ========================================================
+       2. BUDGET TRACKER & CHART.JS PIE VISUALIZATION
+       ======================================================== */
+    var budgetChartInstance = null;
+
+    function initBudgetPieChart(targetBudget, totalPengeluaran) {
+      var canvas = document.getElementById('budgetPieChart');
+      if (!canvas) return;
+
+      var persona = getPersona();
+      var totalBudget = targetBudget || persona.targetBudget || 50000000;
+      
+      // Hitung pengeluaran dari dashboard jika ada
+      var expense = totalPengeluaran;
+      if (typeof expense === 'undefined') {
+        var dashExpText = document.getElementById('dashPengeluaran');
+        if (dashExpText) {
+          expense = parseFloat(dashExpText.innerText.replace(/[^0-9]/g, '')) || 2000000;
+        } else {
+          expense = 2000000;
+        }
+      }
+
+      var sisaDana = Math.max(0, totalBudget - expense);
+      var pctTerpakai = Math.min(100, Math.round((expense / totalBudget) * 100));
+
+      if (document.getElementById('displayTargetBudget')) {
+        document.getElementById('displayTargetBudget').innerText = formatRupiah(totalBudget);
+      }
+      if (document.getElementById('budgetRemainingLabel')) {
+        document.getElementById('budgetRemainingLabel').innerText = 'Sisa Dana: ' + formatRupiah(sisaDana);
+      }
+      if (document.getElementById('budgetUsageBar')) {
+        document.getElementById('budgetUsageBar').style.width = pctTerpakai + '%';
+      }
+
+      // Alokasi ideal industri wedding
+      var venueCatering = Math.round(totalBudget * 0.45);
+      var dekorMua = Math.round(totalBudget * 0.20);
+      var dokumentasi = Math.round(totalBudget * 0.15);
+      var busana = Math.round(totalBudget * 0.10);
+      var cadangan = Math.round(totalBudget * 0.10);
+
+      if (document.getElementById('allocVenue')) document.getElementById('allocVenue').innerText = formatRupiah(venueCatering);
+      if (document.getElementById('allocDekor')) document.getElementById('allocDekor').innerText = formatRupiah(dekorMua);
+      if (document.getElementById('allocFoto')) document.getElementById('allocFoto').innerText = formatRupiah(dokumentasi);
+      if (document.getElementById('allocBaju')) document.getElementById('allocBaju').innerText = formatRupiah(busana);
+      if (document.getElementById('allocDarurat')) document.getElementById('allocDarurat').innerText = formatRupiah(cadangan);
+
+      if (typeof Chart === 'undefined') return;
+
+      if (budgetChartInstance) {
+        budgetChartInstance.destroy();
+      }
+
+      var ctx = canvas.getContext('2d');
+      budgetChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Sisa Dana Tersedia', 'Pengeluaran Terpakai'],
+          datasets: [{
+            data: [sisaDana, expense],
+            backgroundColor: ['#5B7A5E', '#d97706'],
+            borderWidth: 2,
+            borderColor: '#ffffff',
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 12,
+                font: { size: 11, family: "'Plus Jakarta Sans', sans-serif" }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(item) {
+                  return ' ' + item.label + ': ' + formatRupiah(item.raw);
+                }
+              }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+    }
+
+    /* ========================================================
+       3. WEDDING CHECKLIST TIMELINE FLOW
+       ======================================================== */
+    var defaultChecklistTasks = [
+      { id: "chk-1", timeline: "6-bulan", title: "Tentukan Anggaran & Target Total Budget", done: true },
+      { id: "chk-2", timeline: "6-bulan", title: "Susun Draft Awal Jumlah Tamu Undangan", done: true },
+      { id: "chk-3", timeline: "6-bulan", title: "Survei & Booking Gedung / Tempat Pernikahan", done: false },
+      { id: "chk-4", timeline: "3-bulan", title: "Booking Vendor Katering & Food Tasting", done: false },
+      { id: "chk-5", timeline: "3-bulan", title: "Pilih MUA (Make Up Artist) & Fitting Busana Pengantin", done: false },
+      { id: "chk-6", timeline: "3-bulan", title: "Lengkapi Berkas N1-N4 ke Kelurahan & KUA", done: false },
+      { id: "chk-7", timeline: "1-bulan", title: "Sebarkan Undangan Fisik & Undangan Digital", done: false },
+      { id: "chk-8", timeline: "1-bulan", title: "Beli / Bungkus Hantaran & Kotak Seserahan", done: false },
+      { id: "chk-9", timeline: "1-minggu", title: "Technical Meeting & Gladi Bersih dengan Panitia/WO", done: false },
+      { id: "chk-10", timeline: "1-minggu", title: "Konfirmasi Final Katering, Sound System & Transportasi", done: false }
+    ];
+
+    function getChecklistTasks() {
+      try {
+        var raw = localStorage.getItem('wedding_checklist');
+        return raw ? JSON.parse(raw) : defaultChecklistTasks;
+      } catch(e) {
+        return defaultChecklistTasks;
+      }
+    }
+
+    function saveChecklistTasks(tasks) {
+      localStorage.setItem('wedding_checklist', JSON.stringify(tasks));
+      renderChecklistTimeline();
+    }
+
+    function initChecklistData() {
+      renderChecklistTimeline();
+    }
+
+    function renderChecklistTimeline() {
+      var tasks = getChecklistTasks();
+      var groups = {
+        '6-bulan': document.getElementById('list-6-bulan'),
+        '3-bulan': document.getElementById('list-3-bulan'),
+        '1-bulan': document.getElementById('list-1-bulan'),
+        '1-minggu': document.getElementById('list-1-minggu')
+      };
+
+      Object.keys(groups).forEach(function(k) {
+        if (groups[k]) groups[k].innerHTML = '';
+      });
+
+      var totalDone = 0;
+      tasks.forEach(function(t) {
+        if (t.done) totalDone++;
+        var targetContainer = groups[t.timeline];
+        if (!targetContainer) return;
+
+        var item = document.createElement('div');
+        item.className = 'timeline-task-item' + (t.done ? ' done' : '');
+        item.innerHTML = '<input type="checkbox" ' + (t.done ? 'checked' : '') + ' onchange="toggleTaskItem(\'' + t.id + '\')">' +
+                         '<span class="task-title">' + t.title + '</span>' +
+                         '<button class="action-btn" onclick="deleteTaskItem(\'' + t.id + '\')" title="Hapus tugas" style="color:var(--text-muted);"><i class="fa-solid fa-trash-can"></i></button>';
+        targetContainer.appendChild(item);
+      });
+
+      var pct = Math.round((totalDone / (tasks.length || 1)) * 100);
+      if (document.getElementById('checklistOverallPct')) {
+        document.getElementById('checklistOverallPct').innerText = pct + '%';
+      }
+      if (document.getElementById('checklistSummaryCount')) {
+        document.getElementById('checklistSummaryCount').innerText = totalDone + ' dari ' + tasks.length + ' tugas selesai';
+      }
+      if (document.getElementById('checklistProgressBar')) {
+        document.getElementById('checklistProgressBar').style.width = pct + '%';
+      }
+    }
+
+    function toggleTaskItem(id) {
+      var tasks = getChecklistTasks();
+      var found = tasks.find(function(t) { return t.id === id; });
+      if (found) {
+        found.done = !found.done;
+        saveChecklistTasks(tasks);
+        showToast(found.done ? 'Tugas diselesaikan!' : 'Status tugas dikembalikan');
+      }
+    }
+
+    function deleteTaskItem(id) {
+      var tasks = getChecklistTasks().filter(function(t) { return t.id !== id; });
+      saveChecklistTasks(tasks);
+      showToast('Tugas dihapus');
+    }
+
+    function openCustomTaskModal() {
+      document.getElementById('inTaskName').value = '';
+      openModal('modalCustomTask');
+    }
+
+    function submitCustomTask(e) {
+      e.preventDefault();
+      var timeline = document.getElementById('inTaskTimeline').value;
+      var name = document.getElementById('inTaskName').value.trim();
+      if (!name) return;
+
+      var tasks = getChecklistTasks();
+      tasks.push({
+        id: "task-" + Date.now(),
+        timeline: timeline,
+        title: name,
+        done: false
+      });
+
+      saveChecklistTasks(tasks);
+      closeModal('modalCustomTask');
+      showToast('Tugas kustom berhasil ditambahkan!');
+    }
+
+    /* ========================================================
+       4. VENDOR MARKETPLACE & BOOKING FLOW
+       ======================================================== */
+    var vendorCatalogData = [
+      {
+        id: "VND-001",
+        name: "Sasana Kriya Grand Ballroom",
+        category: "Gedung",
+        location: "Jakarta Timur",
+        rating: 4.9,
+        reviewsCount: 142,
+        priceMin: 35000000,
+        priceFormatted: "Rp 35.000.000",
+        waPhone: "6281234567890",
+        description: "Ballroom megah berkapasitas hingga 1.200 tamu dengan fasilitas full karpet premium, AC sentral dingin, sound system konser, dan ruang VIP pengantin eksklusif.",
+        packages: [
+          { name: "Paket Silver (500 Pax)", price: "Rp 35.000.000" },
+          { name: "Paket Gold (800 Pax)", price: "Rp 48.000.000" },
+          { name: "Paket Platinum All-In (1.200 Pax)", price: "Rp 65.000.000" }
+        ],
+        images: [
+          "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=700&q=80",
+          "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=700&q=80",
+          "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=700&q=80"
+        ]
+      },
+      {
+        id: "VND-002",
+        name: "Berkah Catering Nusantara",
+        category: "Catering",
+        location: "Jakarta Selatan",
+        rating: 4.8,
+        reviewsCount: 98,
+        priceMin: 28000000,
+        priceFormatted: "Rp 28.000.000",
+        waPhone: "6281298765432",
+        description: "Catering legendaris cita rasa nusantara & internasional bersertifikat Halal MUI. Termasuk 6 menu gubukan favorit, ice carving, dan dessert fountain.",
+        packages: [
+          { name: "Prasmanan Deluxe (500 Porsi)", price: "Rp 28.000.000" },
+          { name: "Prasmanan Royal + 5 Gubuk (800 Porsi)", price: "Rp 42.000.000" }
+        ],
+        images: [
+          "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=700&q=80",
+          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=700&q=80"
+        ]
+      },
+      {
+        id: "VND-003",
+        name: "Sanggar Rias & Busana Kusuma",
+        category: "MUA",
+        location: "Bandung",
+        rating: 5.0,
+        reviewsCount: 76,
+        priceMin: 12000000,
+        priceFormatted: "Rp 12.000.000",
+        waPhone: "6281311223344",
+        description: "Spesialis rias pengantin adat Sunda Siger, Jawa Paes Ageng, dan Modern Flawless. Koleksi kebaya & beskap haute couture bertabur payet kristal.",
+        packages: [
+          { name: "Akad Only Makeup & Busana", price: "Rp 12.000.000" },
+          { name: "Akad + Resepsi + Rias Orang Tua (4 Org)", price: "Rp 18.500.000" }
+        ],
+        images: [
+          "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80",
+          "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=700&q=80"
+        ]
+      },
+      {
+        id: "VND-004",
+        name: "Lensa Momen Wedding Photography",
+        category: "Dokumentasi",
+        location: "Jakarta Pusat",
+        rating: 4.9,
+        reviewsCount: 110,
+        priceMin: 8500000,
+        priceFormatted: "Rp 8.500.000",
+        waPhone: "6281577889900",
+        description: "Sinematografi pernikahan 4K Ultra HD & fotografi dokumenter estetik. Termasuk cinematic teaser 1 menit untuk Instagram Reels dan album photobook cetak eksklusif.",
+        packages: [
+          { name: "Photo & Video Cinematic Standard", price: "Rp 8.500.000" },
+          { name: "Prewedding + Wedding Cinematic Drone 4K", price: "Rp 14.000.000" }
+        ],
+        images: [
+          "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=700&q=80",
+          "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=700&q=80"
+        ]
+      },
+      {
+        id: "VND-005",
+        name: "Maharani Flora Decor & Lighting",
+        category: "Dekorasi",
+        location: "Bogor",
+        rating: 4.8,
+        reviewsCount: 64,
+        priceMin: 15000000,
+        priceFormatted: "Rp 15.000.000",
+        waPhone: "6281765432100",
+        description: "Dekorasi pelaminan modern rustic & fairy garden dengan bunga asli segar impor, backdrop geometri bercahaya neon warm, dan pergola lorong masuk estetik.",
+        packages: [
+          { name: "Rustic Intimate (Pelaminan 6m)", price: "Rp 15.000.000" },
+          { name: "Grand Floral Romance (Pelaminan 12m)", price: "Rp 26.000.000" }
+        ],
+        images: [
+          "https://images.unsplash.com/photo-1519225424564-90409a202dfa?auto=format&fit=crop&w=700&q=80",
+          "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=700&q=80"
+        ]
+      }
+    ];
+
+    var activeVendorObj = null;
+    var currentCarouselIndex = 0;
+
+    function renderVendorCatalog(items) {
+      var grid = document.getElementById('vendorGridContainer');
+      if (!grid) return;
+      var list = items || vendorCatalogData;
+      grid.innerHTML = '';
+
+      if (list.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:30px; color:var(--text-muted);"><i class="fa-solid fa-store-slash" style="font-size:2rem; margin-bottom:8px;"></i><p>Tidak ada vendor yang cocok dengan filter Anda.</p></div>';
+        return;
+      }
+
+      list.forEach(function(v) {
+        var card = document.createElement('div');
+        card.className = 'vendor-card';
+        card.innerHTML = 
+          '<div class="vendor-img-wrapper">' +
+            '<img src="' + v.images[0] + '" alt="' + v.name + '" loading="lazy">' +
+            '<span class="vendor-badge-cat">' + v.category + '</span>' +
+          '</div>' +
+          '<div class="vendor-body">' +
+            '<div class="vendor-title">' + v.name + '</div>' +
+            '<div class="vendor-meta-row">' +
+              '<span><i class="fa-solid fa-location-dot"></i> ' + v.location + '</span>' +
+              '<span class="rating-badge"><i class="fa-solid fa-star"></i> ' + v.rating + ' (' + v.reviewsCount + ')</span>' +
+            '</div>' +
+            '<div class="vendor-price-label">Mulai dari</div>' +
+            '<div class="vendor-price-val">' + v.priceFormatted + '</div>' +
+            '<div class="vendor-btn-row">' +
+              '<button class="btn btn-secondary" onclick="openVendorDetail(\'' + v.id + '\')"><i class="fa-solid fa-eye"></i> Detail</button>' +
+              '<button class="btn btn-primary" onclick="quickBookVendor(\'' + v.id + '\')"><i class="fa-solid fa-calendar-check"></i> Pesan</button>' +
+            '</div>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    function filterVendorCatalog() {
+      var search = (document.getElementById('catalogSearchInput').value || '').toLowerCase();
+      var cat = document.getElementById('catalogFilterCategory').value;
+      var loc = document.getElementById('catalogFilterLocation').value;
+      var priceMax = parseFloat(document.getElementById('catalogFilterPrice').value) || 0;
+
+      var filtered = vendorCatalogData.filter(function(v) {
+        var matchSearch = !search || v.name.toLowerCase().indexOf(search) !== -1 || v.category.toLowerCase().indexOf(search) !== -1;
+        var matchCat = cat === 'All' || v.category === cat;
+        var matchLoc = loc === 'All' || v.location === loc;
+        var matchPrice = !priceMax || v.priceMin <= priceMax;
+        return matchSearch && matchCat && matchLoc && matchPrice;
+      });
+
+      renderVendorCatalog(filtered);
+    }
+
+    function openVendorDetail(id) {
+      var v = vendorCatalogData.find(function(item) { return item.id === id; });
+      if (!v) return;
+      activeVendorObj = v;
+      currentCarouselIndex = 0;
+
+      document.getElementById('modalDetailVendorTitle').innerText = v.name;
+      document.getElementById('vendorDetailCategory').innerText = v.category;
+      document.getElementById('vendorDetailLocation').innerText = v.location;
+      document.getElementById('vendorDetailRating').innerText = v.rating + ' (' + v.reviewsCount + ' Ulasan)';
+      document.getElementById('vendorDetailDesc').innerText = v.description;
+      document.getElementById('vendorDetailPrice').innerText = v.priceFormatted;
+
+      // Render Carousel Slides
+      var track = document.getElementById('carouselTrack');
+      track.innerHTML = '';
+      v.images.forEach(function(imgSrc) {
+        var slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = '<img src="' + imgSrc + '" alt="Portfolio Foto">';
+        track.appendChild(slide);
+      });
+      track.style.transform = 'translateX(0%)';
+
+      // Render Packages
+      var pkgContainer = document.getElementById('vendorPackageList');
+      pkgContainer.innerHTML = '';
+      v.packages.forEach(function(pkg) {
+        var div = document.createElement('div');
+        div.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#faf8f5; border:1px solid #ebd9c8; padding:8px 12px; border-radius:8px; font-size:0.85rem;";
+        div.innerHTML = '<span style="font-weight:600; color:var(--text-main);">' + pkg.name + '</span><span style="font-weight:700; color:var(--accent-cream-dark);">' + pkg.price + '</span>';
+        pkgContainer.appendChild(div);
+      });
+
+      // Wire Action Buttons
+      var chatBtn = document.getElementById('btnVendorChatWa');
+      chatBtn.onclick = function() {
+        var text = encodeURIComponent("Halo " + v.name + ", saya tertarik dengan paket wedding Anda melalui aplikasi pernikahan Hatami & Naning. Bisakah minta informasi ketersediaan tanggal?");
+        window.open("https://wa.me/" + v.waPhone + "?text=" + text, "_blank");
+      };
+
+      var bookBtn = document.getElementById('btnVendorPesanNow');
+      bookBtn.onclick = function() {
+        closeModal('modalDetailVendor');
+        openCheckoutModal(v);
+      };
+
+      openModal('modalDetailVendor');
+    }
+
+    function moveCarousel(direction) {
+      if (!activeVendorObj || !activeVendorObj.images.length) return;
+      var total = activeVendorObj.images.length;
+      currentCarouselIndex = (currentCarouselIndex + direction + total) % total;
+      var track = document.getElementById('carouselTrack');
+      track.style.transform = 'translateX(-' + (currentCarouselIndex * 100) + '%)';
+    }
+
+    function quickBookVendor(id) {
+      var v = vendorCatalogData.find(function(item) { return item.id === id; });
+      if (v) openCheckoutModal(v);
+    }
+
+    function openCheckoutModal(v) {
+      activeVendorObj = v;
+      document.getElementById('chkNamaVendor').value = v.name + ' (' + v.category + ')';
+      
+      var persona = getPersona();
+      if (persona.weddingDate) {
+        document.getElementById('chkTanggalAcara').value = persona.weddingDate;
+      }
+
+      document.getElementById('chkOpsiBayar').value = 'DP';
+      updateCheckoutNominal();
+      openModal('modalCheckoutVendor');
+    }
+
+    function updateCheckoutNominal() {
+      if (!activeVendorObj) return;
+      var opsi = document.getElementById('chkOpsiBayar').value;
+      var total = activeVendorObj.priceMin;
+      var bayar = opsi === 'DP' ? Math.round(total * 0.3) : total;
+      document.getElementById('chkNominalBayar').value = bayar;
+    }
+
+    function submitCheckoutPayment(e) {
+      e.preventDefault();
+      if (!activeVendorObj) return;
+
+      var namaVendor = activeVendorObj.name;
+      var kategori = activeVendorObj.category;
+      var tanggalAcara = document.getElementById('chkTanggalAcara').value;
+      var opsi = document.getElementById('chkOpsiBayar').value;
+      var nominal = parseFloat(document.getElementById('chkNominalBayar').value) || 0;
+      var metode = document.getElementById('chkMetode').value;
+
+      closeModal('modalCheckoutVendor');
+
+      // Auto Add to Wedding Planner (Vendor List)
+      var plannerPayload = {
+        kategoriAcara: "Wedding",
+        namaVendor: namaVendor,
+        kategoriVendor: kategori,
+        estimasiHarga: activeVendorObj.priceMin,
+        statusPembayaran: opsi === 'DP' ? 'DP Terbayar' : 'Lunas',
+        catatan: "Booking via Marketplace (" + metode + ") Tgl Acara: " + (tanggalAcara || "-")
+      };
+
+      if (isGoogleAvailable()) {
+        google.script.run.withSuccessHandler(function() {
+          refreshDashboard();
+          loadPlannerData(1);
+        }).addPlannerVendor(plannerPayload);
+
+        // Auto Add to Tabungan (Pengeluaran Bersama)
+        var tabunganPayload = {
+          pihak: "Bersama",
+          tipe: "Pengeluaran",
+          nominal: nominal,
+          kategori: "Vendor " + kategori,
+          catatan: "Pembayaran " + opsi + " " + namaVendor + " (" + metode + ")"
+        };
+        google.script.run.withSuccessHandler(function() {
+          loadTabunganData(1);
+          initBudgetPieChart();
+        }).addTabunganTransaction(tabunganPayload);
+      } else {
+        showToast('Sukses! Invoice digital diterbitkan, tersimpan ke Wedding Planner & Tabungan.');
+      }
+
+      showToast('Pembayaran ' + opsi + ' ' + namaVendor + ' Berhasil dikonfirmasi!');
+    }
+
+    /* ========================================================
+       5. DIGITAL INVITATION STUDIO & RSVP TRACKER
+       ======================================================== */
+    var rsvpSummaryData = {
+      hadir: 24,
+      tidakHadir: 4,
+      belumRespon: 12
+    };
+
+    function updateInvitationPreview() {
+      var template = document.getElementById('invTemplateSelect').value;
+      var quote = document.getElementById('invQuoteInput').value;
+      var music = document.getElementById('invMusicSelect').value;
+      var guestName = document.getElementById('invGuestNameInput').value.trim() || "Nama Tamu Terhormat";
+
+      var previewCard = document.getElementById('invPreviewCard');
+      if (previewCard) {
+        if (template === 'minimalist') {
+          previewCard.style.background = '#ffffff';
+          previewCard.style.color = '#333333';
+        } else if (template === 'rustic') {
+          previewCard.style.background = '#f5efe6';
+          previewCard.style.color = '#4a3b32';
+        } else {
+          previewCard.style.background = 'linear-gradient(135deg, #fdfbf7 0%, #f4ede4 100%)';
+          previewCard.style.color = 'var(--text-main)';
+        }
+      }
+
+      var guestLabel = document.getElementById('invPreviewGuest');
+      if (guestLabel) guestLabel.innerText = guestName;
+
+      var quoteLabel = document.getElementById('invQuoteDisplay');
+      if (quoteLabel) quoteLabel.innerText = quote;
+
+      // Update Generated Link
+      var linkInput = document.getElementById('invGeneratedLink');
+      if (linkInput) {
+        var base = window.location.origin + window.location.pathname;
+        var persona = getPersona();
+        var slug = encodeURIComponent(guestName.replace(/\s+/g, '-'));
+        linkInput.value = base + '?to=' + slug + '&tpl=' + template;
+      }
+    }
+
+    function copyInvitationLink() {
+      var linkInput = document.getElementById('invGeneratedLink');
+      if (!linkInput) return;
+      linkInput.select();
+      linkInput.setSelectionRange(0, 99999);
+      try {
+        navigator.clipboard.writeText(linkInput.value);
+        showToast('Link undangan personal berhasil disalin!');
+      } catch(e) {
+        document.execCommand('copy');
+        showToast('Link undangan personal berhasil disalin!');
+      }
+    }
+
+    function shareInvitationWa() {
+      var guestName = document.getElementById('invGuestNameInput').value.trim() || "Bapak/Ibu/Sahabat";
+      var linkInput = document.getElementById('invGeneratedLink').value;
+      var persona = getPersona();
+      var msg = encodeURIComponent("Kepada Yth. " + guestName + ",\n\nDengan penuh rasa syukur, kami mengundang Anda untuk hadir pada perayaan pernikahan kami:\n*" + persona.namaPria + " & " + persona.namaWanita + "*\n\nDetail acara & konfirmasi kehadiran (RSVP) dapat diakses melalui tautan undangan berikut:\n" + linkInput + "\n\nTerima kasih.");
+      window.open("https://wa.me/?text=" + msg, "_blank");
+    }
+
+    function updateRsvpStats() {
+      var total = rsvpSummaryData.hadir + rsvpSummaryData.tidakHadir + rsvpSummaryData.belumRespon;
+      if (document.getElementById('rsvpCountHadir')) document.getElementById('rsvpCountHadir').innerText = rsvpSummaryData.hadir + ' Tamu';
+      if (document.getElementById('rsvpCountTidak')) document.getElementById('rsvpCountTidak').innerText = rsvpSummaryData.tidakHadir + ' Tamu';
+      if (document.getElementById('rsvpCountPending')) document.getElementById('rsvpCountPending').innerText = rsvpSummaryData.belumRespon + ' Tamu';
+      if (document.getElementById('rsvpTotalResponses')) document.getElementById('rsvpTotalResponses').innerText = total;
     }
   </script>
 </body>
