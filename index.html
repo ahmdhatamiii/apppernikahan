@@ -573,7 +573,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-xs text-stone-400 font-medium">Target Total Anggaran</span>
-                                <h3 class="text-2xl font-bold font-serif text-amber-300">Rp 50.000.000</h3>
+                                <h3 id="targetBudgetDisplay" class="text-2xl font-bold font-serif text-amber-300">Rp 50.000.000</h3>
                             </div>
                             <button onclick="openModal('editTargetBudgetModal')"
                                 class="text-stone-300 hover:text-white p-1">
@@ -1276,6 +1276,30 @@
                 </button>
             </div>
         </div>
+                <!-- ================= MODAL: EDIT TARGET ANGGARAN ================= -->
+        <div id="editTargetBudgetModal"
+            class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
+            <div class="bg-white rounded-t-3xl p-5 space-y-4">
+                <div class="flex justify-between items-center pb-2 border-b border-stone-100">
+                    <h3 class="font-bold text-sm text-stone-900">Ubah Target Anggaran</h3>
+                    <button onclick="closeModal('editTargetBudgetModal')" class="text-stone-400 hover:text-stone-600">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-stone-700 mb-1">Target Total Anggaran (Rp):</label>
+                        <input type="number" id="inputEditTargetBudget" placeholder="Contoh: 50000000"
+                            class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs focus:ring-2 focus:ring-rose-400 focus:outline-none">
+                    </div>
+                </div>
+                <button onclick="saveTargetBudget()"
+                    class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-3 rounded-2xl active:scale-98 transition">
+                    Simpan Perubahan
+                </button>
+            </div>
+        </div>
+
         <!-- ================= MODAL: CATAT PENGELUARAN BARU ================= -->
         <div id="addExpenseModal"
             class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
@@ -1613,6 +1637,10 @@
 
         /* ================= INISIALISASI SAAT DOM READY ================= */
         window.addEventListener('DOMContentLoaded', () => {
+            try {
+                const p = JSON.parse(localStorage.getItem('wedding_persona') || '{}');
+                if (p.targetBudget) appState.totalBudget = parseFloat(p.targetBudget);
+            } catch(e){}
             renderAllViews();
             syncDataFromSpreadsheet();
             updateClock();
@@ -1881,6 +1909,7 @@
             const remaining = Math.max(0, appState.totalBudget - totalSpent);
             const spentPercent = Math.min(100, ((totalSpent / appState.totalBudget) * 100)).toFixed(1);
 
+            const targetEl = document.getElementById('targetBudgetDisplay'); if (targetEl) targetEl.innerText = formatRupiah(appState.totalBudget);
             document.getElementById('totalSpentText').innerText = formatRupiah(totalSpent);
             document.getElementById('remainingBudgetText').innerText = formatRupiah(remaining);
             document.getElementById('budgetUsageBar').style.width = `${spentPercent}%`;
@@ -2454,6 +2483,10 @@
 
         /* ================= UTILITY & HELPERS ================= */
         function openModal(modalId) {
+            if (modalId === 'editTargetBudgetModal') {
+                const inEl = document.getElementById('inputEditTargetBudget');
+                if (inEl) inEl.value = appState.totalBudget || 50000000;
+            }
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('hidden');
@@ -2755,6 +2788,31 @@
                     catatan: catatan
                 });
             }
+        }
+
+                function saveTargetBudget() {
+            const inputVal = document.getElementById('inputEditTargetBudget').value;
+            const budget = parseFloat(inputVal);
+            if (isNaN(budget) || budget <= 0) {
+                showToast('Mohon masukkan nominal target anggaran yang valid.');
+                return;
+            }
+            appState.totalBudget = budget;
+
+            // Simpan ke localStorage persona
+            try {
+                let p = JSON.parse(localStorage.getItem('wedding_persona') || '{}');
+                p.targetBudget = budget;
+                localStorage.setItem('wedding_persona', JSON.stringify(p));
+            } catch(e){}
+
+            // Update field di setup jika ada
+            const setupEl = document.getElementById('setupTotalBudget');
+            if (setupEl) setupEl.value = budget;
+
+            renderAllViews();
+            closeModal('editTargetBudgetModal');
+            showToast('✅ Target anggaran berhasil diperbarui!');
         }
 
         function savePersonaSettings() {
