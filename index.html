@@ -950,35 +950,21 @@
       .app-header { padding: 10px 14px; }
     }
 
-    /* ===================== MOBILE-APP PHONE MODE ===================== */
+    /* ===================== KHUSUS TAMPILAN HP (MOBILE-FIRST) ===================== */
     body {
-      background-color: #1a1e1b;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding: 0;
-      margin: 0;
-    }
-
-    /* Mobile Phone Wrapper (App-Only View) */
-    .mobile-app-wrapper {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
+      padding-bottom: 80px;
       background-color: var(--bg-main);
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      padding-bottom: 75px;
     }
 
     .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 16px 14px 20px 14px;
+    }
+
+    .app-header {
       max-width: 100%;
-      margin: 0;
-      padding: 16px 14px;
+      padding: 12px 16px;
     }
 
     .dashboard-grid {
@@ -1012,21 +998,13 @@
       min-width: 120px;
     }
 
-    .app-header {
-      padding: 12px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    /* Bottom Navigation Bar for Mobile */
+    /* Sticky Bottom Nav Bar untuk HP */
     .mobile-bottom-nav {
       position: fixed;
       bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
+      right: 0;
       width: 100%;
-      max-width: 480px;
       background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -1034,9 +1012,9 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      padding: 8px 6px 10px 6px;
+      padding: 8px 6px 12px 6px;
       z-index: 200;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
     }
 
     .mobile-nav-item {
@@ -1081,7 +1059,6 @@
       border-radius: var(--radius-lg);
     }
 
-    /* Modal mobile bottom-sheet feel */
     @media (max-width: 480px) {
       .modal-card {
         width: 100%;
@@ -1454,35 +1431,33 @@
     </section>
   </div>
 
-
-    <!-- Mobile Bottom Navigation Bar -->
-    <nav class="mobile-bottom-nav">
-      <a class="mobile-nav-item active" id="bnav-tab-tabungan" onclick="switchTab('tab-tabungan', this)">
-        <i class="fa-solid fa-wallet"></i>
-        <span>Tabungan</span>
-      </a>
-      <a class="mobile-nav-item" id="bnav-tab-planner" onclick="switchTab('tab-planner', this)">
-        <i class="fa-solid fa-calendar-check"></i>
-        <span>Planner</span>
-      </a>
-      <a class="mobile-nav-item" id="bnav-tab-seserahan" onclick="switchTab('tab-seserahan', this)">
-        <i class="fa-solid fa-gift"></i>
-        <span>Seserahan</span>
-      </a>
-      <a class="mobile-nav-item" id="bnav-tab-kua" onclick="switchTab('tab-kua', this)">
-        <i class="fa-solid fa-file-contract"></i>
-        <span>KUA</span>
-      </a>
-      <a class="mobile-nav-item" id="bnav-tab-tamu" onclick="switchTab('tab-tamu', this)">
-        <i class="fa-solid fa-users"></i>
-        <span>Tamu</span>
-      </a>
-      <a class="mobile-nav-item" id="bnav-tab-ai-scanner" onclick="switchTab('tab-ai-scanner', this)">
-        <i class="fa-solid fa-camera-retro"></i>
-        <span>AI Struk</span>
-      </a>
-    </nav>
-  </div> <!-- /.mobile-app-wrapper -->
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <a class="mobile-nav-item active" id="bnav-tab-tabungan" onclick="switchTab('tab-tabungan', this)">
+      <i class="fa-solid fa-wallet"></i>
+      <span>Tabungan</span>
+    </a>
+    <a class="mobile-nav-item" id="bnav-tab-planner" onclick="switchTab('tab-planner', this)">
+      <i class="fa-solid fa-calendar-check"></i>
+      <span>Planner</span>
+    </a>
+    <a class="mobile-nav-item" id="bnav-tab-seserahan" onclick="switchTab('tab-seserahan', this)">
+      <i class="fa-solid fa-gift"></i>
+      <span>Seserahan</span>
+    </a>
+    <a class="mobile-nav-item" id="bnav-tab-kua" onclick="switchTab('tab-kua', this)">
+      <i class="fa-solid fa-file-contract"></i>
+      <span>KUA</span>
+    </a>
+    <a class="mobile-nav-item" id="bnav-tab-tamu" onclick="switchTab('tab-tamu', this)">
+      <i class="fa-solid fa-users"></i>
+      <span>Tamu</span>
+    </a>
+    <a class="mobile-nav-item" id="bnav-tab-ai-scanner" onclick="switchTab('tab-ai-scanner', this)">
+      <i class="fa-solid fa-camera-retro"></i>
+      <span>AI Struk</span>
+    </a>
+  </nav>
 
   <!-- Modals Section -->
   <div id="modalTabungan" class="modal-overlay">
