@@ -195,44 +195,72 @@
                     </div>
                 </div>
 
-                <!-- Tombol Aksi Cepat (Quick Shortcuts) -->
+                <!-- Tombol Aksi Cepat & Navigasi Terpadu -->
                 <div>
-                    <h2 class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2.5 px-1">Aksi Cepat</h2>
-                    <div class="grid grid-cols-4 gap-2.5">
-                        <button onclick="openModal('addExpenseModal')"
-                            class="flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-rose-300 transition tap-highlight-transparent active:scale-95">
-                            <div
-                                class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-1.5">
-                                <i data-lucide="receipt" class="w-5 h-5"></i>
+                    <h2 class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2.5 px-1">Navigasi Fitur & Aksi Cepat</h2>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="switchTab('planner'); switchPlannerSubTab('tabungan');"
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-emerald-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-1">
+                                <i data-lucide="wallet" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-[11px] font-medium text-stone-700 text-center">Catat Biaya</span>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">Tabungan</span>
+                        </button>
+
+                        <button onclick="switchTab('planner'); switchPlannerSubTab('kua');"
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-amber-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-1">
+                                <i data-lucide="file-text" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">Berkas KUA</span>
+                        </button>
+
+                        <button onclick="switchTab('undangan'); switchUndanganSubTab('seserahan');"
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-pink-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center mb-1">
+                                <i data-lucide="gift" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">Seserahan</span>
                         </button>
 
                         <button onclick="openModal('addGuestModal')"
-                            class="flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-rose-300 transition tap-highlight-transparent active:scale-95">
-                            <div
-                                class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-1.5">
-                                <i data-lucide="user-plus" class="w-5 h-5"></i>
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-rose-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-1">
+                                <i data-lucide="user-plus" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-[11px] font-medium text-stone-700 text-center">+ Tamu</span>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">+ Tamu</span>
+                        </button>
+
+                        <button onclick="openModal('addExpenseModal')"
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-blue-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-1">
+                                <i data-lucide="receipt" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">Catat Biaya</span>
                         </button>
 
                         <button onclick="switchTab('undangan'); switchUndanganSubTab('preview');"
-                            class="flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-rose-300 transition tap-highlight-transparent active:scale-95">
-                            <div
-                                class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-1.5">
-                                <i data-lucide="mail-open" class="w-5 h-5"></i>
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-purple-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-1">
+                                <i data-lucide="mail-open" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-[11px] font-medium text-stone-700 text-center">Undangan</span>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">Undangan</span>
                         </button>
 
                         <button onclick="switchTab('vendor')"
-                            class="flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-rose-300 transition tap-highlight-transparent active:scale-95">
-                            <div
-                                class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-1.5">
-                                <i data-lucide="store" class="w-5 h-5"></i>
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-indigo-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-1">
+                                <i data-lucide="store" class="w-4 h-4"></i>
                             </div>
-                            <span class="text-[11px] font-medium text-stone-700 text-center">Cari Vendor</span>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">Cari Vendor</span>
+                        </button>
+
+                        <button onclick="switchTab('planner'); switchPlannerSubTab('checklist');"
+                            class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-stone-200/80 shadow-xs hover:border-stone-300 transition tap-highlight-transparent active:scale-95">
+                            <div class="w-9 h-9 rounded-xl bg-stone-100 text-stone-700 flex items-center justify-center mb-1">
+                                <i data-lucide="check-square" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-[10px] font-semibold text-stone-700 text-center">Checklist</span>
                         </button>
                     </div>
                 </div>
@@ -441,42 +469,24 @@
                     </button>
                 </div>
 
-                <!-- Sub-tab Switcher: Checklist vs Budget -->
-                <div class="bg-stone-200/70 p-1 rounded-2xl flex text-xs font-semibold">
+                <!-- Sub-tab Switcher: Checklist, Tabungan, KUA, Budget Tracker -->
+                <div class="bg-stone-200/70 p-1 rounded-2xl flex space-x-1 text-xs font-semibold overflow-x-auto no-scrollbar">
                     <button id="subtab-btn-checklist" onclick="switchPlannerSubTab('checklist')"
-                        class="flex-1 py-2 rounded-xl bg-white text-stone-900 shadow-xs transition text-center">
-                        📋 Checklist Timeline
+                        class="flex-1 py-2 px-2 rounded-xl bg-white text-stone-900 shadow-xs transition text-center whitespace-nowrap">
+                        📋 Checklist
+                    </button>
+                    <button id="subtab-btn-tabungan" onclick="switchPlannerSubTab('tabungan')"
+                        class="flex-1 py-2 px-2 rounded-xl text-stone-500 hover:text-stone-900 transition text-center whitespace-nowrap">
+                        💳 Tabungan
+                    </button>
+                    <button id="subtab-btn-kua" onclick="switchPlannerSubTab('kua')"
+                        class="flex-1 py-2 px-2 rounded-xl text-stone-500 hover:text-stone-900 transition text-center whitespace-nowrap">
+                        📜 Berkas KUA
                     </button>
                     <button id="subtab-btn-budget" onclick="switchPlannerSubTab('budget')"
-                        class="flex-1 py-2 rounded-xl text-stone-500 hover:text-stone-900 transition text-center">
-                        💰 Budget Tracker
+                        class="flex-1 py-2 px-2 rounded-xl text-stone-500 hover:text-stone-900 transition text-center whitespace-nowrap">
+                        💰 Budget
                     </button>
-                </div>
-
-                <!-- SUBTAB 1: CHECKLIST TIMELINE -->
-                <div id="planner-checklist-view" class="space-y-4">
-                    <!-- Filter Waktu Timeline -->
-                    <div class="flex space-x-2 overflow-x-auto no-scrollbar text-xs">
-                        <button onclick="filterChecklist('all')"
-                            class="checklist-pill bg-stone-900 text-white px-3 py-1.5 rounded-lg whitespace-nowrap"
-                            data-time="all">Semua Waktu</button>
-                        <button onclick="filterChecklist('h12')"
-                            class="checklist-pill bg-white border border-stone-200 text-stone-600 px-3 py-1.5 rounded-lg whitespace-nowrap"
-                            data-time="h12">H-12 s/d H-6 Bulan</button>
-                        <button onclick="filterChecklist('h3')"
-                            class="checklist-pill bg-white border border-stone-200 text-stone-600 px-3 py-1.5 rounded-lg whitespace-nowrap"
-                            data-time="h3">H-3 Bulan</button>
-                        <button onclick="filterChecklist('h1')"
-                            class="checklist-pill bg-white border border-stone-200 text-stone-600 px-3 py-1.5 rounded-lg whitespace-nowrap"
-                            data-time="h1">H-1 Bulan</button>
-                        <button onclick="filterChecklist('hday')"
-                            class="checklist-pill bg-white border border-stone-200 text-stone-600 px-3 py-1.5 rounded-lg whitespace-nowrap"
-                            data-time="hday">Minggu Hari H</button>
-                    </div>
-
-                    <div id="checklistItemsContainer" class="space-y-2.5">
-                        <!-- Dynamic checklist items -->
-                    </div>
                 </div>
 
                 <!-- SUBTAB 3: TABUNGAN BERSAMA (HATAMI & NANING) -->
@@ -636,43 +646,21 @@
                     </div>
                 </div>
 
-                <!-- Sub-tab Switcher: Tamu vs Undangan Digital -->
-                <div class="bg-stone-200/70 p-1 rounded-2xl flex text-xs font-semibold">
+                <!-- Sub-tab Switcher: Tamu vs Undangan Digital vs Seserahan -->
+                <div class="bg-stone-200/70 p-1 rounded-2xl flex space-x-1 text-xs font-semibold overflow-x-auto no-scrollbar">
                     <button id="subtab-btn-tamu" onclick="switchUndanganSubTab('tamu')"
-                        class="flex-1 py-2 rounded-xl bg-white text-stone-900 shadow-xs transition text-center">
-                        👥 Daftar Tamu & RSVP
+                        class="flex-1 py-2 px-2 rounded-xl bg-white text-stone-900 shadow-xs transition text-center whitespace-nowrap">
+                        👥 Buku Tamu & RSVP
+                    </button>
+                    <button id="subtab-btn-seserahan" onclick="switchUndanganSubTab('seserahan')"
+                        class="flex-1 py-2 px-2 rounded-xl text-stone-500 hover:text-stone-900 transition text-center whitespace-nowrap">
+                        🎁 Seserahan & Wishlist
                     </button>
                     <button id="subtab-btn-preview" onclick="switchUndanganSubTab('preview')"
-                        class="flex-1 py-2 rounded-xl text-stone-500 hover:text-stone-900 transition text-center">
-                        💌 Undangan Digital
+                        class="flex-1 py-2 px-2 rounded-xl text-stone-500 hover:text-stone-900 transition text-center whitespace-nowrap">
+                        💌 Undangan Web
                     </button>
                 </div>
-
-                <!-- SUBTAB 1: DAFTAR TAMU & RSVP -->
-                <div id="undangan-tamu-view" class="space-y-4">
-                    <!-- Widget Ringkasan RSVP -->
-                    <div class="grid grid-cols-4 gap-2">
-                        <div class="bg-white p-2.5 rounded-2xl border border-stone-200 text-center">
-                            <span class="text-[10px] text-stone-400 block font-medium">Total</span>
-                            <span class="text-base font-bold text-stone-900" id="rsvpTotalCount">150</span>
-                            <span class="text-[9px] text-stone-400 block">Orang</span>
-                        </div>
-                        <div class="bg-emerald-50 p-2.5 rounded-2xl border border-emerald-100 text-center">
-                            <span class="text-[10px] text-emerald-600 block font-semibold">Hadir</span>
-                            <span class="text-base font-bold text-emerald-700" id="rsvpHadirCount">84</span>
-                            <span class="text-[9px] text-emerald-600 block">Orang</span>
-                        </div>
-                        <div class="bg-rose-50 p-2.5 rounded-2xl border border-rose-100 text-center">
-                            <span class="text-[10px] text-rose-600 block font-semibold">Batal</span>
-                            <span class="text-base font-bold text-rose-700" id="rsvpBatalCount">12</span>
-                            <span class="text-[9px] text-rose-600 block">Orang</span>
-                        </div>
-                        <div class="bg-amber-50 p-2.5 rounded-2xl border border-amber-100 text-center">
-                            <span class="text-[10px] text-amber-700 block font-semibold">Pending</span>
-                            <span class="text-base font-bold text-amber-800" id="rsvpPendingCount">54</span>
-                            <span class="text-[9px] text-amber-700 block">Orang</span>
-                        </div>
-                    </div>
 
                     <!-- Tombol Aksi Tamu -->
                     <div class="flex space-x-2">
@@ -707,6 +695,51 @@
                     <!-- List Tamu -->
                     <div id="guestListContainer" class="space-y-2">
                         <!-- Dynamic guest cards -->
+                    </div>
+                </div>
+
+                <!-- SUBTAB 3: SESERAHAN & WISHLIST -->
+                <div id="undangan-seserahan-view" class="hidden space-y-4">
+                    <!-- Ringkasan Seserahan -->
+                    <div class="bg-gradient-to-br from-pink-800 to-stone-900 text-white p-5 rounded-3xl shadow-sm space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs text-pink-300 font-medium flex items-center">
+                                    <i data-lucide="gift" class="w-3.5 h-3.5 mr-1"></i> Total Biaya Seserahan
+                                </span>
+                                <h3 class="text-2xl font-bold font-serif text-white mt-1" id="dashTotalSeserahanVal">Rp 0</h3>
+                            </div>
+                            <button onclick="openModal('addSeserahanModal')" class="bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl flex items-center space-x-1 shadow transition active:scale-95">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                <span>+ Barang</span>
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-pink-700/60 text-center">
+                            <div class="bg-white/10 p-2 rounded-xl">
+                                <span class="text-[10px] text-pink-200 block">Sudah Dibeli</span>
+                                <span class="text-xs font-bold text-emerald-300" id="dashSeserahanDibeliVal">Rp 0</span>
+                            </div>
+                            <div class="bg-white/10 p-2 rounded-xl">
+                                <span class="text-[10px] text-pink-200 block">Masih Wishlist</span>
+                                <span class="text-xs font-bold text-amber-300" id="dashSeserahanWishlistVal">Rp 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-3xl border border-stone-200 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xs font-bold text-stone-800 uppercase tracking-wider">Daftar Barang Seserahan</h3>
+                            <div class="flex space-x-1 text-xs">
+                                <button onclick="filterSeserahan('All')" class="seserahan-pill bg-stone-900 text-white px-2.5 py-1 rounded-lg text-[10px]" data-sf="All">Semua</button>
+                                <button onclick="filterSeserahan('Wishlist')" class="seserahan-pill bg-stone-100 text-stone-600 px-2.5 py-1 rounded-lg text-[10px]" data-sf="Wishlist">Wishlist</button>
+                                <button onclick="filterSeserahan('Sudah Dibeli')" class="seserahan-pill bg-stone-100 text-stone-600 px-2.5 py-1 rounded-lg text-[10px]" data-sf="Sudah Dibeli">Dibeli</button>
+                            </div>
+                        </div>
+
+                        <div id="seserahanItemsList" class="space-y-2">
+                            <!-- Dynamic from Spreadsheet -->
+                        </div>
                     </div>
                 </div>
 
@@ -1345,6 +1378,66 @@
             </div>
         </div>
 
+        <!-- ================= MODAL: TAMBAH SESERAHAN ================= -->
+        <div id="addSeserahanModal"
+            class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
+            <div class="bg-white rounded-t-3xl p-5 space-y-4">
+                <div class="flex justify-between items-center pb-2 border-b border-stone-100">
+                    <h3 class="font-bold text-sm text-stone-900">Tambah Barang Seserahan</h3>
+                    <button onclick="closeModal('addSeserahanModal')" class="text-stone-400 hover:text-stone-600">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-semibold text-stone-700 mb-1">Nama Barang / Item:</label>
+                        <input type="text" id="newSeserahanNama" placeholder="Contoh: High Heels Nude 38, Set Mukena Sutra"
+                            class="w-full border border-stone-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-pink-400 focus:outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Kategori:</label>
+                            <select id="newSeserahanKategori" class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                                <option value="Skincare & Kosmetik">Skincare & Kosmetik</option>
+                                <option value="Pakaian">Pakaian / Baju</option>
+                                <option value="Sepatu & Tas">Sepatu & Tas</option>
+                                <option value="Perhiasan">Perhiasan</option>
+                                <option value="Alat Sholat">Alat Sholat</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Estimasi Harga (Rp):</label>
+                            <input type="number" id="newSeserahanHarga" placeholder="500000"
+                                class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs focus:ring-2 focus:ring-pink-400 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Status:</label>
+                            <select id="newSeserahanStatus" class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                                <option value="Wishlist">Wishlist</option>
+                                <option value="Sudah Dibeli">Sudah Dibeli</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Link Produk (Opsional):</label>
+                            <input type="text" id="newSeserahanLink" placeholder="https://..."
+                                class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="submitNewSeserahan()"
+                    class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs py-3 rounded-2xl active:scale-98 transition">
+                    Simpan ke Spreadsheet Seserahan
+                </button>
+            </div>
+        </div>
+
         <!-- ================= MODAL: TAMBAH TAMU UNDANGAN ================= -->
         <div id="addGuestModal"
             class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
@@ -1619,6 +1712,8 @@
                 { id: "TRX-0002", tanggal: "02/10/2026", pihak: "Hatami", tipe: "Pengeluaran", kategori: "LM 1gr Antam", nominal: 2583000, catatan: "" },
                 { id: "TRX-0001", tanggal: "02/10/2026", pihak: "Hatami", tipe: "Pemasukan", kategori: "Emas 1gr Antam", nominal: 2583000, catatan: "" }
             ],
+            seserahanItems: [],
+            activeSeserahanFilter: 'All',
             kuaDocuments: [
                 { id: "KUA-0001", namaBerkas: "KTP Asli dan FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
                 { id: "KUA-0002", namaBerkas: "KK Asli dan FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
@@ -2578,6 +2673,7 @@
 
             if (subTab === 'tabungan') renderTabunganMutasi();
             if (subTab === 'kua') renderKuaList();
+            if (subTab === 'budget') renderBudgetTracker();
 
             setTimeout(() => lucide.createIcons(), 50);
         }
@@ -2670,6 +2766,126 @@
                     showToast('✅ Berhasil tersimpan di Google Spreadsheet!');
                     syncDataFromSpreadsheet();
                 }).addTabunganTransaction(payload);
+            }
+        }
+
+        
+        /* ================= LOGIKA SESERAHAN & WISHLIST ================= */
+        function filterSeserahan(status) {
+            appState.activeSeserahanFilter = status;
+            document.querySelectorAll('.seserahan-pill').forEach(btn => {
+                if (btn.getAttribute('data-sf') === status) {
+                    btn.className = "seserahan-pill bg-stone-900 text-white px-2.5 py-1 rounded-lg text-[10px]";
+                } else {
+                    btn.className = "seserahan-pill bg-stone-100 text-stone-600 px-2.5 py-1 rounded-lg text-[10px]";
+                }
+            });
+            renderSeserahanList();
+        }
+
+        function renderSeserahanList() {
+            const container = document.getElementById('seserahanItemsList');
+            if (!container) return;
+
+            let items = appState.seserahanItems || [];
+            let total = 0, dibeli = 0, wishlist = 0;
+            items.forEach(it => {
+                const p = parseFloat(it.estimasiHarga) || 0;
+                total += p;
+                if (it.status === 'Sudah Dibeli') dibeli += p;
+                else wishlist += p;
+            });
+
+            const totEl = document.getElementById('dashTotalSeserahanVal');
+            if (totEl) totEl.innerText = formatRupiah(total);
+            const dibeliEl = document.getElementById('dashSeserahanDibeliVal');
+            if (dibeliEl) dibeliEl.innerText = formatRupiah(dibeli);
+            const wishEl = document.getElementById('dashSeserahanWishlistVal');
+            if (wishEl) wishEl.innerText = formatRupiah(wishlist);
+
+            if (appState.activeSeserahanFilter !== 'All') {
+                items = items.filter(it => it.status === appState.activeSeserahanFilter);
+            }
+
+            if (items.length === 0) {
+                container.innerHTML = '<div class="text-center py-8 text-stone-400 text-xs">Belum ada barang seserahan. Klik <strong>+ Barang</strong> untuk menambahkan.</div>';
+                return;
+            }
+
+            container.innerHTML = items.map(item => {
+                const isDibeli = item.status === 'Sudah Dibeli';
+                return `
+                    <div class="p-3 bg-stone-50 rounded-2xl border border-stone-200/80 flex items-center justify-between text-xs transition">
+                        <div class="space-y-1">
+                            <div class="flex items-center space-x-1.5">
+                                <span class="font-bold text-stone-900">${item.namaBarang}</span>
+                                <span class="text-[9px] px-1.5 py-0.5 rounded font-medium bg-stone-200/70 text-stone-600">${item.kategori}</span>
+                            </div>
+                            <div class="text-stone-500 font-semibold">${formatRupiah(item.estimasiHarga)}</div>
+                            ${item.linkProduk ? `<a href="${item.linkProduk}" target="_blank" class="inline-flex items-center text-[10px] text-pink-600 font-semibold hover:underline"><i data-lucide="external-link" class="w-3 h-3 mr-0.5"></i> Lihat Toko</a>` : ''}
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="toggleSeserahanStatusItem('${item.id}', '${item.status}')" class="px-2.5 py-1 rounded-xl text-[10px] font-bold transition ${isDibeli ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800 hover:bg-emerald-100'}">
+                                ${item.status}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            setTimeout(() => lucide.createIcons(), 50);
+        }
+
+        function submitNewSeserahan() {
+            const nama = document.getElementById('newSeserahanNama').value.trim();
+            const kategori = document.getElementById('newSeserahanKategori').value;
+            const harga = parseFloat(document.getElementById('newSeserahanHarga').value) || 0;
+            const status = document.getElementById('newSeserahanStatus').value;
+            const link = document.getElementById('newSeserahanLink').value.trim();
+
+            if (!nama || harga <= 0) {
+                showToast('Mohon masukkan nama barang dan harga estimasi.');
+                return;
+            }
+
+            const newItem = {
+                id: 'SSR-' + Date.now(),
+                namaBarang: nama,
+                kategori: kategori,
+                estimasiHarga: harga,
+                status: status,
+                linkProduk: link
+            };
+
+            appState.seserahanItems.unshift(newItem);
+            renderSeserahanList();
+            closeModal('addSeserahanModal');
+            showToast('Menyimpan barang seserahan ke Spreadsheet...');
+
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run.withSuccessHandler(function(res) {
+                    showToast('✅ Barang seserahan masuk ke Spreadsheet!');
+                    syncDataFromSpreadsheet();
+                }).addSeserahanItem({
+                    namaBarang: nama,
+                    kategori: kategori,
+                    estimasiHarga: harga,
+                    status: status,
+                    linkProduk: link
+                });
+            }
+        }
+
+        function toggleSeserahanStatusItem(id, currStatus) {
+            const nextStatus = currStatus === 'Wishlist' ? 'Sudah Dibeli' : 'Wishlist';
+            const item = appState.seserahanItems.find(it => it.id === id);
+            if (item) item.status = nextStatus;
+            renderSeserahanList();
+            showToast('Status seserahan diperbarui ke ' + nextStatus);
+
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run.withSuccessHandler(function() {
+                    syncDataFromSpreadsheet();
+                }).updateSeserahanStatus(id, nextStatus);
             }
         }
 
@@ -2929,6 +3145,14 @@
                 }
             }).getPemberkasanKUAData();
 
+            
+            // 6. Seserahan & Wishlist
+            google.script.run.withSuccessHandler(function(res) {
+                if (res && res.success && res.items) {
+                    appState.seserahanItems = res.items;
+                    renderSeserahanList();
+                }
+            }).getSeserahanData({ page: 1, limit: 100 });
             // 5. Vendor Planner
             google.script.run.withSuccessHandler(function(res) {
                 if (res && res.success && res.items) {
