@@ -50,6 +50,184 @@
                 }
             }
         }
+
+        /* ================= LOGIKA TABUNGAN BERSAMA ================= */
+        function renderTabunganMutasi() {
+            const container = document.getElementById('tabunganMutasiList');
+            if (!container) return;
+
+            let items = appState.tabunganTransactions;
+            if (appState.activeTabunganFilter !== 'all') {
+                items = items.filter(it => it.tipe === appState.activeTabunganFilter);
+            }
+
+            container.innerHTML = items.map(item => {
+                const isMasuk = item.tipe === 'Pemasukan';
+                const sign = isMasuk ? '+' : '-';
+                const color = isMasuk ? 'text-emerald-600' : 'text-rose-600';
+                const badgePihak = item.pihak === 'Hatami' ? 'bg-blue-50 text-blue-700' : (item.pihak === 'Naning' ? 'bg-pink-50 text-pink-700' : 'bg-purple-50 text-purple-700');
+                
+                return `
+                    <div class="p-3 bg-stone-50 rounded-2xl border border-stone-200/70 flex justify-between items-center text-xs">
+                        <div class="space-y-0.5">
+                            <div class="flex items-center space-x-1.5">
+                                <span class="font-bold text-stone-900">${item.kategori}</span>
+                                <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full ${badgePihak}">${item.pihak}</span>
+                            </div>
+                            <div class="text-[10px] text-stone-500">
+                                <span>${item.tanggal}</span>
+                                ${item.catatan ? ' • ' + item.catatan : ''}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold ${color} block">${sign} ${formatRupiah(item.nominal)}</span>
+                            <span class="text-[9px] text-stone-400">${item.tipe}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterTabunganMutasi(filter) {
+            appState.activeTabunganFilter = filter;
+            document.querySelectorAll('.tabungan-pill').forEach(btn => {
+                if (btn.getAttribute('data-f') === filter) {
+                    btn.className = "tabungan-pill bg-stone-900 text-white px-2.5 py-1 rounded-lg text-[10px]";
+                } else {
+                    btn.className = "tabungan-pill bg-stone-100 text-stone-600 px-2.5 py-1 rounded-lg text-[10px]";
+                }
+            });
+            renderTabunganMutasi();
+        }
+
+        function submitNewTabungan() {
+            const pihak = document.getElementById('newTabunganPihak').value;
+            const tipe = document.getElementById('newTabunganTipe').value;
+            const kategori = document.getElementById('newTabunganKategori').value.trim();
+            const nominal = parseFloat(document.getElementById('newTabunganNominal').value) || 0;
+            const catatan = document.getElementById('newTabunganCatatan').value.trim();
+
+            if (!kategori || nominal <= 0) {
+                showToast('Mohon isi kategori dan nominal transaksi dengan benar.');
+                return;
+            }
+
+            const payload = {
+                pihak: pihak,
+                tipe: tipe,
+                kategori: kategori,
+                nominal: nominal,
+                catatan: catatan
+            };
+
+            // Simpan lokal sementara
+            appState.tabunganTransactions.unshift({
+                id: 'TRX-' + Date.now(),
+                tanggal: 'Hari ini',
+                pihak: pihak,
+                tipe: tipe,
+                kategori: kategori,
+                nominal: nominal,
+                catatan: catatan
+            });
+
+            closeModal('addTabunganModal');
+            renderTabunganMutasi();
+            showToast('Transaksi tabungan disimpan! Menyinkronkan ke Spreadsheet...');
+
+            // Simpan ke Google Apps Script Spreadsheet
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run.withSuccessHandler(function() {
+                    showToast('✅ Berhasil tersimpan di Google Spreadsheet!');
+                    syncDataFromSpreadsheet();
+                }).addTabunganTransaction(payload);
+            }
+        }
+
+        /* ================= LOGIKA CEKLIS PEMBERKASAN KUA ================= */
+        function renderKuaList() {
+            const container = document.getElementById('kuaItemsContainer');
+            if (!container) return;
+
+            let priaDone = 0, priaTotal = 0;
+            let wanitaDone = 0, wanitaTotal = 0;
+
+            container.innerHTML = appState.kuaDocuments.map(item => {
+                const priaApplies = item.berlakuPria === 'Ya';
+                const wanitaApplies = item.berlakuWanita === 'Ya';
+
+                if (priaApplies) {
+                    priaTotal++;
+                    if (item.statusPria === 'Lengkap') priaDone++;
+                }
+                if (wanitaApplies) {
+                    wanitaTotal++;
+                    if (item.statusWanita === 'Lengkap') wanitaDone++;
+                }
+
+                return `
+                    <div class="p-3 bg-white rounded-2xl border border-stone-200 text-xs space-y-2">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-bold text-stone-900">${item.namaBerkas}</h4>
+                                <span class="text-[10px] text-stone-500">${item.keterangan || 'Persyaratan KUA'}</span>
+                            </div>
+                            <span class="text-[9px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded-full font-mono">${item.id}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-stone-100">
+                            ${priaApplies ? `
+                                <button onclick="toggleKuaItem('${item.id}', 'Pria')" class="py-1.5 px-2.5 rounded-xl border flex items-center justify-between text-[11px] ${item.statusPria === 'Lengkap' ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-semibold' : 'bg-stone-50 border-stone-200 text-stone-600'}">
+                                    <span>Hatami</span>
+                                    <span>${item.statusPria === 'Lengkap' ? '✓ Siap' : '○ Belum'}</span>
+                                </button>
+                            ` : '<div class="py-1.5 text-center text-[10px] text-stone-400 bg-stone-50 rounded-xl">Tidak Perlu (Pria)</div>'}
+
+                            ${wanitaApplies ? `
+                                <button onclick="toggleKuaItem('${item.id}', 'Wanita')" class="py-1.5 px-2.5 rounded-xl border flex items-center justify-between text-[11px] ${item.statusWanita === 'Lengkap' ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-semibold' : 'bg-stone-50 border-stone-200 text-stone-600'}">
+                                    <span>Naning</span>
+                                    <span>${item.statusWanita === 'Lengkap' ? '✓ Siap' : '○ Belum'}</span>
+                                </button>
+                            ` : '<div class="py-1.5 text-center text-[10px] text-stone-400 bg-stone-50 rounded-xl">Tidak Perlu (Wanita)</div>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update Progress Percentage
+            const pctPria = priaTotal > 0 ? Math.round((priaDone / priaTotal) * 100) : 0;
+            const pctWanita = wanitaTotal > 0 ? Math.round((wanitaDone / wanitaTotal) * 100) : 0;
+
+            const priaTxt = document.getElementById('kuaPriaProgress');
+            const priaBar = document.getElementById('kuaPriaBar');
+            if (priaTxt) priaTxt.innerText = `${pctPria}% (${priaDone}/${priaTotal})`;
+            if (priaBar) priaBar.style.width = pctPria + '%';
+
+            const wanitaTxt = document.getElementById('kuaWanitaProgress');
+            const wanitaBar = document.getElementById('kuaWanitaBar');
+            if (wanitaTxt) wanitaTxt.innerText = `${pctWanita}% (${wanitaDone}/${wanitaTotal})`;
+            if (wanitaBar) wanitaBar.style.width = pctWanita + '%';
+        }
+
+        function toggleKuaItem(id, party) {
+            const item = appState.kuaDocuments.find(it => it.id === id);
+            if (!item) return;
+
+            if (party === 'Pria') {
+                item.statusPria = item.statusPria === 'Lengkap' ? 'Belum' : 'Lengkap';
+            } else {
+                item.statusWanita = item.statusWanita === 'Lengkap' ? 'Belum' : 'Lengkap';
+            }
+
+            renderKuaList();
+            showToast(`Status berkas ${item.namaBerkas} (${party}) diperbarui!`);
+
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run.withSuccessHandler(function() {
+                    showToast('✅ Status KUA tersinkron ke Spreadsheet!');
+                }).toggleBerkasKUAStatus(id, party);
+            }
+        }
     </script>
     <style>
         /* Sembunyikan scrollbar untuk pengalaman native mobile */
@@ -470,6 +648,97 @@
 
                     <div id="checklistItemsContainer" class="space-y-2.5">
                         <!-- Dynamic checklist items -->
+                    </div>
+                </div>
+
+                <!-- SUBTAB 3: TABUNGAN BERSAMA (HATAMI & NANING) -->
+                <div id="planner-tabungan-view" class="hidden space-y-4">
+                    <!-- Kartu Saldo Tabungan -->
+                    <div class="bg-gradient-to-br from-emerald-800 to-stone-900 text-white p-5 rounded-3xl shadow-sm space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs text-emerald-300 font-medium flex items-center">
+                                    <i data-lucide="shield-check" class="w-3.5 h-3.5 mr-1"></i> Sisa Saldo Bersama
+                                </span>
+                                <h3 class="text-2xl font-bold font-serif text-white mt-1" id="tabunganSisaSaldoVal">Rp 18.644.311</h3>
+                            </div>
+                            <button onclick="openModal('addTabunganModal')" class="bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-bold px-3 py-1.5 rounded-xl flex items-center space-x-1 shadow transition">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                <span>+ Catat</span>
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-emerald-700/60 text-center">
+                            <div class="bg-white/10 p-2 rounded-xl">
+                                <span class="text-[10px] text-emerald-200 block">Tabungan Hatami</span>
+                                <span class="text-xs font-bold text-white" id="tabunganHatamiVal">Rp 3.083.000</span>
+                            </div>
+                            <div class="bg-white/10 p-2 rounded-xl">
+                                <span class="text-[10px] text-emerald-200 block">Tabungan Naning</span>
+                                <span class="text-xs font-bold text-white" id="tabunganNaningVal">Rp 19.144.311</span>
+                            </div>
+                            <div class="bg-rose-500/20 border border-rose-400/30 p-2 rounded-xl">
+                                <span class="text-[10px] text-rose-200 block">Pengeluaran</span>
+                                <span class="text-xs font-bold text-rose-300" id="tabunganPengeluaranVal">Rp 3.583.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter & Daftar Transaksi Tabungan -->
+                    <div class="bg-white p-4 rounded-3xl border border-stone-200 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xs font-bold text-stone-800 uppercase tracking-wider">Mutasi Rekening Tabungan</h3>
+                            <div class="flex space-x-1 text-xs">
+                                <button onclick="filterTabunganMutasi('all')" class="tabungan-pill bg-stone-900 text-white px-2.5 py-1 rounded-lg text-[10px]" data-f="all">Semua</button>
+                                <button onclick="filterTabunganMutasi('Pemasukan')" class="tabungan-pill bg-stone-100 text-stone-600 px-2.5 py-1 rounded-lg text-[10px]" data-f="Pemasukan">Masuk</button>
+                                <button onclick="filterTabunganMutasi('Pengeluaran')" class="tabungan-pill bg-stone-100 text-stone-600 px-2.5 py-1 rounded-lg text-[10px]" data-f="Pengeluaran">Keluar</button>
+                            </div>
+                        </div>
+
+                        <div id="tabunganMutasiList" class="space-y-2">
+                            <!-- Dynamic items from Spreadsheet -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBTAB 4: CEKLIS PEMBERKASAN KUA -->
+                <div id="planner-kua-view" class="hidden space-y-4">
+                    <!-- Progress Berkas KUA -->
+                    <div class="bg-white p-4 rounded-3xl border border-stone-200 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="font-bold text-stone-900 text-sm">Pemberkasan Nikah KUA</h3>
+                                <p class="text-[11px] text-stone-500">Kelengkapan syarat N1-N4 & puskesmas</p>
+                            </div>
+                            <span class="text-xs font-bold bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full border border-amber-200" id="kuaSummaryBadge">12 Dokumen</span>
+                        </div>
+
+                        <!-- Progress Bar Pria & Wanita -->
+                        <div class="grid grid-cols-2 gap-3 pt-1">
+                            <div class="p-3 bg-stone-50 rounded-2xl border border-stone-200">
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-stone-700">Berkas Hatami (Pria)</span>
+                                    <span class="text-rose-600" id="kuaPriaProgress">0%</span>
+                                </div>
+                                <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
+                                    <div id="kuaPriaBar" class="bg-rose-500 h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-stone-50 rounded-2xl border border-stone-200">
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-stone-700">Berkas Naning (Wanita)</span>
+                                    <span class="text-amber-600" id="kuaWanitaProgress">0%</span>
+                                </div>
+                                <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
+                                    <div id="kuaWanitaBar" class="bg-amber-500 h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daftar Ceklis Berkas KUA -->
+                    <div id="kuaItemsContainer" class="space-y-2">
+                        <!-- Rendered dynamically from Spreadsheet -->
                     </div>
                 </div>
 
@@ -1015,6 +1284,62 @@
             </div>
         </div>
 
+        <!-- ================= MODAL: CATAT TABUNGAN BERSAMA ================= -->
+        <div id="addTabunganModal"
+            class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
+            <div class="bg-white rounded-t-3xl p-5 space-y-4">
+                <div class="flex justify-between items-center pb-2 border-b border-stone-100">
+                    <h3 class="font-bold text-sm text-stone-900">Catat Transaksi Tabungan</h3>
+                    <button onclick="closeModal('addTabunganModal')" class="text-stone-400 hover:text-stone-600">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Pihak:</label>
+                            <select id="newTabunganPihak" class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                                <option value="Hatami">Hatami</option>
+                                <option value="Naning">Naning</option>
+                                <option value="Bersama">Bersama</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-stone-700 mb-1">Tipe Mutasi:</label>
+                            <select id="newTabunganTipe" class="w-full border border-stone-200 rounded-xl px-3 py-2 bg-white text-xs">
+                                <option value="Pemasukan">Pemasukan (+ Saldo)</option>
+                                <option value="Pengeluaran">Pengeluaran (- Saldo)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-stone-700 mb-1">Kategori / Keterangan:</label>
+                        <input type="text" id="newTabunganKategori" placeholder="Contoh: Tabungan Bulanan, DP Busana, Emas LM"
+                            class="w-full border border-stone-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-stone-700 mb-1">Nominal (Rupiah):</label>
+                        <input type="number" id="newTabunganNominal" placeholder="Contoh: 1000000"
+                            class="w-full border border-stone-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-stone-700 mb-1">Catatan Tambahan (Opsional):</label>
+                        <input type="text" id="newTabunganCatatan" placeholder="Catatan singkat..."
+                            class="w-full border border-stone-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <button onclick="submitNewTabungan()"
+                    class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-2xl active:scale-98 transition">
+                    Simpan ke Google Spreadsheet
+                </button>
+            </div>
+        </div>
+
         <!-- ================= MODAL: CATAT PENGELUARAN BARU ================= -->
         <div id="addExpenseModal"
             class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm z-50 hidden flex-col justify-end">
@@ -1338,7 +1663,32 @@
             selectedPackageIndex: 0,
             activeVendorCategoryFilter: 'all',
             activeChecklistFilter: 'all',
-            activeGuestFilter: 'all'
+            activeGuestFilter: 'all',
+            activeTabunganFilter: 'all',
+            tabunganTransactions: [
+                { id: "TRX-0011", tanggal: "26/10/2026", pihak: "Naning", tipe: "Pengeluaran", kategori: "Bayar Vendor: rintosujarwo (DP)", nominal: 500000, catatan: "Pembayaran DP vendor rintosujarwo (Wedding)" },
+                { id: "TRX-0010", tanggal: "26/10/2026", pihak: "Hatami", tipe: "Pengeluaran", kategori: "Bayar Vendor: rintosujarwo (DP)", nominal: 500000, catatan: "Pembayaran DP vendor rintosujarwo (Wedding)" },
+                { id: "TRX-0006", tanggal: "26/10/2026", pihak: "Naning", tipe: "Pemasukan", kategori: "nabung 2", nominal: 500000, catatan: "" },
+                { id: "TRX-0005", tanggal: "26/10/2026", pihak: "Hatami", tipe: "Pemasukan", kategori: "nabung", nominal: 500000, catatan: "" },
+                { id: "TRX-0004", tanggal: "26/10/2026", pihak: "Naning", tipe: "Pemasukan", kategori: "nabung okt", nominal: 600000, catatan: "" },
+                { id: "TRX-0003", tanggal: "02/10/2026", pihak: "Naning", tipe: "Pemasukan", kategori: "Tabungan Naning", nominal: 18044311, catatan: "" },
+                { id: "TRX-0002", tanggal: "02/10/2026", pihak: "Hatami", tipe: "Pengeluaran", kategori: "LM 1gr Antam", nominal: 2583000, catatan: "" },
+                { id: "TRX-0001", tanggal: "02/10/2026", pihak: "Hatami", tipe: "Pemasukan", kategori: "Emas 1gr Antam", nominal: 2583000, catatan: "" }
+            ],
+            kuaDocuments: [
+                { id: "KUA-0001", namaBerkas: "KTP Asli dan FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0002", namaBerkas: "KK Asli dan FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0003", namaBerkas: "Ijazah FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0004", namaBerkas: "Akte FC 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0005", namaBerkas: "Pas Foto 3x4 2 Lembar", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0006", namaBerkas: "FC KTP Ortu", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0007", namaBerkas: "Surat Ket Belum Menikah", keterangan: "Kasih Pak RT", statusPria: "N/A", statusWanita: "Belum", berlakuPria: "Tidak", berlakuWanita: "Ya" },
+                { id: "KUA-0008", namaBerkas: "Surat Pengantar RT/RW", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0009", namaBerkas: "Surat Ket Sehat Puskesmas", keterangan: "Puskesmas", statusPria: "Belum", statusWanita: "Belum", berlakuPria: "Ya", berlakuWanita: "Ya" },
+                { id: "KUA-0010", namaBerkas: "Vaksin Tetanus (TT)", keterangan: "Puskesmas", statusPria: "N/A", statusWanita: "Belum", berlakuPria: "Tidak", berlakuWanita: "Ya" },
+                { id: "KUA-0011", namaBerkas: "Surat Numpang Nikah", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "N/A", berlakuPria: "Ya", berlakuWanita: "Tidak" },
+                { id: "KUA-0012", namaBerkas: "Map Kuning", keterangan: "Kasih Pak RT", statusPria: "Belum", statusWanita: "N/A", berlakuPria: "Ya", berlakuWanita: "Tidak" }
+            ]
         };
 
         /* ================= INISIALISASI SAAT DOM READY ================= */
