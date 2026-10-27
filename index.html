@@ -998,6 +998,390 @@
       min-width: 120px;
     }
 
+    
+    /* ===================== MOBILE BANKING UI THEME ===================== */
+    :root {
+      --mbank-primary: #104e38;
+      --mbank-primary-dark: #0a3525;
+      --mbank-gradient: linear-gradient(135deg, #104e38 0%, #1e3a2f 60%, #172b23 100%);
+      --mbank-gold: #e5c158;
+      --mbank-bg: #f4f6f8;
+      --mbank-card-bg: #ffffff;
+      --mbank-text-dark: #1e293b;
+      --mbank-text-muted: #64748b;
+    }
+
+    body {
+      background-color: var(--mbank-bg) !important;
+      color: var(--mbank-text-dark);
+      font-family: -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', Roboto, sans-serif;
+      padding-bottom: 95px !important;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 480px !important;
+      margin: 0 auto !important;
+      padding: 0 16px 20px 16px !important;
+    }
+
+    /* Mobile Banking Header Bar */
+    .app-header {
+      background: var(--mbank-primary-dark) !important;
+      border-bottom: none !important;
+      padding: 14px 18px 20px 18px !important;
+      box-shadow: none !important;
+      color: #ffffff !important;
+    }
+
+    .app-header .brand-title h1 {
+      color: #ffffff !important;
+      font-size: 1.05rem !important;
+      font-weight: 700 !important;
+    }
+
+    .app-header .brand-title span {
+      color: var(--mbank-gold) !important;
+      font-size: 0.65rem !important;
+      letter-spacing: 1px !important;
+    }
+
+    .app-header .menu-toggle-btn {
+      background: rgba(255, 255, 255, 0.12) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      color: #ffffff !important;
+      border-radius: 12px !important;
+    }
+
+    .app-header .sync-badge {
+      background: rgba(255, 255, 255, 0.15) !important;
+      color: #e2e8f0 !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      border-radius: 20px !important;
+      padding: 4px 10px !important;
+      font-size: 0.7rem !important;
+    }
+
+    .app-header .pulse-dot {
+      background-color: #4ade80 !important;
+      box-shadow: 0 0 8px #4ade80 !important;
+    }
+
+    /* M-Banking Saldo Utama Card */
+    .mbank-card-main {
+      background: var(--mbank-gradient);
+      color: #ffffff;
+      border-radius: 22px;
+      padding: 22px 20px;
+      margin: -10px 0 20px 0;
+      box-shadow: 0 12px 28px -6px rgba(10, 53, 37, 0.35);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .mbank-card-main::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(229, 193, 88, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .mbank-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .mbank-chip-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    .mbank-card-number {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: monospace;
+      letter-spacing: 1px;
+    }
+
+    .mbank-saldo-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin: 4px 0 16px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .mbank-saldo-val .eye-toggle {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+    }
+
+    .mbank-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .mbank-sub-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mbank-sub-label {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mbank-sub-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .mbank-sub-val.hatami { color: #93c5fd; }
+    .mbank-sub-val.naning { color: #fbcfe8; }
+    .mbank-sub-val.keluar { color: #fca5a5; }
+
+    /* M-Banking Quick Actions Circle Menu */
+    .mbank-quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+      background: #ffffff;
+      padding: 16px 12px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .mbank-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      transition: transform 0.2s;
+    }
+
+    .mbank-action-btn:active {
+      transform: scale(0.92);
+    }
+
+    .mbank-action-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      transition: all 0.2s;
+    }
+
+    .mbank-action-icon.green { background: #e8f5e9; color: #2e7d32; }
+    .mbank-action-icon.blue { background: #e0f2fe; color: #0284c7; }
+    .mbank-action-icon.gold { background: #fef9c3; color: #ca8a04; }
+    .mbank-action-icon.pink { background: #fdf2f8; color: #db2777; }
+
+    .mbank-action-text {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #334155;
+      text-align: center;
+    }
+
+    /* M-Banking Mini Summary 2 Kolom */
+    .mbank-summary-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .mbank-summary-card {
+      background: #ffffff;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mbank-summary-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .mbank-summary-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mbank-summary-title {
+      font-size: 0.68rem;
+      color: var(--mbank-text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .mbank-summary-value {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--mbank-text-dark);
+    }
+
+    /* M-Banking Section Header & Mutasi List */
+    .mbank-section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .mbank-section-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+    }
+
+    /* Transaksi Item Modern Card */
+    .data-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .list-item {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      border-radius: 16px !important;
+      padding: 14px 16px !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .list-item:hover {
+      border-color: #cbd5e1 !important;
+      transform: translateY(-1px);
+    }
+
+    .item-title {
+      font-size: 0.88rem !important;
+      font-weight: 700 !important;
+      color: #1e293b !important;
+    }
+
+    .item-sub {
+      display: flex;
+      gap: 6px;
+      margin: 4px 0;
+    }
+
+    .badge {
+      font-size: 0.65rem !important;
+      padding: 3px 8px !important;
+      border-radius: 8px !important;
+      font-weight: 700 !important;
+    }
+
+    .badge-hatami { background: #dbeafe !important; color: #1e40af !important; }
+    .badge-naning { background: #fce7f3 !important; color: #9d174d !important; }
+    .badge-bersama { background: #e0e7ff !important; color: #3730a3 !important; }
+    .badge-pemasukan { background: #dcfce7 !important; color: #15803d !important; }
+    .badge-pengeluaran { background: #fee2e2 !important; color: #b91c1c !important; }
+
+    .item-date {
+      font-size: 0.72rem !important;
+      color: #94a3b8 !important;
+    }
+
+    .item-amount {
+      font-size: 0.95rem !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.2px;
+    }
+
+    .item-amount.neon { color: #16a34a !important; }
+    .item-amount.danger { color: #dc2626 !important; }
+
+    /* Filter Bar di M-Banking */
+    .filter-group {
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group .form-control {
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+    }
+
+    /* Floating Dock Mobile Navigation */
+    .mobile-bottom-nav {
+      background: rgba(15, 23, 42, 0.92) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 30px !important;
+      box-shadow: 0 14px 35px -5px rgba(0, 0, 0, 0.35) !important;
+    }
+
+    .mobile-nav-item {
+      color: #94a3b8 !important;
+    }
+
+    .mobile-nav-item.active {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.12) !important;
+    }
+
+    .mobile-nav-item.active i {
+      color: #4ade80 !important;
+    }
+
     /* Floating Bottom Nav Bar untuk HP */
     .mobile-bottom-nav {
       position: fixed;
@@ -1867,6 +2251,27 @@
       setTimeout(function() {
         toast.classList.remove('show');
       }, 3000);
+    }
+
+    
+    var isSaldoHidden = false;
+    var cachedActualSaldo = '';
+
+    function toggleSaldoVisibility() {
+      var el = document.getElementById('dashSisaSaldo');
+      var icon = document.getElementById('saldoEyeIcon');
+      if (!el) return;
+
+      if (!isSaldoHidden) {
+        cachedActualSaldo = el.innerText;
+        el.innerText = 'Rp ••••••••';
+        icon.className = 'fa-regular fa-eye-slash eye-toggle';
+        isSaldoHidden = true;
+      } else {
+        el.innerText = cachedActualSaldo || 'Rp 0';
+        icon.className = 'fa-regular fa-eye eye-toggle';
+        isSaldoHidden = false;
+      }
     }
 
     function formatRupiah(num) {
